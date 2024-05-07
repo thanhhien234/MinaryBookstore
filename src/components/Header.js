@@ -11,7 +11,7 @@ function Header() {
             <img src={require("../assets/images/logo.png")} alt=""/>
             <div className="search-wrapper">
                 <select id="search-type" onChange={handleSearchSelect}>
-                    <option value="isbn"><span>ISBN 검색</span></option>
+                    <option value="isbn">ISBN 검색</option>
                     <option value="title">제목 검색</option>
                 </select>
                 <input type="text" className="search-input" placeholder={searchType === 'isbn' ? 'ISBN 13자리 숫자를 입력하세요.' : '책 제목을 입력하세요.'} />
