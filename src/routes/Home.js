@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import './Home.css'
 import { bookList, postList } from "./data";
+import { Link } from 'react-router-dom';
+import './Home.css'
+import BookItem from '../components/BookItem';
 
 function Home() {
     const [createBtnOpen, setCreateBtnOpen] = useState(false);
@@ -19,14 +21,14 @@ function Home() {
                 <div className="interest-wrapper">
                   <ul className="interest-book-wrapper">
                     {bookList.slice(0,4).map((book, index) => (
-                      <li key={index} className="interest-book-item">
+                      <Link to={`/detail-book/${book.bookId}`} key={index} className="interest-book-item">
                         <img src={book.image} alt="" />
                         <div className="title">{book.title}</div>
                         <div className="price-wrapper">
                             <div className="sale-price">{book.salePrice}원</div>
                             <div className="price">{book.price}원</div>
                         </div>
-                      </li>
+                      </Link>
                     ))}
                   </ul>
                 </div>
@@ -75,26 +77,9 @@ function Home() {
             </div>
             <div className="book-list-content">
               <ul className="book-list-wrapper">
-                {bookList.map((book, index) => {
-                  const date = book.publicationDate.split('-');
-                  const formattedDate = `${date[0]}년 ${date[1]}월 ${date[2]}일`;
-                  return (
-                    <li key={index} className="book-item">
-                      <img src={book.image} alt={book.title}/>
-                      <div className="book-info">
-                        <div className="book-title">{book.title}</div>
-                        <div className="book-author">{book.author} - 저자</div>
-                        <div className="book-publisher">{book.publisher} . {formattedDate}</div>
-                        <div className="book-price-wrapper">
-                          <div className="book-sale-price">{book.salePrice}원</div>
-                          <div className="book-price">정가: {book.price}원</div>
-                        </div>
-                        <img className="heart-icon" src={require("../assets/icons/heart-white.png")} alt=""/>
-                        <button className="go-to-chat-btn">채팅하기</button>
-                      </div>
-                    </li>
-                  );
-                })}
+                {bookList.map((book, index) => (
+                  <BookItem key={index} book={book} />
+                ))}
               </ul>
             </div>
         </div>

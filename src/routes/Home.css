@@ -60,6 +60,8 @@
     justify-content: center;
     width: 20%;
     margin: 0;
+    text-decoration: none;
+    color: #000;
 }
 .interest-book-item > img {
     width: 80%;
@@ -243,87 +245,6 @@
 }
 .book-list-wrapper:nth-child(1){
     border-top: 1px solid #B6BBC0;
-}
-.book-item {
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    padding: 20px 0;
-    border-bottom: 1px solid #B6BBC0;
-}
-.book-info {
-    position: relative;
-    flex: 1;
-}
-.book-item img {
-    width: 15%;
-    height: auto;
-    border: 1px solid #B6BBC0;
-    margin-right: 20px;
-    margin-left: 40px;
-    cursor: pointer;
-}
-.book-info .book-title {
-    font-size: 16px;
-    font-weight: 600;
-    text-align: left;
-    width: 70%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.book-info .book-author {
-    font-size: 12px;
-    font-weight: 400;
-    margin-top: 3px;
-    text-align: left;
-}
-.book-info .book-publisher{
-    font-size: 10px;
-    font-weight: 400;
-    margin-top: 3px;
-    text-align: left;
-}
-.book-info .book-price-wrapper {
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-}
-.book-info .book-sale-price{
-    font-size: 16px;
-    font-weight: 800;
-    color: #0F5493;
-}
-.book-info .book-price{
-    font-size: 16px;
-    font-weight: 400;
-    text-decoration: line-through;
-    color: #9FA1A8;
-    margin-left: 8px;
-}
-.book-info img{
-    width: 25px;
-    height: 25px;
-    border: none;
-    background-color: transparent;
-    position: absolute;
-    top: 20px;
-    right: 1%;
-    transform: translateY(-50%);
-    cursor: pointer;
-}
-.book-info .go-to-chat-btn{
-    background-color: #0D9276;
-    border: none;
-    border-radius: 20px;
-    padding: 5px 20px;
-    color: #fff;
-    font-size: 14px;
-    position: absolute;
-    top: 30px;
-    right: 1%;
-    transform: translateY(50%);
-    cursor: pointer;
 }
 
 /* create-button-container */
