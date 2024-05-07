@@ -6,6 +6,10 @@
     align-items: center;
     border-bottom: 1px solid #C1BBBB;
     padding: 0 30px;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
 }
 /*search-container*/
 .search-container {
