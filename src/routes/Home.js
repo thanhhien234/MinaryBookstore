@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import './Home.css'
 import { bookList, postList } from "./data";
+import { Link } from 'react-router-dom';
+import './Home.css'
+import BookItem from "../components/BookItem";
+import CreateBtn from "../components/CreateBtn";
 
 function Home() {
-    const [createBtnOpen, setCreateBtnOpen] = useState(false);
-
-    const handleCreateBtn = () => {
-      setCreateBtnOpen(!createBtnOpen);
-    }
     return (
       <div className="main-container">
         <div className="left-container">
@@ -19,14 +17,14 @@ function Home() {
                 <div className="interest-wrapper">
                   <ul className="interest-book-wrapper">
                     {bookList.slice(0,4).map((book, index) => (
-                      <li key={index} className="interest-book-item">
+                      <Link to={`/detail-book/${book.bookId}`} key={index} className="interest-book-item">
                         <img src={book.image} alt="" />
                         <div className="title">{book.title}</div>
                         <div className="price-wrapper">
                             <div className="sale-price">{book.salePrice}원</div>
                             <div className="price">{book.price}원</div>
                         </div>
-                      </li>
+                      </Link>
                     ))}
                   </ul>
                 </div>
@@ -75,53 +73,13 @@ function Home() {
             </div>
             <div className="book-list-content">
               <ul className="book-list-wrapper">
-                {bookList.map((book, index) => {
-                  const date = book.publicationDate.split('-');
-                  const formattedDate = `${date[0]}년 ${date[1]}월 ${date[2]}일`;
-                  return (
-                    <li key={index} className="book-item">
-                      <img src={book.image} alt={book.title}/>
-                      <div className="book-info">
-                        <div className="book-title">{book.title}</div>
-                        <div className="book-author">{book.author} - 저자</div>
-                        <div className="book-publisher">{book.publisher} . {formattedDate}</div>
-                        <div className="book-price-wrapper">
-                          <div className="book-sale-price">{book.salePrice}원</div>
-                          <div className="book-price">정가: {book.price}원</div>
-                        </div>
-                        <img className="heart-icon" src={require("../assets/icons/heart-white.png")} alt=""/>
-                        <button className="go-to-chat-btn">채팅하기</button>
-                      </div>
-                    </li>
-                  );
-                })}
+                {bookList.map((book, index) => (
+                  <BookItem key={index} book={book} />
+                ))}
               </ul>
             </div>
         </div>
-        <div className="create-button-container">
-            <div className="create-btn" onClick={handleCreateBtn}>
-                <img src={require("../assets/icons/plus.png")} alt="" />
-                <span>등록하기</span>
-            </div>
-            <ul className={`create-option-wrapper ${createBtnOpen ? 'show' : ''}`}>
-                <li className="post-create-btn">
-                    <img src={require("../assets/icons/post-create.png")} alt=""/>
-                    <span>게시글 작성</span>
-                </li>
-                <li className="shre-create-btn">
-                    <img src={require("../assets/icons/share-create.png")} alt=""/>
-                    <span>책 나누기</span>
-                </li>
-                <li className="rent-create-btn">
-                    <img src={require("../assets/icons/rent-create.png")} alt=""/>
-                    <span>책 대여 등록하기</span>
-                </li>
-                <li className="sell-create-btn">
-                    <img src={require("../assets/icons/sell-create.png")} alt=""/>
-                    <span>책 판매하기</span>
-                </li>
-            </ul>
-        </div>
+        <CreateBtn />
     </div>
     );
 }

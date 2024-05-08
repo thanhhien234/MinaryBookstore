@@ -20,6 +20,7 @@
 .search-container img {
     width: 150px;
     height: 40px;
+    cursor: pointer;
 }
 .search-wrapper {
     display: flex;
@@ -100,3 +101,17 @@
     margin: 0;
 }
 
+/*login conatiner*/
+.login-container {
+    margin: 20px;
+}
+.login-btn{
+    border: 2px solid #1F4E94;
+    border-radius: 20px;
+    padding: 5px 25px;
+    color: #1F4E94;
+    font-size: 16px;
+    font-weight: 800;
+    background-color: transparent;
+    cursor: pointer;
+}

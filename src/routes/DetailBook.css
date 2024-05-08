@@ -1,0 +1,133 @@
+.detail-book-container{
+    border: 1px solid #D9D9D9;
+    border-radius: 20px;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    margin: 20px auto;
+}
+/*user-info-container*/
+.user-info-container {
+    display: flex;
+    margin-left: 10px;
+}
+.user-info-container img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+.user-info-container .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+.user-info-container .wrapper > span {
+    font-size: 18px;
+    font-weight: 700;
+}
+.user-info-container .wrapper .book-status{
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    background-color: #FC7C12;
+    border-radius: 20px;
+    padding: 5px 20px;
+    margin-top: 5px;
+}
+
+/*book-info-container*/
+.book-info-container {
+    width: 90%;
+    margin-left: auto;
+}
+.condition-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin-top: 10px;
+}
+.condition-image {
+    text-align: left;
+}
+.image-wrapper {
+    margin-left: 30px;
+}
+.condition-image > span,
+.condition-content > span {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1F4E94;
+}
+.condition-content > span {
+    margin-bottom: 15px;
+}
+.image-wrapper { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.image-wrapper img {
+    width: 100px;
+    height: auto;
+    border: 1px solid #D9D9D9;
+    margin-right: 20px;
+}
+
+.condition-content {
+    background-color: #F5F8FC;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 10px 40px;
+}
+
+.description-container{
+    font-size: 16px;
+    text-align: left;
+    margin-top: 10px;
+}
+.address-container-title{
+    font-size: 20px;
+    color:#1F4E94;
+    font-weight: 700;
+    text-align: left;
+    margin-top: 30px;
+}
+.address-container{
+    display: flex;
+    justify-content: space-between;
+}
+.address-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 30px;
+}
+.address-wrapper img{
+    width: 22px;
+    height: 22px;
+}
+.address{
+    font-size: 16px;
+}
+.go-to-map-btn{
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #D9D9D9;
+    border-radius: 20px;
+    padding: 6px 20px;
+    margin-right: 30px;
+    cursor: pointer;
+}
+.go-to-map-btn img{
+    width: 18px;
+    height: 18px;
+    margin-left: 3px;
+}

@@ -1,7 +1,21 @@
 import exampleBookImage from "../assets/images/exampleBook.png";
+import exampleProfileImage from "../assets/images/profile-image.png";
 
 export const bookList = [
     {
+        bookId: 1,
+        title: "생활코딩! React 리액트 프로그래밍",
+        price: 25000,
+        author: "이고잉",
+        image: exampleBookImage,
+        publicationDate: "2023-02-22",
+        publisher: "위키북스",
+        salePrice: 12500,
+        category: "컴퓨터/IT",
+        isbn: "9791158392233",
+    },
+    {   
+        bookId: 2,
         title: "생활코딩! React 리액트 프로그래밍",
         price: 25000,
         author: "이고잉",
@@ -13,6 +27,7 @@ export const bookList = [
         isbn: "9791158392233",
     },
     {
+        bookId: 3,
         title: "생활코딩! React 리액트 프로그래밍",
         price: 25000,
         author: "이고잉",
@@ -23,7 +38,8 @@ export const bookList = [
         category: "컴퓨터/IT",
         isbn: "9791158392233",
     },
-    {
+    {   
+        bookId: 4,
         title: "생활코딩! React 리액트 프로그래밍",
         price: 25000,
         author: "이고잉",
@@ -34,7 +50,8 @@ export const bookList = [
         category: "컴퓨터/IT",
         isbn: "9791158392233",
     },
-    {
+    {   
+        bookId: 5,
         title: "생활코딩! React 리액트 프로그래밍",
         price: 25000,
         author: "이고잉",
@@ -45,7 +62,8 @@ export const bookList = [
         category: "컴퓨터/IT",
         isbn: "9791158392233",
     },
-    {
+    {   
+        bookId: 6,
         title: "생활코딩! React 리액트 프로그래밍",
         price: 25000,
         author: "이고잉",
@@ -56,18 +74,8 @@ export const bookList = [
         category: "컴퓨터/IT",
         isbn: "9791158392233",
     },
-    {
-        title: "생활코딩! React 리액트 프로그래밍",
-        price: 25000,
-        author: "이고잉",
-        image: exampleBookImage,
-        publicationDate: "2023-02-22",
-        publisher: "위키북스",
-        salePrice: 12500,
-        category: "컴퓨터/IT",
-        isbn: "9791158392233",
-    },
-    {
+    {   
+        bookId: 7,
         title: "생활코딩! React 리액트 프로그래밍",
         price: 25000,
         author: "이고잉",
@@ -109,3 +117,10 @@ export const postList = [
     },
     
 ]
+
+export const userInfo =
+    {
+        userId: 1204,
+        name: "한승규",
+        image: exampleProfileImage,
+    }
