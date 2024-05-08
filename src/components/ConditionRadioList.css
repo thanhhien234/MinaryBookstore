@@ -6,6 +6,9 @@
     margin: 0;
     font-size: 12px;
 }
+.disabled-list {
+    pointer-events: none;
+}
 .condition-list li > span {
     padding: 10px 20px;
     cursor: pointer;
@@ -50,5 +53,6 @@
 .radio-label2 {
     width: 90px;
 }
+
 
 

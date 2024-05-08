@@ -33,7 +33,7 @@ function ConditionRadioList({radioDisabled}) {
     }, [selectedCondition1, selectedCondition2,selectedCondition3,selectedCondition4,selectedCondition5,selectedCondition6]);
     
     return (
-        <ul className="condition-list">
+        <ul className={`condition-list ${radioDisabled ? '' : 'disabled-list'}`}>
             <li>
                 <span>밑줄 흔적:</span>
                 <input type="radio" id="1-1" checked={selectedCondition1 === '1-1'} onChange={handleConditionChange(1)} disabled={!radioDisabled}/>
