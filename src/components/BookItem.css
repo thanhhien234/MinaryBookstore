@@ -20,7 +20,7 @@
     cursor: pointer;
 }
 .book-info .book-title {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     text-align: left;
     width: 70%;
@@ -46,12 +46,12 @@
     margin-top: 20px;
 }
 .book-info .book-sale-price{
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 800;
     color: #0F5493;
 }
 .book-info .book-price{
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     text-decoration: line-through;
     color: #9FA1A8;
