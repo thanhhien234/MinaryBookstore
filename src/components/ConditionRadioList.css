@@ -4,7 +4,7 @@
     display: inline-block;
     padding: 0; 
     margin: 0;
-    font-size: 12px;
+    font-size: 14px;
 }
 .disabled-list {
     pointer-events: none;
@@ -14,7 +14,7 @@
     cursor: pointer;
     font-weight: 800;
     padding: 0;
-    width: 70px;
+    width: 90px;
 }
 
 
@@ -51,7 +51,7 @@
     width: 60px;
 }
 .radio-label2 {
-    width: 90px;
+    width: 110px;
 }
 
 

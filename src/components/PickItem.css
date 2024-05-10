@@ -1,0 +1,55 @@
+.interest-book-item {
+    background-color: #fff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #000;
+    width: 150px;
+    height: 250px;
+}
+.interest-book-item > img {
+    width: 70%;
+    height: auto;
+    border: 1px solid #B6BBC0;
+    margin-top: 15px;
+}
+.interest-book-item > .category {
+    font-size: 10px;
+    color: #075DAD;
+    margin-top: 5px;
+}
+.interest-book-item > .title {
+    font-size: 12px;
+    font-weight: 600;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 12px;
+}
+.interest-book-item > .price-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.interest-book-item > .price-wrapper > .price {
+    font-size: 12px;
+    font-weight: 400;
+    text-decoration: line-through;
+    color: #9FA1A8;
+    margin-left: 8px;
+}
+.interest-book-item > .price-wrapper > .sale-price {
+    font-size: 12px;
+    font-weight: 800;
+}

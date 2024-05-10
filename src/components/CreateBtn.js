@@ -18,10 +18,6 @@ function CreateBtn() {
                     <img src={require("../assets/icons/post-create.png")} alt=""/>
                     <span>게시글 작성</span>
                 </li>
-                <li className="shre-create-btn">
-                    <img src={require("../assets/icons/share-create.png")} alt=""/>
-                    <span>책 나누기</span>
-                </li>
                 <li className="rent-create-btn">
                     <img src={require("../assets/icons/rent-create.png")} alt=""/>
                     <span>책 대여 등록하기</span>
