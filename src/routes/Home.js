@@ -1,21 +1,32 @@
 import React, { useState } from "react";
-import { bookList, postList } from "./data";
-import { Link } from 'react-router-dom';
+import { bookList } from "./data";
 import './Home.css'
 import BookItem from "../components/BookItem";
 import PickItem from "../components/PickItem";
 import CreateBtn from "../components/CreateBtn";
+import CategoryWrapper from "../components/CategoryWrapper";
 
 function Home() {
+    const [categoryShow,setCategoryShow] = useState(false);
+    const handleClickStatus = (index) => {
+      setCategoryShow(true);
+    }
+    window.addEventListener('mousedown', function(event) {
+      console.log('here',event.target);
+      if (!event.target.closest('.all-btn')) {
+        setCategoryShow(false);
+      }
+    });
     return (
       <div className="main-container">
         <div className="book-list-container">
             <div className="sorting-container">
-              <button className="all-btn">판매 중</button>
-              <button className="all-btn">예약 중</button>
-              <button className="all-btn">대여 가능</button>
-              <button className="all-btn">대여 중</button>
-              <button className="all-btn">나눔</button>
+              <button className="all-btn" onClick={handleClickStatus}>판매 중</button>
+              <button className="all-btn" onClick={handleClickStatus}>예약 중</button>
+              <button className="all-btn" onClick={handleClickStatus}>대여 가능</button>
+              <button className="all-btn" onClick={handleClickStatus}>대여 중</button>
+              <button className="all-btn" onClick={handleClickStatus}>나눔</button>
+              {categoryShow && <CategoryWrapper />}
             </div>
             <div className="book-list-content">
               <ul className="book-list-wrapper">
