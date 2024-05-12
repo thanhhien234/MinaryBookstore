@@ -47,12 +47,13 @@
 }
 
 
-/*best-sellers-container*/
+/* best-sellers-container*/
 .best-sellers-container{
     border-radius: 20px;
     margin-top: 60px;
     background-color: #EAF5E9;
     padding: 20px 60px;
+    overflow: hidden;
 }
 .best-sellers-title{
     font-size: 35px;
@@ -86,13 +87,9 @@
     flex:1;
     border: 1px solid #B6BBC0;
 }
-.best-sellers-list-wrapper{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 1000px;
-    margin: 30px auto;
-    padding: 0;
+.best-sellers-btn.active {
+    background-color: #0D9276;
+    color: #fff;
 }
 
 /*interest-container*/

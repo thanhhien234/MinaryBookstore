@@ -5,18 +5,23 @@ import BookItem from "../components/BookItem";
 import PickItem from "../components/PickItem";
 import CreateBtn from "../components/CreateBtn";
 import CategoryWrapper from "../components/CategoryWrapper";
+import BestSellersList from "../components/BestSellersList";
 
 function Home() {
     const [categoryShow,setCategoryShow] = useState(false);
-    const handleClickStatus = (index) => {
+    const [activeCategory, setActiveCategory] = useState('소설');
+    const handleClickStatus = () => {
       setCategoryShow(true);
     }
     window.addEventListener('mousedown', function(event) {
-      console.log('here',event.target);
       if (!event.target.closest('.all-btn')) {
         setCategoryShow(false);
       }
     });
+    const handleCategoryHover = (category) => {
+        setActiveCategory(category);
+    };
+    const bestSellersCategories = ["소설", "인문", "컴퓨터/IT", "외국어", "역사/문화", "과학", "기타"];
     return (
       <div className="main-container">
         <div className="book-list-container">
@@ -41,21 +46,11 @@ function Home() {
             B<span>e</span>st S<span>e</span>ll<span>e</span>rs
           </h3>
           <div className="best-sellers-category-wrapper">
-              <button className="best-sellers-btn">소설</button>
-              <button className="best-sellers-btn">인문</button>
-              <button className="best-sellers-btn">컴퓨터/IT</button>
-              <button className="best-sellers-btn">외국어</button>
-              <button className="best-sellers-btn">역사/문화</button>
-              <button className="best-sellers-btn">과학</button>
-              <button className="best-sellers-btn">기타</button>
+              {bestSellersCategories.map((name, index) => (
+                    <button key={index} className={`best-sellers-btn ${activeCategory === name ? 'active' : ''}`} onMouseOver={() => handleCategoryHover(name)}>{name}</button>
+              ))}
           </div>
-          <div className="best-sellers-wrapper">
-              <ul className="best-sellers-list-wrapper">
-                {bookList.slice(0,5).map((book, index) => (
-                  <PickItem key={index} book={book} />
-                ))}
-              </ul>
-          </div>
+          {activeCategory && <BestSellersList activeCategory={activeCategory} />}
         </div>
         <div className="interest-container">
                 <div className="intro-wrapper">
