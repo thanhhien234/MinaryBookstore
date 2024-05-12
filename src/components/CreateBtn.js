@@ -7,6 +7,11 @@ function CreateBtn() {
     const handleCreateBtn = () => {
       setCreateBtnOpen(!createBtnOpen);
     }
+    window.addEventListener('mousedown', function(event) {
+        if (!event.target.closest('.create-button-container')) {
+            setCreateBtnOpen(false);
+        }
+    });
     return (
         <div className="create-button-container">
             <div className="create-btn" onClick={handleCreateBtn}>
