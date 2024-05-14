@@ -1,29 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import './Header.css'
+import { getCookie, setCookie } from '../utils/cookieManage';
 
-function Header({loggedIn, setLoggedIn}) {
+function Header() {
+  const [loggedIn, setLoggedIn] = useState(false);
   const [searchType, setSearchType] = useState('isbn');
-  const navigate = useNavigate();
-
-  const setCookie = (cookieName, cookieValue, expirationDays) =>{
-      const date = new Date();
-      date.setTime(date.getTime() + (expirationDays * 60 * 1000));
-      const expires = "expires=" + date.toUTCString();
-      const cookie = encodeURIComponent(cookieName) + "=" + encodeURIComponent(cookieValue) + ";" + expires + ";path=/";
-      document.cookie = cookie;
-  }
-
-  const getCookie = (name) => {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          if (cookie.startsWith(name + '=')) {
-              return cookie.substring(name.length + 1);
-          }
-      }
-      return null;
-  }
 
   useEffect(() => {
       if (!getCookie("accessToken") && !getCookie("refreshToken")) {
@@ -40,29 +22,21 @@ function Header({loggedIn, setLoggedIn}) {
             .then(res => {
               setCookie("accessToken", res.accessToken, 2 * 60);
               setCookie("refreshToken", res.refreshToken, 24 * 14 * 60);
-              window.location.reload();
+              setLoggedIn(true);
           });
       } else {
         setLoggedIn(true);
       }
-  });
+  },[loggedIn]);
 
-
-  const handleSearchSelect = (event) => {
-    setSearchType(event.target.value);
-  }
-  const handleLoginClick = () => {
-    window.location.reload();
-  }
-  const handleLogoClick = () => {
-    navigate('/');
-  }
   return (
     <div className="header-container">
         <div className="search-container">
-            <img src={require("../assets/images/logo.png")} alt="" onClick={handleLogoClick}/>
+            <Link to="/">
+              <img src={require("../assets/images/logo.png")} alt=""/>
+            </Link>
             <div className="search-wrapper">
-                <select id="search-type" onChange={handleSearchSelect}>
+                <select id="search-type" onChange={(event) => setSearchType(event.target.value)}>
                     <option value="isbn">ISBN 검색</option>
                     <option value="title">제목 검색</option>
                 </select>
@@ -87,7 +61,7 @@ function Header({loggedIn, setLoggedIn}) {
         </div>
         ) : (
             <div className="login-container">
-                <button className="login-btn" onClick={handleLoginClick}>로그인</button>
+                <button className="login-btn" onClick={()=>window.location.reload()}>로그인</button>
             </div>
         )}
     </div>

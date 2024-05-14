@@ -14,7 +14,7 @@
     font-size: 14px;
     margin-right: 8px;
     cursor: pointer;
-    width: 8%;
+    width: 90px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -25,6 +25,7 @@
 .sorting-container {
     text-align: left;
     padding-left: 100px;
+    position: relative;
 }
 .book-list-container{
     display: flex;
@@ -46,12 +47,13 @@
 }
 
 
-/*best-sellers-container*/
+/* best-sellers-container*/
 .best-sellers-container{
     border-radius: 20px;
     margin-top: 60px;
     background-color: #EAF5E9;
     padding: 20px 60px;
+    overflow: hidden;
 }
 .best-sellers-title{
     font-size: 35px;
@@ -85,13 +87,9 @@
     flex:1;
     border: 1px solid #B6BBC0;
 }
-.best-sellers-list-wrapper{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 85%;
-    margin: 30px auto;
-    padding: 0;
+.best-sellers-btn.active {
+    background-color: #0D9276;
+    color: #fff;
 }
 
 /*interest-container*/
@@ -125,7 +123,8 @@
     text-align: left;
 }
 .interest-wrapper {
-    width: 85%;
+    width: 1000px;
+    margin: 0 auto;
 }
 .interest-book-wrapper {
     list-style: none;
