@@ -6,7 +6,7 @@ import BookItem from '../components/BookItem';
 import CreateBtn from '../components/CreateBtn';
 import ConditionRadioList from '../components/ConditionRadioList';
 
-function DetailBook({radioDisabled}) {
+function DetailBook() {
     const { bookId } = useParams();
     const [bookInfo, setBookInfo] = useState(null);
 
@@ -38,7 +38,7 @@ function DetailBook({radioDisabled}) {
                         </div>
                         <div className='condition-content'>
                             <span>책 상태</span>
-                            <ConditionRadioList radioDisabled={radioDisabled}/>
+                            <ConditionRadioList radioEditable={false}/>
                         </div>
                     </div>
                     <div className='description-container'>책이 깨끗합니다. 페이지에는 몇 군데 필기가 있지만 크게 방해되지 않는 수준입니다. 책 표지와 페이지 모서리에는 약간의 자연스러운 착용 흔적이 있지만 큰 훼손은 없습니다.</div>

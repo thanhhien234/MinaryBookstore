@@ -8,7 +8,6 @@ function BestSellersList({ activeCategory }) {
     const bestSellers = bookList.filter(book => book.category === activeCategory).slice(0, 5);
 
     useEffect(() => {
-        console.log('activeCategory', activeCategory);
         setShowAnimation(true);
         setTimeout(() => {
             setShowAnimation(false);
