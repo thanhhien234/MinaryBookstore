@@ -132,8 +132,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    justify-content: space-between;
     padding: 0;
+    gap: 20px
 }
 .show-more-btn{
     background-color: #0D9276;
