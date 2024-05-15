@@ -1,0 +1,30 @@
+.book-img-input{
+    display: flex;
+    align-items: center;
+}
+.input-img{
+    background-color: #eaecee;
+    border-radius: 5px;
+    width: 120px;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    position: relative;
+}
+#uploadImg {
+    display: none;
+}
+.add-icon{
+    width: 40px;
+}
+.delete-icon{
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 25px;
+    cursor: pointer;
+}

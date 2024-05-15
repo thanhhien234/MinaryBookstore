@@ -1,11 +1,12 @@
 .best-sellers-list-wrapper{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     width: 1000px;
     height: 280px;
     margin: 30px auto;
     padding: 0;
+    gap: 30px;
+    justify-content: center;
 }
 .slide-in {
     animation: slideFromRight 0.2s ease-in-out forwards;
