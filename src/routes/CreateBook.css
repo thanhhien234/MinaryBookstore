@@ -247,3 +247,19 @@ input[type=number]::-webkit-inner-spin-button {
     margin-top: 40px;
     margin-bottom: 30px;
 }
+
+/*rent-period-input*/
+.book-rent-period-wrapper{
+    margin-top: 30px;
+}
+.rent-period-input{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    gap: 40px;
+}
+.rent-period-input label{
+    margin-right: 5px;
+    font-size: 14px;
+}
