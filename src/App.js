@@ -1,19 +1,20 @@
 import './App.css';
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import Home from './routes/Home';
 import Header from './components/Header';
 import DetailBook from './routes/DetailBook';
+import BookSale from './routes/BookSale';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
 
   return (
     <div className="App">
-      <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+      <Header />
       <Routes>
         <Route path='/' element={<Home/>} />
-        <Route path='/detail-book/:bookId' element={<DetailBook disable={true}/>} />
+        <Route path='/detail-book/:bookId' element={<DetailBook />} />
+        <Route path='/book-sale' element={<BookSale/>} />
       </Routes>    
     </div>
   );

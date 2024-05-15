@@ -1,0 +1,244 @@
+.book-sale-main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #D9D9D9;
+    border-radius: 20px;
+    background-color: #fff;
+    margin: 40px 20%;
+    overflow: hidden;
+}
+.book-sale-main-container h3 {
+    font-size: 18px;
+    margin: 10px;
+}
+.book-sale-header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 16px;
+    padding: 0;
+}
+.book-sale-header {
+    background-image: linear-gradient(to bottom, #FFFFFF 0%, #D9DFE1 100%);
+    flex: 1;
+    padding: 12px;
+    cursor: pointer;
+}
+.book-sale-header.active-tab {
+    background-image : none;
+    background-color: #0F5493;
+    color: #fff;
+}
+.book-sale-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+.isbn-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.isbn-input-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px;
+    width: 70%;
+    border-radius: 20px;
+    border: 1px solid #000;
+}
+.isbn-input{
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+}
+.isbn-input:focus{
+    outline: none;
+}
+.isbn-search-icon{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+/*book-info-inner1*/
+.book-info-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #F5F8FC;
+    padding: 20px 30px;
+    border-radius: 20px;
+    margin-top: 30px;
+    width: 100%;
+
+}
+.book-cover{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.book-cover img{
+    width: 100px;
+    height: auto;
+}
+.book-info-inner{
+    display: flex;
+    flex-direction: column;
+    flex:1;
+}
+.book-info-inner p{
+    text-align: left;
+    margin: 0;
+}
+.book-info-inner .label {
+    font-size: 14px;
+    color: #A4A8AA;
+    width: 60px;
+    display: inline-block;
+}
+.book-info-inner .info-value {
+    font-size: 14px;
+    color: #000;
+}
+
+.book-info-inner .book-title{
+    font-size: 16px;
+    color: #000;
+    text-align: left;
+}
+
+/*title-wrapper*/
+.title-wrapper{
+    display: flex;
+    flex-direction: column;
+    background-color: #F5F8FC;
+    padding: 20px 60px;
+    border-radius: 20px;
+    margin-top: 30px;
+    align-items: flex-start;
+}
+.form-group{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+}
+.form-group label{
+    font-size: 14px;
+    color: #A4A8AA;
+    width: 60px;
+    display: inline-block;
+}
+.form-group input{
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    padding: 5px 15px;
+    margin-right: 3px;
+    width: 250px;
+}
+.form-group input[type=number] {
+    width: 80px;
+}
+
+/*book-condition-wrapper*/
+.book-condition-wrapper{
+    background-color: #F5F8FC;
+    padding: 20px 40px;
+    border-radius: 20px;
+    margin-top: 30px;
+}
+.book-condition-wrapper h3{
+    margin: 15px;
+}
+
+.book-price-wrapper{
+    margin-top: 30px;
+}
+.book-price-wrapper .price-input{
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    border-radius: 20px;
+    border: 1px solid #000;
+    width: 60%;
+    padding: 5px 15px;
+    margin-right: 3px;
+}
+input[type=number]::-webkit-inner-spin-button {
+    opacity: 0
+}
+
+/*book-real-image-wrapper*/
+.book-real-image-wrapper{
+    margin-top: 30px;
+}
+.book-real-image-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/*book-description-wrapper*/
+.book-description-wrapper{
+    margin-top: 30px;
+}
+.description-input{
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    padding: 10px 20px;
+}
+
+/*book-sale-address-wrapper*/
+.book-sale-address-wrapper{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+.book-address-input-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1px solid #000;
+}
+.book-address-input-wrapper img{
+    width: 22px;
+}
+.address-input{
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    width: 220px;
+}
+.address-input:focus{
+    outline: none;
+}
+
+
+.sale-save-btn{
+    background-color: #0F5493;
+    border: none;
+    border-radius: 20px;
+    padding: 7px 30px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #fff;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
