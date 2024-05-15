@@ -49,7 +49,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 8px 20px;
-    width: 70%;
     border-radius: 20px;
     border: 1px solid #000;
 }
@@ -147,6 +146,12 @@
 }
 .form-group input[type=number] {
     width: 80px;
+}
+.form-group input::placeholder{
+    color: #c3c5c5;
+}
+.form-group #isbn{
+    width: 250px;
 }
 
 /*book-condition-wrapper*/
