@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link} from 'react-router-dom';
 import './Header.css'
 import { getCookie, setCookie } from '../utils/cookieManage';
+import { HeaderInterestItem, ChatItem } from './HeaderItem';
 
 function Header() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [searchType, setSearchType] = useState('isbn');
+  const [activeItem, setActiveItem] = useState(null);
+
+  const handleClick = (itemId) => {
+    setActiveItem(itemId === activeItem ? null : itemId);
+  };
 
   useEffect(() => {
       if (!getCookie("accessToken") && !getCookie("refreshToken")) {
@@ -46,18 +52,36 @@ function Header() {
             
         </div>
         {loggedIn ? (
-            <div className="menu-container">
+          <div className="menu-container">
             <ul className="menu-wrapper">
-                <li id="interest-menu">
+                <li id="interest-menu" className={`chat-menu ${activeItem === 'interest-menu' ? 'active' : ''}`}
+                  onClick={() => {handleClick('interest-menu');}}>
                     <img src={require("../assets/icons/interest-menu.png")} alt=""/>
                 </li>
-                <li id="chat-menu">
+                <li id="chat-menu" className={`chat-menu ${activeItem === 'chat-menu' ? 'active' : ''}`}
+                  onClick={() => {handleClick('chat-menu');}}>
                     <img src={require("../assets/icons/chat-menu.png")} alt=""/>
                 </li>
                 <li id="profile-menu">
                     <img src={require("../assets/images/profile-image.png")} alt=""/>
                 </li>
             </ul>
+            {activeItem && (
+              <div className="open-list-container">
+                <h3>{(activeItem === 'interest-menu') ? '관심 목록' : '채팅 목록'}</h3>
+                {(activeItem === 'interest-menu') ? (
+                  <ul className='open-list-wrapper'>
+                    <HeaderInterestItem />
+                    <HeaderInterestItem />
+                  </ul>
+                ) : (
+                  <ul className='open-list-wrapper'>
+                    <ChatItem />
+                    <ChatItem />
+                  </ul>
+                )}
+              </div>
+            )}
         </div>
         ) : (
             <div className="login-container">
