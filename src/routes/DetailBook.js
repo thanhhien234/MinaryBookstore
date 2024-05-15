@@ -12,6 +12,7 @@ function DetailBook() {
 
     useEffect(() => {
         setBookInfo(bookList[bookId]);
+        window.scrollTo(0, 0);
     }, [bookId]);
 
     if (!bookInfo) {
@@ -28,28 +29,30 @@ function DetailBook() {
                 </div>
                 <div className='book-info-container'>
                     <BookItem book={bookInfo} />
-                    <div className='condition-container'>
-                        <div className='condition-image'>
-                            <span>실제 사진</span>
-                            <div className='image-wrapper'>
-                                <img src={bookInfo.image} alt='' />
-                                <img src={bookInfo.image} alt='' />
-                            </div>
-                        </div>
-                        <div className='condition-content'>
-                            <span>책 상태</span>
-                            <ConditionRadioList radioEditable={false}/>
+                    <div className='condition-image'>
+                        <h3>실제 사진</h3>
+                        <div className='image-wrapper'>
+                            <img src={bookInfo.image} alt='' />
+                            <img src={bookInfo.image} alt='' />
                         </div>
                     </div>
-                    <div className='description-container'>책이 깨끗합니다. 페이지에는 몇 군데 필기가 있지만 크게 방해되지 않는 수준입니다. 책 표지와 페이지 모서리에는 약간의 자연스러운 착용 흔적이 있지만 큰 훼손은 없습니다.</div>
-                    <div className='address-container-title'>거래 장소</div>
-                    <div className='address-container'>
-                        <div className='address-wrapper'>
-                            <img src={require('../assets/icons/location.png')} alt='' />
-                            <span className='address'>대구 북구 대학로 3길13</span>
+                    <div className='condition-container'>
+                        <div className='condition-content'>
+                            <h3>책 상태</h3>
+                            <ConditionRadioList radioEditable={false}/>
                         </div>
-                        <div className='go-to-map-btn'>지도보기
-                            <img src={require('../assets/icons/arrow.png')} alt='' />
+                        <div className='description-container'>책이 깨끗합니다. 페이지에는 몇 군데 필기가 있지만 크게 방해되지 않는 수준입니다. 책 표지와 페이지 모서리에는 약간의 자연스러운 착용 흔적이 있지만 큰 훼손은 없습니다.</div>
+                    </div>
+                    <div className='address-container'>
+                        <h3>거래 장소</h3>
+                        <div className='address-container-inner'>
+                            <div className='address-wrapper'>
+                                <img src={require('../assets/icons/location.png')} alt='' />
+                                <span className='address'>대구 북구 대학로 3길13</span>
+                            </div>
+                            <div className='go-to-map-btn'>지도보기
+                                <img src={require('../assets/icons/arrow.png')} alt='' />
+                            </div>
                         </div>
                     </div>
                 </div>
