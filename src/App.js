@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from './routes/Home';
 import Header from './components/Header';
 import DetailBook from './routes/DetailBook';
-import BookSale from './routes/BookSale';
+import CreateBook from './routes/CreateBook';
 
 function App() {
 
@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/detail-book/:bookId' element={<DetailBook />} />
-        <Route path='/book-sale' element={<BookSale/>} />
+        <Route path='/create-book/:option' element={<CreateBook/>} />
       </Routes>    
     </div>
   );

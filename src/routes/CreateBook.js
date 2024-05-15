@@ -1,10 +1,12 @@
 import React, {useState,useEffect} from "react";
-import './BookSale.css';
+import './CreateBook.css';
 import ConditionRadioList from '../components/ConditionRadioList';
 import UploadImage from "../components/UploadImage";
+import { useParams } from 'react-router-dom';
 import { getCookie } from "../utils/cookieManage";
 
-function BookSale() {
+function CreateBook() {
+  const { option } = useParams();
   const [activeTab, setActiveTab] = useState('isbn');
   const [isbnBookInfo, setIsbnBookInfo] = useState(null);
   const [isbn, setIsbn] = useState(''); 
@@ -117,18 +119,33 @@ function BookSale() {
                 <input type="number" id="price" placeholder="예: 30000"/>원
               </div>
               <div className="form-group">
-                <label htmlFor="salePrice">판매가</label>
+                <label htmlFor="salePrice">{option === 'sell' ? '판매가' : '대여가'}</label>
                 <input type="number" id="salePrice" placeholder="예: 20000"/>원
-              </div>
+              </div>              
           </div>
         )}
         <div className="book-condition-wrapper">
           <h3>책 상태가 어떤가요?</h3>
           <ConditionRadioList radioEditable={true}/>
         </div>
+        {option === 'rent' && (
+          <div className="book-rent-period-wrapper">
+            <h3>대여 가능 기간을 입력하세요</h3>
+            <div className="rent-period-input">
+              <div>
+                <label htmlFor="fromTime">시작일: </label>
+                <input type="date" id="fromTime" />
+              </div>
+              <div>
+                <label htmlFor="toTime">종료일:</label>
+                <input type="date" id="toTime" />
+              </div>
+            </div>
+          </div>
+        )}
         {activeTab === 'isbn' && (
           <div className="book-price-wrapper">
-            <h3>판매 가격을 입력해주세요</h3>
+            {option === 'sale' ? (<h3>판매 가격을 입력해주세요</h3>) : (<h3>대여 가격을 입력해주세요</h3>)}
             <input type="number" className="price-input" placeholder={isbnBookInfo ? isbnBookInfo.price : ""} />
             <span>원</span>
           </div>
@@ -155,4 +172,4 @@ function BookSale() {
     </div>
   );
 }
-export default BookSale;
+export default CreateBook;

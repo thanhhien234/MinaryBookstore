@@ -18,20 +18,20 @@ function CreateBtn() {
                 <span>등록하기</span>
             </div>
             <ul className={`create-option-wrapper ${createBtnOpen ? 'show' : ''}`}>
-                <li className="post-create-btn">
+                <li>
                     <Link to="/create-post">
                         <img src={require("../assets/icons/post-create.png")} alt=""/>
                         <span>게시글 작성</span>
                     </Link>
                 </li>
-                <li className="rent-create-btn">
-                    <Link to="/book-rent">
+                <li>
+                    <Link to="/create-book/rent">
                         <img src={require("../assets/icons/rent-create.png")} alt=""/>
                         <span>책 대여 등록하기</span>
                     </Link>
                 </li>
-                <li className="sell-create-btn">
-                    <Link to="/book-sale">
+                <li>
+                    <Link to="/create-book/sale">
                         <img src={require("../assets/icons/sell-create.png")} alt=""/>
                         <span>책 판매하기</span>
                     </Link>
