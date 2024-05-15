@@ -1,7 +1,7 @@
 import React from 'react';
 import './HeaderItem.css';
 
-export function HeaderInterestItem() {
+export function InterestItem() {
   return (
     <li className="interest-item">
         <img src={require("../assets/images/exampleBook.png")} alt=""/>

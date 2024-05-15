@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link} from 'react-router-dom';
 import './Header.css'
 import { getCookie, setCookie } from '../utils/cookieManage';
-import { HeaderInterestItem, ChatItem } from './HeaderItem';
+import { InterestItem, ChatItem } from './HeaderItem';
 
 function Header() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -71,8 +71,8 @@ function Header() {
                 <h3>{(activeItem === 'interest-menu') ? '관심 목록' : '채팅 목록'}</h3>
                 {(activeItem === 'interest-menu') ? (
                   <ul className='open-list-wrapper'>
-                    <HeaderInterestItem />
-                    <HeaderInterestItem />
+                    <InterestItem />
+                    <InterestItem />
                   </ul>
                 ) : (
                   <ul className='open-list-wrapper'>
