@@ -119,7 +119,7 @@ function CreateBook() {
                 <input type="number" id="price" placeholder="예: 30000"/>원
               </div>
               <div className="form-group">
-                <label htmlFor="salePrice">{option === 'sell' ? '판매가' : '대여가'}</label>
+                <label htmlFor="salePrice">{option === 'sale' ? '판매가' : '대여가'}</label>
                 <input type="number" id="salePrice" placeholder="예: 20000"/>원
               </div>              
           </div>
