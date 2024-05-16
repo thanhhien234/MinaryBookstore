@@ -157,3 +157,19 @@
     background: #c4c1c1;
     border-radius: 5px;
 }
+
+/*Chat Group*/
+.chat-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    position: fixed;
+    bottom: 0;
+    left: 30px;
+}
+
+
+
+
+
+  

@@ -3,15 +3,52 @@ import { Link} from 'react-router-dom';
 import './Header.css'
 import { getCookie, setCookie } from '../utils/cookieManage';
 import { InterestItem, ChatItem } from './HeaderItem';
+import { chatList } from '../routes/data';
+import Chatting from '../components/Chatting';
+
+
+function ChatGroup({ chatItems, closeChatItem}) {
+  return (
+    <div className="chat-grid-container">
+      {chatItems.map((chatItem, index) => (
+        <Chatting
+          key={chatItem.userId}
+          chatItem={chatItem}
+          closeChatItem={() => closeChatItem(chatItem.userId)}
+        />
+      ))}
+    </div>
+  );
+}
+
 
 function Header() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [searchType, setSearchType] = useState('isbn');
   const [activeItem, setActiveItem] = useState(null);
+  const [chatItems,setChatItems] = useState([]);
 
-  const handleClick = (itemId) => {
+  const handleMenuClick = (itemId) => {
     setActiveItem(itemId === activeItem ? null : itemId);
   };
+
+  const openChatItem = (chatItemId) => {
+    if (chatItems.some((item) => item.userId === chatItemId)) {
+      return;
+    }
+    const clickedChatItem = chatList[chatList.findIndex((item) => item.userId === chatItemId)];
+    if (chatItems.length >= 3) {
+      setChatItems((prevVisibleChats) => prevVisibleChats.slice(1));
+    }
+    setChatItems((prevVisibleChats) => [...prevVisibleChats, clickedChatItem]);
+  };
+
+  const closeChatItem = (chatItemId) => {
+    setChatItems((prevChatItems) =>
+      prevChatItems.filter((item) => item.userId !== chatItemId)
+    );
+  };
+  
 
   useEffect(() => {
       if (!getCookie("accessToken") && !getCookie("refreshToken")) {
@@ -55,11 +92,11 @@ function Header() {
           <div className="menu-container">
             <ul className="menu-wrapper">
                 <li id="interest-menu" className={`chat-menu ${activeItem === 'interest-menu' ? 'active' : ''}`}
-                  onClick={() => {handleClick('interest-menu');}}>
+                  onClick={() => {handleMenuClick('interest-menu')}}>
                     <img src={require("../assets/icons/interest-menu.png")} alt=""/>
                 </li>
                 <li id="chat-menu" className={`chat-menu ${activeItem === 'chat-menu' ? 'active' : ''}`}
-                  onClick={() => {handleClick('chat-menu');}}>
+                  onClick={() => {handleMenuClick('chat-menu')}}>
                     <img src={require("../assets/icons/chat-menu.png")} alt=""/>
                 </li>
                 <li id="profile-menu">
@@ -76,12 +113,18 @@ function Header() {
                   </ul>
                 ) : (
                   <ul className='open-list-wrapper'>
-                    <ChatItem />
-                    <ChatItem />
+                      {chatList.map(chatItem => (
+                          <ChatItem
+                            key={chatItem.userId}
+                            chatItem={chatItem}
+                            openChatItem ={() => openChatItem (chatItem.userId)}
+                          />
+                      ))}  
                   </ul>
                 )}
               </div>
             )}
+            <ChatGroup chatItems={chatItems} closeChatItem={closeChatItem}/>
         </div>
         ) : (
             <div className="login-container">

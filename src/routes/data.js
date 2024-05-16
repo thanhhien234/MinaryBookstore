@@ -124,3 +124,190 @@ export const userInfo =
         name: "한승규",
         image: exampleProfileImage,
     }
+export const chatList = [
+    {
+        userId: 1,
+        userName: '히엔1',
+        userImg: exampleProfileImage,
+        chatContent: [
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+        ],
+    },
+    {
+        userId: 2,
+        userName: '히엔2',
+        userImg: exampleProfileImage,
+        chatContent: [
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+        ],
+    },
+    {
+        userId: 3,
+        userName: '히엔3',
+        userImg: exampleProfileImage,
+        chatContent: [
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+        ],
+    },
+    {
+        userId: 4,
+        userName: '히엔4',
+        userImg: exampleProfileImage,
+        chatContent: [
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+        ],
+    },
+    {
+        userId: 5,
+        userName: '히엔5',
+        userImg: exampleProfileImage,
+        chatContent: [
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+            {
+                comment: '안녕하세요',
+                isQuestion: 'true',
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: 'false',
+                time: '',
+            },
+        ],
+    }
+]
