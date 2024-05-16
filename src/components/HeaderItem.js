@@ -1,4 +1,3 @@
-import React from 'react';
 import './HeaderItem.css';
 
 export function InterestItem() {
@@ -12,13 +11,15 @@ export function InterestItem() {
     </li>
   );
 };
-export function ChatItem() {
+
+
+export function ChatItem({ chatItem, openChatItem }) {
   return (
-    <li className="chat-item">
-        <img src={require("../assets/images/profile-image.png")} alt=""/>
+    <li className="chat-item" onClick={()=>{openChatItem(chatItem.userId)}}>
+        <img src={chatItem.userImg} alt=""/>
         <div className="chat-item-info">
-            <span className="chat-item-name">한승규</span>
-            <span className="chat-item-message">채팅 메시지</span>
+            <span className="chat-item-name">{chatItem.userName}</span>
+            <span className="chat-item-message">{chatItem.chatContent[chatItem.chatContent.length-1].comment}</span>
         </div>
     </li>
   );
