@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ConditionRadioList.css';
 
-function ConditionRadioList({ radioEditable }) {
+function ConditionRadioList({ radioEditable,handleSelectedConditions }) {
     const initialConditions = ['1-1', '2-1', '3-1', '4-1', '5-1', '6-1'];
     const [selectedConditions, setSelectedConditions] = useState(initialConditions);
 
@@ -9,12 +9,14 @@ function ConditionRadioList({ radioEditable }) {
         const newConditions = [...selectedConditions];
         newConditions[index] = event.target.id;
         setSelectedConditions(newConditions);
+        
     };
-
+    
     useEffect(() => {
-        const radioValues = selectedConditions.map(condition => condition.split('-')[1]);
-        console.log(radioValues);
+        const radioValues = selectedConditions.map(item => parseInt(item.split('-')[1]));
+        handleSelectedConditions(radioValues);
     }, [selectedConditions]);
+
 
     const conditionsData = [
         { label: '밑줄 흔적:', options: ['없음', '연필/샤프', '볼펜/형광펜'] },

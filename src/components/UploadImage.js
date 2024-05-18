@@ -10,7 +10,7 @@ function UploadBtn({ position, setImages,images }) {
                     if (file) {
                         const reader = new FileReader();
                         reader.onload = () => {
-                            setImages(prevImages => [...prevImages, { position: images.length, file: reader.result }]);
+                            setImages(prevImages => [...prevImages, { position: images.length, fileUrl: reader.result, fileObject: file}]);
                         };
                         reader.readAsDataURL(file);
                     }
