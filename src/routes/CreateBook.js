@@ -20,6 +20,7 @@ function CreateBook() {
     description: '',
     address: ''
   });
+  const categoryArr = ["소설", "인문", "컴퓨터/IT", "외국어", "역사/문화", "과학", "잡지", "어린이","자기개발","여행","요리", "기타"];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -45,11 +46,11 @@ function CreateBook() {
       return;
     }
     setFormData((prevData) => ({ ...prevData, isbn: isbnValue }));
-    fetch(`${process.env.REACT_APP_API_URL}/api/isbn?isbn=${isbnValue}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/book/isbn?isbn=${isbnValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + getCookie('accessToken'),
+        // 'Authorization': 'Bearer ' + getCookie('accessToken'),
       }
     })
     .then(response => {
@@ -77,8 +78,16 @@ function CreateBook() {
       <div className="book-info-wrapper">
         <div className="book-info-inner">
           <h2 className="book-title">{isbnBookInfo.title}</h2>
+          <p><span className="label">카테고리</span>
+              <select className="category-input-select">
+                  <option key='all' value='all'>카테고리 선택하세요</option>
+                  {categoryArr.map((category, index) => (
+                    <option key={index} value={category}>{category}</option>
+                  ))}
+              </select>
+          </p>
           <p><span className="label">ISBN</span><span className="info-value">{formData.isbn}</span></p>
-          <p><span className="label">저자</span><span className="info-value">{isbnBookInfo.author.join(', ')}</span></p>
+          <p><span className="label">저자</span><span className="info-value">{isbnBookInfo.author.length===1 ? isbnBookInfo.author : isbnBookInfo.author.join(', ')}</span></p>
           <p><span className="label">출판사</span><span className="info-value">{isbnBookInfo.publisher}</span></p>
           <p><span className="label">출판일</span><span className="info-value">{formatDate(isbnBookInfo.publicationDate)}</span></p>
           <p><span className="label">정가</span><span className="info-value">{isbnBookInfo.price}원</span></p>
@@ -94,7 +103,19 @@ function CreateBook() {
     <div className="title-wrapper">
       <div className="form-group">
         <label htmlFor="titleInput">제목</label>
-        <input type="text" id="titleInput" placeholder="예: 명품 웹 프로그래밍"/>
+        <div className="title-input-wrapper">
+            <input type="text" id="titleInput" placeholder="예: 명품 웹 프로그래밍"/>
+            <img src={require('../assets/icons/search.png')} alt=""/>
+        </div>  
+      </div>
+      <div className="form-group">
+        <label htmlFor="categoryInput">카테고리</label>
+        <select className="category-input-select" id="categoryInput">
+              <option key='all' value='all'>카테고리 선택하세요</option>
+              {categoryArr.map((category, index) => (
+                <option key={index} value={category}>{category}</option>
+              ))}
+        </select>
       </div>
       <div className="form-group">
         <label htmlFor="isbn">ISBN</label>
@@ -227,7 +248,7 @@ function CreateBook() {
               id="address"
               value={formData.address}
             />
-            <img src={require('../assets/icons/search.png')} alt="" className="location-icon" />
+            <img src={require('../assets/icons/search.png')} alt=""/>
           </div>
         </div>
         <button className="sale-save-btn">저장</button>

@@ -100,6 +100,7 @@
     color: #A4A8AA;
     width: 60px;
     display: inline-block;
+    text-align: left;
 }
 .book-info-inner .info-value {
     font-size: 14px;
@@ -110,6 +111,28 @@
     font-size: 16px;
     color: #000;
     text-align: left;
+}
+
+.title-input-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+.title-input-wrapper #titleInput{
+    background-color: transparent;
+    font-size: 14px;
+    border: none;
+    padding: 5px 15px;
+    margin-right: 3px;
+    width: 215px;
+}
+.title-input-wrapper img{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 10px;
 }
 
 /*title-wrapper*/
@@ -133,6 +156,7 @@
     color: #A4A8AA;
     width: 60px;
     display: inline-block;
+    text-align: left;
 }
 .form-group input{
     border: none;
@@ -152,6 +176,31 @@
 }
 .form-group #isbn{
     width: 250px;
+}
+.category-input-select{
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 5px 15px;
+    background-image: url('../assets/icons/drop-down.png');
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    background-size: 25px;
+    -webkit-appearance: none;
+    -moz-appearance: none; 
+    appearance: none;
+    align-self: right;
+    font-size: 14px;
+    color: #000;
+    background-color: transparent;
+    width: 280px;
+}
+.category-input-select:focus, 
+.category-input-select:active {
+    outline: none; 
+}
+.book-info-inner .category-input-select{
+    width: 170px;
+    padding: 3px 15px;
 }
 
 /*book-condition-wrapper*/
