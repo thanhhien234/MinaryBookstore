@@ -15,135 +15,65 @@
 }
 .book-sale-header-container {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     width: 100%;
     font-size: 16px;
-    padding: 0;
-}
-.book-sale-header {
-    background-image: linear-gradient(to bottom, #FFFFFF 0%, #D9DFE1 100%);
-    flex: 1;
-    padding: 12px;
-    cursor: pointer;
-}
-.book-sale-header.active-tab {
-    background-image : none;
+    padding: 10px;
     background-color: #0F5493;
+    align-items: center;
+    justify-content: center;
     color: #fff;
 }
+
 .book-sale-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
 }
-.isbn-wrapper{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.isbn-input-wrapper {
+.book-search-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    padding: 8px 20px;
-    border-radius: 20px;
+    margin-top: 10px;
     border: 1px solid #000;
+    width: 60%;
+    border-radius: 20px;
+    padding: 5px 15px;
 }
-.isbn-input{
+.book-search-wrapper .book-search-input {
     border: none;
     background-color: transparent;
     font-size: 14px;
+    padding: 5px 5px;
+    margin-right: 3px;
+    flex:1;
 }
-.isbn-input:focus{
+.book-search-wrapper .book-search-input:focus {
     outline: none;
 }
-.isbn-search-icon{
-    width: 20px;
-    height: 20px;
+.book-search-wrapper img {
+    width: 25px;
     cursor: pointer;
 }
-/*book-info-inner1*/
+
+/*book-info-wrapper*/
 .book-info-wrapper{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     background-color: #F5F8FC;
-    padding: 20px 30px;
+    padding: 20px 40px;
     border-radius: 20px;
     margin-top: 30px;
-    width: 100%;
-
-}
-.book-cover{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.book-cover img{
-    width: 100px;
-    height: auto;
+    align-items: center;
 }
 .book-info-inner{
     display: flex;
     flex-direction: column;
-    flex:1;
 }
-.book-info-inner p{
-    text-align: left;
-    margin: 0;
-}
-.book-info-inner .label {
-    font-size: 14px;
-    color: #A4A8AA;
-    width: 60px;
-    display: inline-block;
-    text-align: left;
-}
-.book-info-inner .info-value {
-    font-size: 14px;
-    color: #000;
-}
-
-.book-info-inner .book-title{
-    font-size: 16px;
-    color: #000;
-    text-align: left;
-}
-
-.title-input-wrapper{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border: 1px solid #000;
-    border-radius: 5px;
-}
-.title-input-wrapper #titleInput{
-    background-color: transparent;
-    font-size: 14px;
-    border: none;
-    padding: 5px 15px;
-    margin-right: 3px;
-    width: 215px;
-}
-.title-input-wrapper img{
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-/*title-wrapper*/
-.title-wrapper{
-    display: flex;
-    flex-direction: column;
-    background-color: #F5F8FC;
-    padding: 20px 60px;
-    border-radius: 20px;
-    margin-top: 30px;
-    align-items: flex-start;
+.book-info-wrapper #image{
+    width: 120px;
+    height: auto;
+    margin-left: 40px;
 }
 .form-group{
     display: flex;
@@ -166,16 +96,21 @@
     border: 1px solid #000;
     padding: 5px 15px;
     margin-right: 3px;
-    width: 250px;
+    width: 300px;
 }
 .form-group input[type=number] {
-    width: 80px;
+    width: 100px;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .form-group input::placeholder{
     color: #c3c5c5;
 }
 .form-group #isbn{
-    width: 250px;
+    width: 300px;
 }
 .category-input-select{
     border: 1px solid #000;
@@ -192,15 +127,11 @@
     font-size: 14px;
     color: #000;
     background-color: transparent;
-    width: 280px;
+    width: 330px;
 }
 .category-input-select:focus, 
 .category-input-select:active {
     outline: none; 
-}
-.book-info-inner .category-input-select{
-    width: 170px;
-    padding: 3px 15px;
 }
 
 /*book-condition-wrapper*/
@@ -221,11 +152,9 @@
     border: none;
     background-color: transparent;
     font-size: 14px;
-    border-radius: 20px;
+    border-radius: 5px;
     border: 1px solid #000;
-    width: 60%;
-    padding: 5px 15px;
-    margin-right: 3px;
+    padding: 3px 15px;
 }
 input[type=number]::-webkit-inner-spin-button {
     opacity: 0
