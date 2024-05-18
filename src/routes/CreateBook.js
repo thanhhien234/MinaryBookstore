@@ -2,13 +2,14 @@ import React, {useState,useEffect} from "react";
 import { useParams } from 'react-router-dom';
 import './CreateBook.css';
 import ConditionRadioList from '../components/ConditionRadioList';
-import UploadImage from "../components/UploadImage";
+import {UploadBtn,UploadedImage} from "../components/UploadImage";
 import { getCookie } from "../utils/cookieManage";
 
 function CreateBook() {
   const { option } = useParams();
   const [bookInfo, setBookInfo] = useState(null);
   const [dateInput, setDateInput] = useState('');
+  const [images, setImages] = useState([]);
   const categoryArr = ["소설", "인문", "컴퓨터/IT", "외국어", "역사/문화", "과학", "잡지", "어린이","자기개발","여행","요리", "기타"];
 
   useEffect(() => {
@@ -177,7 +178,12 @@ function CreateBook() {
         <div className="book-real-image-wrapper">
           <h3>실제 사진을 업로드하세요</h3>
           <div className="book-real-image-inner">
-            <UploadImage />
+            {images.map(image => (
+                <UploadedImage key={image.position} position={image.position} uploadedImage={image.file} setImages={setImages} />
+            ))}
+            {images.length < 5 && (
+                <UploadBtn position={images.length} images={images} setImages={setImages} />
+            )}
           </div>
         </div>
         <div className="book-description-wrapper">
