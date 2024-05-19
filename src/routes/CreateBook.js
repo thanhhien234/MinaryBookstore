@@ -11,11 +11,24 @@ function CreateBook() {
   const [images, setImages] = useState([]);
   const [addressList, setAddressList] = useState([0]);
   const [selectedAddress, setSelectedAddress] = useState(null);
-  const categoryArr = ["소설", "인문", "컴퓨터/IT", "외국어", "역사/문화", "과학", "잡지", "어린이","자기개발","여행","요리", "기타"];
+  const categoryArr = [
+    { label: "소설", value: "NOVEL" },
+    { label: "인문", value: "HUMANITIES" },
+    { label: "컴퓨터/IT", value: "IT" },
+    { label: "외국어", value: "LANGUAGE" },
+    { label: "역사/문화", value: "CULTURE" },
+    { label: "과학", value: "SCIENCE" },
+    { label: "잡지", value: "MAGAZINES" },
+    { label: "어린이", value: "CHILDREN" },
+    { label: "자기개발", value: "DEVELOPMENT" },
+    { label: "여행", value: "TRAVEL" },
+    { label: "요리", value: "COOKING" },
+    { label: "기타", value: "OTHERS" }
+  ];
   const [data, setData] = useState({
     bookId: null,
     imageIdList: [],
-    conditions: [],
+    conditions: [1,1,1,1,1,1],
     detail: '',
     salePrice: null,
     category: '',
@@ -124,7 +137,7 @@ function CreateBook() {
         ...data,
         bookId: null,
         imageIdList: [],
-        conditions: [],
+        conditions: [1,1,1,1,1,1],
         category: '',
         salePrice: null,
         detail: '',
@@ -301,7 +314,7 @@ function CreateBook() {
               <select className="category-input-select"  id="category" onChange={(e)=>{setData({ ...data, category: e.target.value })}} style={{ color: data.category === '' ? '#c3c5c5' : 'black' }} >
                     <option key='none' value='' >카테고리 선택하세요</option>
                     {categoryArr.map((category, index) => (
-                      <option key={index} value={category}>{category}</option>
+                      <option key={index} value={category.value}>{category.label}</option>
                     ))}
               </select>
             </div>
