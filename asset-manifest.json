@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/MinaryBookstore/static/css/main.16142989.css",
-    "main.js": "/MinaryBookstore/static/js/main.8632b295.js",
+    "main.css": "/MinaryBookstore/static/css/main.68175a43.css",
+    "main.js": "/MinaryBookstore/static/js/main.9a4e8127.js",
     "static/js/453.559c5cbc.chunk.js": "/MinaryBookstore/static/js/453.559c5cbc.chunk.js",
     "static/media/profile-image.png": "/MinaryBookstore/static/media/profile-image.493324e9c902756d4011.png",
     "static/media/exampleBook.png": "/MinaryBookstore/static/media/exampleBook.c56e2102bc753cced5c9.png",
@@ -9,12 +9,12 @@
     "static/media/computer.png": "/MinaryBookstore/static/media/computer.8fb2c1d834460f5782b2.png",
     "static/media/logo.png": "/MinaryBookstore/static/media/logo.a84d210d618c6948f4ed.png",
     "index.html": "/MinaryBookstore/index.html",
-    "main.16142989.css.map": "/MinaryBookstore/static/css/main.16142989.css.map",
-    "main.8632b295.js.map": "/MinaryBookstore/static/js/main.8632b295.js.map",
+    "main.68175a43.css.map": "/MinaryBookstore/static/css/main.68175a43.css.map",
+    "main.9a4e8127.js.map": "/MinaryBookstore/static/js/main.9a4e8127.js.map",
     "453.559c5cbc.chunk.js.map": "/MinaryBookstore/static/js/453.559c5cbc.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.16142989.css",
-    "static/js/main.8632b295.js"
+    "static/css/main.68175a43.css",
+    "static/js/main.9a4e8127.js"
   ]
 }
