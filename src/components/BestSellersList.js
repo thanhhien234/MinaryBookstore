@@ -3,20 +3,19 @@ import PickItem from "../components/PickItem";
 import { bookList } from "../routes/data";
 import './BestSellersList.css';
 
-function BestSellersList({ activeCategory }) {
+function BestSellersList({ bestSellersList}) {
     const [showAnimation, setShowAnimation] = useState(true);
-    const bestSellers = bookList.filter(book => book.category === activeCategory).slice(0, 5);
 
     useEffect(() => {
         setShowAnimation(true);
         setTimeout(() => {
             setShowAnimation(false);
         }, 300);
-    }, [activeCategory]);
+    }, [bestSellersList]);
 
     return (
         <ul className={`best-sellers-list-wrapper ${showAnimation ? 'slide-in' : ''}`}>
-            {bestSellers.map((book, index) => (
+            {bestSellersList.map((book, index) => (
                 <PickItem key={index} book={book} />
             ))}
         </ul>
