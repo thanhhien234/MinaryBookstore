@@ -22,9 +22,11 @@
     align-items: center;
     justify-content: left;
     cursor: pointer;
+    text-decoration: none;
 }
 .category-item:hover{
     font-weight: bold;
+    text-decoration: underline;
 }
 .category-item img{
     width: 25px;

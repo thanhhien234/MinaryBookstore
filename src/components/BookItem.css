@@ -22,8 +22,22 @@
     margin-left: 40px;
     cursor: pointer;
 }
+.no-img{
+    width: 15%;
+    height: auto;
+    margin-right: 20px;
+    margin-left: 40px;
+    cursor: pointer;
+    background-color: #d2d5d8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+}
+
+
 .book-info .book-title {
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 600;
     text-align: left;
     width: 70%;
@@ -31,14 +45,22 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.book-info .book-category{
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 3px;
+    text-align: left;
+    color: green;
+    text-decoration: underline;
+}
 .book-info .book-author {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     margin-top: 3px;
     text-align: left;
 }
 .book-info .book-publisher{
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 400;
     margin-top: 3px;
     text-align: left;
@@ -49,12 +71,12 @@
     margin-top: 20px;
 }
 .book-info .book-sale-price{
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 800;
     color: #0F5493;
 }
 .book-info .book-price{
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     text-decoration: line-through;
     color: #9FA1A8;
@@ -71,16 +93,4 @@
     transform: translateY(-50%);
     cursor: pointer;
 }
-.book-info .go-to-chat-btn{
-    background-color: #0D9276;
-    border: none;
-    border-radius: 20px;
-    padding: 5px 20px;
-    color: #fff;
-    font-size: 14px;
-    position: absolute;
-    top: 30px;
-    right: 1%;
-    transform: translateY(50%);
-    cursor: pointer;
-}
+
