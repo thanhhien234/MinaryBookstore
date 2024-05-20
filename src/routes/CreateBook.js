@@ -2,54 +2,47 @@ import React, {useState,useEffect} from "react";
 import { useParams } from 'react-router-dom';
 import './CreateBook.css';
 import ConditionRadioList from '../components/ConditionRadioList';
-import UploadImage from "../components/UploadImage";
+import {UploadBtn,UploadedImage} from "../components/UploadImage";
 import { getCookie } from "../utils/cookieManage";
 
 function CreateBook() {
   const { option } = useParams();
-  const [activeTab, setActiveTab] = useState('isbn');
-  const [isbnBookInfo, setIsbnBookInfo] = useState(null);
-  const [formData, setFormData] = useState({
-    isbn: '',
-    title: '',
-    author: '',
-    publisher: '',
-    publicationDate: '',
-    price: '',
-    salePrice: '',
-    description: '',
-    address: ''
+  const [bookInfo, setBookInfo] = useState(null);
+  const [images, setImages] = useState([]);
+  const [addressList, setAddressList] = useState([0]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const categoryArr = [
+    { label: "소설", value: "NOVEL" },
+    { label: "인문", value: "HUMANITIES" },
+    { label: "컴퓨터/IT", value: "IT" },
+    { label: "외국어", value: "LANGUAGE" },
+    { label: "역사/문화", value: "CULTURE" },
+    { label: "과학", value: "SCIENCE" },
+    { label: "잡지", value: "MAGAZINES" },
+    { label: "어린이", value: "CHILDREN" },
+    { label: "자기개발", value: "DEVELOPMENT" },
+    { label: "여행", value: "TRAVEL" },
+    { label: "요리", value: "COOKING" },
+    { label: "기타", value: "OTHERS" }
+  ];
+  const [data, setData] = useState({
+    bookId: null,
+    imageIdList: [],
+    conditions: [1,1,1,1,1,1],
+    detail: '',
+    salePrice: null,
+    category: '',
+    longtitute: null,
+    latitute: null,
   });
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prevData) => ({...prevData,[id]: value}));
-  };
-
-  const handlePublicationDateChange = (event) => {
-    let value = event.target.value;
-    value = value.replace(/\D/g, "")
-    value = value.replace(/^(\d{4})(\d{1,2})/, "$1-$2");
-    value = value.replace(/^(\d{4}-\d{2})(\d{1,2})/, "$1-$2");
-    setFormData((prevData) => ({...prevData,publicationDate: value}));
-  };
-
-  const isbnSearch = () => {
-    const isbnValue = document.querySelector('.isbn-input').value;
-    if (isbnValue === '') {
-      alert('ISBN 코드를 입력해주세요.');
-      return;
-    }
-    setFormData((prevData) => ({ ...prevData, isbn: isbnValue }));
-    fetch(`${process.env.REACT_APP_API_URL}/api/isbn?isbn=${isbnValue}`, {
+  const isbnSearch = async (isbnValue) => {
+    await fetch(`${process.env.REACT_APP_API_URL}/api/book/isbn?isbn=${isbnValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + getCookie('accessToken'),
+        // 'Authorization': 'Bearer ' + getCookie('accessToken'),
       }
     })
     .then(response => {
@@ -57,117 +50,328 @@ function CreateBook() {
         return response.json();
       }
       else if (response.status === 404) {
-        alert('해당 도서가 없습니다. 다시 입력하세요.');
+        throw new Error('해당 도서가 없습니다. 다시 입력하세요.');
       }
       else{
         throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
       }
     })
-    .then(data => setIsbnBookInfo(data))
+    .then(res => {
+      setBookInfo(res);
+      setData(prevData => ({ ...prevData, bookId: res.id }));
+    })    
     .catch(error => alert(error.message));
   };
 
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('ko-KR', options);
-  }
-
-  const renderIsbnInputForm = () => (
-    isbnBookInfo && (
-      <div className="book-info-wrapper">
-        <div className="book-info-inner">
-          <h2 className="book-title">{isbnBookInfo.title}</h2>
-          <p><span className="label">ISBN</span><span className="info-value">{formData.isbn}</span></p>
-          <p><span className="label">저자</span><span className="info-value">{isbnBookInfo.author.join(', ')}</span></p>
-          <p><span className="label">출판사</span><span className="info-value">{isbnBookInfo.publisher}</span></p>
-          <p><span className="label">출판일</span><span className="info-value">{formatDate(isbnBookInfo.publicationDate)}</span></p>
-          <p><span className="label">정가</span><span className="info-value">{isbnBookInfo.price}원</span></p>
-        </div>
-        <div className="book-cover">
-          <img src={isbnBookInfo.img} alt="" />
-        </div>
-      </div>
-    )
-  );
-
-  const renderTitleInputForm = () => (
-    <div className="title-wrapper">
-      <div className="form-group">
-        <label htmlFor="titleInput">제목</label>
-        <input type="text" id="titleInput" placeholder="예: 명품 웹 프로그래밍"/>
-      </div>
-      <div className="form-group">
-        <label htmlFor="isbn">ISBN</label>
-        <input type="number" id="isbn" placeholder="예: 9788970505459"/>
-      </div>
-      <div className="form-group">
-        <label htmlFor="author">저자</label>
-        <input type="text" id="author" placeholder="예: 황기태"/>
-      </div>
-      <div className="form-group">
-        <label htmlFor="publisher">출판사</label>
-        <input type="text" id="publisher" placeholder="예: 생능출판"/>
-      </div>
-      <div className="form-group">
-        <label htmlFor="publicationDate">출판일</label>
-        <input type="text" id="publicationDate" placeholder="예: 2022-02-10" value={formData.publicationDate} onChange={handlePublicationDateChange} maxLength="10"/>
-      </div>
-      <div className="form-group">
-        <label htmlFor="price">정가</label>
-        <input type="number" id="price" placeholder="예: 30000"/>원
-      </div>
-      <div className="form-group">
-        <label htmlFor="salePrice">{option === 'sale' ? '판매가' : '대여가'}</label>
-        <input type="number" id="salePrice" placeholder="예: 20000"/>원
-      </div>              
-  </div>
-);
-
-  const resetForm = () => {
-    setFormData({
-      isbn: '',
-      title: '',
-      author: '',
-      publisher: '',
-      publicationDate: '',
-      price: '',
-      salePrice: '',
-      description: '',
-      address: ''
-    });
+  const titleSearch = async (titleValue) => {
+    await fetch(`${process.env.REACT_APP_API_URL}/api/book/title?title=${titleValue}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Authorization': 'Bearer ' + getCookie('accessToken'),
+      }
+    })
+    .then(response => {
+      if (response.status === 200) {
+        return response.json();
+      }
+      else if (response.status === 404) {
+        throw new Error('해당 도서가 없습니다. 다시 입력하세요.');
+      }
+      else{
+        throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
+      }
+    })
+    .then(res => {
+      setBookInfo(res);
+      setData(prevData => ({ ...prevData, bookId: res.id }));
+    })    
+    .catch(error => alert(error.message));
   };
+
+  const directInput = async () => {
+    await fetch(`${process.env.REACT_APP_API_URL}/api/book`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + getCookie('accessToken'),
+      },
+      body: JSON.stringify({
+        title: data.title,
+        price: data.price,
+        author: data.author,
+        publisher: data.publisher,
+        publicationDate: data.publicationDate,
+        isbn: document.getElementById('isbn').value,
+      })
+    })
+    .then(response => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error('책 정보를 입력하세요');
+      }
+    })
+    .then(res => {
+      setData(prevData => ({ ...prevData, bookId: res.id }));
+    })
+    .catch(error => alert(error.message));
+  };
+    
+  const resetForm = () => {
+      document.getElementById('title').value ='';
+      document.getElementById('isbn').value = '';
+      document.getElementById('author').value = '';
+      document.getElementById('publisher').value = '';
+      document.getElementById('publicationDate').value = '';
+      document.getElementById('price').value = '';
+      document.getElementById('category').value = '';
+      document.getElementById('salePrice').value = '';
+      document.getElementById('descriptionInput').value = '';
+      document.getElementById('addressInput').value = '';
+      setSelectedAddress(null);
+      setAddressList([0]);
+      setImages([]);
+      setBookInfo(null);
+      setData({
+        ...data,
+        bookId: null,
+        imageIdList: [],
+        conditions: [1,1,1,1,1,1],
+        category: '',
+        salePrice: null,
+        detail: '',
+        longtitute: null,
+        latitute: null
+      });
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+      if (bookInfo) {
+          const titleIp = document.getElementById('title')
+          titleIp.value = bookInfo.title;
+          titleIp.disabled = bookInfo.title !== null;
+
+          const isbnIp = document.getElementById('isbn')
+          isbnIp.value = bookInfo.isbn;
+          isbnIp.disabled = bookInfo.isbn !== null;
+          
+          const authorIp = document.getElementById('author')
+          authorIp.value = bookInfo.author
+          authorIp.disabled = bookInfo.author.length !== 0;
+
+          const publisherIp = document.getElementById('publisher')
+          publisherIp.value = bookInfo.publisher
+          publisherIp.disabled = bookInfo.publisher !== null;
+
+          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          const publicationDateIp = document.getElementById('publicationDate')
+          publicationDateIp.value = new Date(bookInfo.publicationDate).toLocaleDateString('ko-KR', options);
+          publicationDateIp.disabled = bookInfo.publicationDate !== null;
+
+          const priceIp = document.getElementById('price')
+          priceIp.value = bookInfo.price;
+          priceIp.disabled = bookInfo.price !== null;
+
+          document.getElementById('image').src = bookInfo.img;
+      }
+  }, [bookInfo]);
+
+
+  const uploadImgs = async () => {
+    const formData = new FormData();
+    images.forEach((image,index) => {
+      formData.append('multipartFileList', image.fileObject);
+    });
+    await fetch(`${process.env.REACT_APP_API_URL}/api/image`, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + getCookie('accessToken')
+      },
+      body: formData
+    })
+    .then(response => {
+      if (response.status === 200) {
+        return response.json();
+      }
+      else {
+        throw new Error('이미지 업로드에 실패했습니다.');
+      }
+    })
+    .then(res => {
+      setData({ ...data, imageIdList: res.imageIdList });
+    })
+    .catch(error => alert(error.message));
+  };
+
+  const saveBookForSale = () => {
+    if(!data.bookId){
+      directInput();
+    }
+    else if (data.category === '') {
+      alert('카테고리를 선택하세요.');
+    }
+    else if (data.salePrice === null) {
+      alert('판매가를 입력하세요.');
+    }
+    else if (images.length === 0) {
+      alert('실제 사진을 업로드해주세요.');
+    }
+    else{
+      uploadImgs()
+      .then(async () => {
+        if(!data.longtitute || !data.latitute){
+          alert('거래 장소를 입력해주세요.');
+        }
+        else {
+          await fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + getCookie('accessToken'),
+            },
+            body: JSON.stringify(data)
+          })
+          .then(response => {
+            if (response.status === 200) {
+              alert('책 정보가 등록되었습니다.');
+              resetForm();
+            } else {
+              throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
+            }
+          })
+          .catch(error => alert(error.message));
+        }
+      });
+    }
+  
+  };
+  const handleAddressSearch = async () => {
+    setSelectedAddress(null);
+    const addressInput = document.getElementById('addressInput').value.trim();
+    if (addressInput === '') {
+        alert('장소를 입력하세요.');
+        return;
+    }
+    const url = `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(addressInput)}`;
+    await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `KakaoAK ${process.env.REACT_APP_KAKAO_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
+        }
+            return response.json();
+        })
+    .then(data => {
+        setAddressList(data.documents);
+    })
+    .catch(error => alert(error.message));
+  };
+
+  useEffect(() => {
+    console.log('MyData', data);
+  },[data]);
 
   return (
     <div className="book-sale-main-container">
-      <div className="book-sale-header-container">
-        <div className={`book-sale-header ${activeTab==='isbn' ? 'active-tab':''}`} 
-            onClick={()=> {
-              setActiveTab('isbn');
-              resetForm();
-            }}>ISBN 코드로 입력
-        </div>
-        <div className={`book-sale-header ${activeTab==='title' ? 'active-tab':''}`} 
-            onClick={()=> {
-              setActiveTab('title');
-              resetForm();
-            }}>수동으로 입력
-        </div>
-      </div>
+      <div className="book-sale-header-container"> 책 정보 등록하기</div>
       <div className="book-sale-content">
-        {activeTab === 'isbn' ? (
-          <div className="isbn-wrapper">
-            <div className="isbn-input-wrapper">
-              <input type="number" className="isbn-input" placeholder="ISBN 코드를 입력하세요" />
-              <img src={require('../assets/icons/search.png')} alt="" className="isbn-search-icon" onClick={isbnSearch}/>
+        <div className="book-search-wrapper">
+          <input type="text" className="book-search-input" placeholder="ISBN 13자리 숫자나 제목을 입력하세요."/>
+          <img src={require('../assets/icons/search.png')} alt="" 
+              onClick={() => {
+                resetForm();
+                const inputValue = document.querySelector('.book-search-input').value.trim();
+                if (inputValue === '') {
+                  alert('ISBN 13자리 숫자나 제목을 입력하세요.');
+                  return;
+                }
+                const isbnRegex = /^\d{13}$/;
+                if (isbnRegex.test(inputValue)) {
+                  isbnSearch(inputValue);
+                } else {
+                  titleSearch(inputValue);
+                }
+              }}/>
+        </div>
+        <div className="book-info-wrapper">
+          <div className="book-info-inner">
+            <div className="form-group">
+              <label htmlFor="title">제목</label>
+              <input type="text" id="title" placeholder="예: 명품 웹 프로그래밍" onBlur={(e) => setData({ ...data, title: e.target.value})} />
             </div>
-            {renderIsbnInputForm()}
+            <div className="form-group">
+              <label htmlFor="category">카테고리</label>
+              <select className="category-input-select"  id="category" onChange={(e)=>{setData({ ...data, category: e.target.value })}} style={{ color: data.category === '' ? '#c3c5c5' : 'black' }} >
+                    <option key='none' value='' >카테고리 선택하세요</option>
+                    {categoryArr.map((category, index) => (
+                      <option key={index} value={category.value}>{category.label}</option>
+                    ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="isbn">ISBN</label>
+              <input type="number" id="isbn" placeholder="예: 9788970505459" 
+                  onBlur={(e) => {
+                    const isbn = e.target.value.trim();
+                    if (isbn.length !== 13 || !/^\d+$/.test(isbn)) {
+                      alert('ISBN 13자리 숫자를 입력하세요. 예: 9788970505459');
+                      e.target.value = '';
+                    }
+                  }}/>
+            </div>
+            <div className="form-group">
+              <label htmlFor="author">저자</label>
+              <input type="text" id="author" placeholder="예: 황기태, 민지숙" onBlur={(e) => setData({ ...data, author: e.target.value})} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="publisher">출판사</label>
+              <input type="text" id="publisher" placeholder="예: 생능출판" onBlur={(e) => setData({ ...data, publisher: e.target.value})} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="publicationDate">출판일</label>
+              <input type="text" id="publicationDate" placeholder="예: 2022-02-10" maxLength="15"  
+                onBlur={(event) => {
+                  const enteredDate = event.target.value;
+                  const date = new Date(enteredDate);
+                  if (!isNaN(date.getTime())) {
+                    setData({ ...data, publicationDate: event.target.value });
+                  } else {
+                    alert('올바른 날짜를 입력하세요. 예: 2022-02-10');
+                    setData({ ...data, publicationDate: '' });
+                    event.target.value = '';
+                  }
+                }}
+                
+              />
+
+            </div>
+            <div className="form-group">
+              <label htmlFor="price">정가</label>
+              <input type="number" id="price" placeholder="예: 30000" onBlur={(e) => setData({ ...data, price: parseInt(e.target.value)})} />원
+            </div>
+            <div className="form-group">
+              <label htmlFor="salePrice">{option === 'sale' ? '판매가' : '대여가'}</label>
+              <input type="number" id="salePrice" placeholder="예: 10000" onBlur={(e) => setData({ ...data, salePrice: parseInt(e.target.value) })}/>원
+            </div>  
           </div>
-        ) : (
-          renderTitleInputForm()
-        )}
+          {bookInfo && (<img id="image" alt="" />)}      
+      </div>
         <div className="book-condition-wrapper">
           <h3>책 상태가 어떤가요?</h3>
-          <ConditionRadioList radioEditable={true}/>
+          <ConditionRadioList radioEditable={true} 
+            handleSelectedConditions={(conditions)=>{
+                setData({ ...data, conditions: conditions });
+            }}/>
         </div>
         {option === 'rent' && (
           <div className="book-rent-period-wrapper">
@@ -184,53 +388,50 @@ function CreateBook() {
             </div>
           </div>
         )}
-        {activeTab === 'isbn' && (
-          <div className="book-price-wrapper">
-            <h3>{option === 'sale' ? '판매 가격을 입력해주세요' : '대여 가격을 입력해주세요'}</h3>
-            <input
-              type="number"
-              className="price-input"
-              placeholder={isbnBookInfo ? isbnBookInfo.price : ""}
-              onChange={handleInputChange}
-              id="salePrice"
-              value={formData.salePrice}
-            />
-            <span>원</span>
-          </div>
-        )}
         <div className="book-real-image-wrapper">
           <h3>실제 사진을 업로드하세요</h3>
           <div className="book-real-image-inner">
-            <UploadImage />
+            {images.map((image,index) => (
+                <UploadedImage key={index} position={index} uploadedImage={image.fileUrl} setImages={setImages} />
+            ))}
+            {images.length < 5 && (
+                <UploadBtn position={images.length} images={images} setImages={setImages} />
+            )}
           </div>
         </div>
         <div className="book-description-wrapper">
-          <h3>추가 설명을 적어주세요</h3>
-          <textarea
-            className="description-input"
-            rows="6"
-            cols="60"
-            placeholder="내용을 입력하세요 (200자 이내)"
-            onChange={handleInputChange}
-            id="description"
-            value={formData.description}
-          />
+          <h3>추가 설명을 입력하세요</h3>
+          <textarea id="descriptionInput" rows="6" cols="60" placeholder="내용을 입력하세요 (200자 이내)" onBlur={(e) => setData({ ...data, detail: e.target.value })}/>
         </div>
         <div className="book-sale-address-wrapper">
-          <h3>거래 장소를 선택해주세요</h3>
+          <h3>거래 장소를 입력하세요</h3>
           <div className="book-address-input-wrapper">
-            <input
-              type="text"
-              className="address-input"
-              placeholder="거래 장소를 입력해주세요"
-              onChange={handleInputChange}
-              id="address"
-              value={formData.address}
-            />
-            <img src={require('../assets/icons/search.png')} alt="" className="location-icon" />
+            <input type="text" id="addressInput" placeholder="거래 장소를 입력하세요"/>
+            <img src={require('../assets/icons/search.png')} alt="" 
+              onClick={handleAddressSearch}/>
           </div>
+          {!selectedAddress && (
+            <div className="book-address-list">
+              {addressList.length > 0 ? (
+                addressList.map((address, index) => (
+                  <div key={index} className="address-item"
+                    onClick={() => {
+                      setSelectedAddress(address);
+                      setData({ ...data, longtitute: parseFloat(address.x), latitute: parseFloat(address.y) });
+                      document.getElementById('addressInput').value = address.address_name;
+                    }}
+                  >
+                    <input type="radio" value={address.address_name} />
+                    <span>{address.address_name}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="address-item">검색 결과가 없습니다.</div>
+              )}
+            </div>
+          )}
         </div>
-        <button className="sale-save-btn">저장</button>
+        <button className="sale-save-btn" onClick={saveBookForSale}>저장</button>
       </div>
     </div>
   );

@@ -39,7 +39,7 @@ function DetailBook() {
                     <div className='condition-container'>
                         <div className='condition-content'>
                             <h3>책 상태</h3>
-                            <ConditionRadioList radioEditable={false}/>
+                            <ConditionRadioList radioEditable={false} handleSelectedConditions={()=>{}}/>
                         </div>
                         <div className='description-container'>책이 깨끗합니다. 페이지에는 몇 군데 필기가 있지만 크게 방해되지 않는 수준입니다. 책 표지와 페이지 모서리에는 약간의 자연스러운 착용 흔적이 있지만 큰 훼손은 없습니다.</div>
                     </div>

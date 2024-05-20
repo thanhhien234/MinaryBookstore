@@ -1,30 +1,33 @@
-.book-img-input{
-    display: flex;
-    align-items: center;
-}
-.input-img{
-    background-color: #eaecee;
-    border-radius: 5px;
+.book-upload{
     width: 120px;
     height: 160px;
+    background-color: #eaecee;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    position: relative;
 }
-#uploadImg {
-    display: none;
-}
-.add-icon{
+.book-upload .add-icon{
     width: 40px;
 }
+input[type="file"]{
+    display: none;
+}
+.book-img{
+    border-radius: 5px;
+    width: 120px;
+    height: 160px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
 .delete-icon{
     position: absolute;
-    top: -8px;
-    right: -8px;
-    width: 25px;
+    top: -10px;
+    right: -10px;
+    width: 22px;
     cursor: pointer;
+    background-color: #fff;
+    border-radius: 50%;
 }

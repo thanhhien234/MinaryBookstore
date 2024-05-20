@@ -1,40 +1,42 @@
-import React, { useState } from "react";
+import React from "react";
 import './UploadImage.css';
 
-function UploadImage() {
-    const [uploadedImage, setUploadedImage] = useState(null);
-    
-
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setUploadedImage(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-  
+function UploadBtn({ position, setImages,images }) {
     return (
-        <div className="book-img-input">
-            <div className="input-img" style={{ backgroundImage: `url(${uploadedImage})` }}
-                    onClick={() => {
-                        if (!uploadedImage) {
-                            document.getElementById('uploadImg').click();
-                        }
-                    }} >
-                {uploadedImage && 
-                    <img src={require('../assets/icons/delete.png')} alt="" className="delete-icon" onClick={()=>setUploadedImage(null)} />}
-                {!uploadedImage && (
-                    <React.Fragment>
-                        <input type="file" id="uploadImg" accept="image/*" onChange={handleImageChange}/>
-                        <img src={(require('../assets/icons/add.png'))} alt="" className="add-icon"/>
-                    </React.Fragment>
-                )}
-            </div>
+        <div className="book-upload" onClick={() => document.getElementById(`uploadImg-${position}`).click()}>
+            <input type="file" id={`uploadImg-${position}`} accept="image/*" style={{ display: "none" }}
+            onChange={(e)=>{
+                const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            setImages(prevImages => [...prevImages, { position: images.length, fileUrl: reader.result, fileObject: file}]);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                    e.target.value = '';
+            }} />
+            <img className="add-icon" src={require('../assets/icons/add.png')} alt=""/>
         </div>
     );
 }
 
-export default UploadImage;
+function UploadedImage({ position, uploadedImage, setImages }) {
+    return (
+        <div className="book-img" style={{ backgroundImage: `url(${uploadedImage})` }}
+                onClick={() => {
+                    if (!uploadedImage) {
+                        document.getElementById(`uploadImg-${position}`).click();
+                    }
+                }} >
+                {uploadedImage &&
+                    <img className="delete-icon" src={require('../assets/icons/delete.png')} alt="" onClick={()=>{
+                        setImages(prevImages => prevImages.filter(image => image.position !== position));
+                    }}/>
+                }
+
+        </div>
+    );
+}
+
+export { UploadBtn, UploadedImage };
