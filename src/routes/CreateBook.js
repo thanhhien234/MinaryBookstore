@@ -4,6 +4,7 @@ import './CreateBook.css';
 import ConditionRadioList from '../components/ConditionRadioList';
 import {UploadBtn,UploadedImage} from "../components/UploadImage";
 import { getCookie } from "../utils/cookieManage";
+import { categoryList } from "./Home";
 
 function CreateBook() {
   const { option } = useParams();
@@ -11,20 +12,6 @@ function CreateBook() {
   const [images, setImages] = useState([]);
   const [addressList, setAddressList] = useState([0]);
   const [selectedAddress, setSelectedAddress] = useState(null);
-  const categoryArr = [
-    { label: "소설", value: "NOVEL" },
-    { label: "인문", value: "HUMANITIES" },
-    { label: "컴퓨터/IT", value: "IT" },
-    { label: "외국어", value: "LANGUAGE" },
-    { label: "역사/문화", value: "CULTURE" },
-    { label: "과학", value: "SCIENCE" },
-    { label: "잡지", value: "MAGAZINES" },
-    { label: "어린이", value: "CHILDREN" },
-    { label: "자기개발", value: "DEVELOPMENT" },
-    { label: "여행", value: "TRAVEL" },
-    { label: "요리", value: "COOKING" },
-    { label: "기타", value: "OTHERS" }
-  ];
   const [data, setData] = useState({
     bookId: null,
     imageIdList: [],
@@ -34,6 +21,7 @@ function CreateBook() {
     category: '',
     longtitute: null,
     latitute: null,
+    address: ''
   });
 
 
@@ -313,8 +301,8 @@ function CreateBook() {
               <label htmlFor="category">카테고리</label>
               <select className="category-input-select"  id="category" onChange={(e)=>{setData({ ...data, category: e.target.value })}} style={{ color: data.category === '' ? '#c3c5c5' : 'black' }} >
                     <option key='none' value='' >카테고리 선택하세요</option>
-                    {categoryArr.map((category, index) => (
-                      <option key={index} value={category.value}>{category.label}</option>
+                    {categoryList.map((category, index) => (
+                      <option key={index} value={category.name}>{category.label}</option>
                     ))}
               </select>
             </div>
@@ -417,7 +405,7 @@ function CreateBook() {
                   <div key={index} className="address-item"
                     onClick={() => {
                       setSelectedAddress(address);
-                      setData({ ...data, longtitute: parseFloat(address.x), latitute: parseFloat(address.y) });
+                      setData({ ...data, longtitute: parseFloat(address.x), latitute: parseFloat(address.y), address: address.address_name});
                       document.getElementById('addressInput').value = address.address_name;
                     }}
                   >
