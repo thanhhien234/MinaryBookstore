@@ -94,3 +94,17 @@
     cursor: pointer;
 }
 
+.book-info .go-to-chat-btn{
+    background-color: #0D9276;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 20px;
+    color: #fff;
+    font-size: 14px;
+    position: absolute;
+    top: 30px;
+    right: 1%;
+    transform: translateY(50%);
+    cursor: pointer;
+}
+

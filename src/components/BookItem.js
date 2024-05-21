@@ -27,7 +27,7 @@ const BookItem = ({ book }) => {
         ) : (
           <img className="heart-icon" src={require("../assets/icons/heart-white.png")} alt="" />
         )}
-        
+        <button className="go-to-chat-btn">채팅하기</button>
       </div>
     </Link>
   );
