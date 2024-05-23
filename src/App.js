@@ -6,9 +6,10 @@ import Header from './components/Header';
 import DetailBook from './routes/DetailBook';
 import CreateBook from './routes/CreateBook';
 import BookList from './routes/BookList';
+import MyPage from './routes/MyPage';
+import EditBook from './routes/EditBook';
 
 function App() {
-
   return (
     <div className="App">
       <Header />
@@ -17,6 +18,8 @@ function App() {
         <Route path='/detail-book/:bookId' element={<DetailBook />} />
         <Route path='/create-book/:option' element={<CreateBook/>} />
         <Route path='/book-list/:status/:category' element={<BookList/>} />
+        <Route path='/my-page' element={<MyPage/>} />
+        <Route path='/edit-book/:option/:bookId' element={<EditBook/>} />
       </Routes>    
     </div>
   );

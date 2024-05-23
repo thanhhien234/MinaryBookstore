@@ -7,6 +7,9 @@
     padding: 40px;
     margin: 20px auto;
 }
+.no-book-info{
+    margin: 30px auto;
+}
 .detail-book-container h3 {
     font-size: 20px;
     font-weight: 700;
@@ -50,6 +53,42 @@
     width: 90%;
     margin-left: auto;
 }
+.book-info {
+    display: flex;
+    align-items: flex-start;
+}
+.book-info img{
+    width: 25px;
+    height: 25px;
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    top: 20px;
+    right: 1%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.book-info > div > span {
+    color : #A4A8AA;
+    width: 70px;
+    display: inline-block;
+    text-align: left;
+}
+.book-info .go-to-chat-btn{
+    background-color: #0D9276;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 20px;
+    color: #fff;
+    font-size: 14px;
+    position: absolute;
+    top: 30px;
+    right: 1%;
+    transform: translateY(50%);
+    cursor: pointer;
+}
+
+/*condition-container*/
 .condition-container {
     display: flex;
     justify-content: space-between;

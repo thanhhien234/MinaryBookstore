@@ -1,34 +1,93 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './DetailBook.css'
-import { bookList, userInfo } from './data'; //sample data
-import BookItem from '../components/BookItem';
 import CreateBtn from '../components/CreateBtn';
 import ConditionRadioList from '../components/ConditionRadioList';
+import { getCookie } from '../utils/cookieManage';
+import { categoryList } from './Home';
 
 function DetailBook() {
     const { bookId } = useParams();
     const [bookInfo, setBookInfo] = useState(null);
 
     useEffect(() => {
-        setBookInfo(bookList[bookId]);
         window.scrollTo(0, 0);
+    }, []);
+    const formatDate = (dateString) => {
+        const [year, month, day] = dateString.split('T')[0].split('-');
+        return `${year}년 ${month}월 ${day}일`;
+      };
+
+    useEffect(() => {
+        fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale?id=${bookId}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + getCookie('accessToken'),
+            }
+        })
+        .then(response => {
+            if (response.status === 200) {
+              return response.json();
+            }
+            else{
+                fetch(`${process.env.REACT_APP_API_URL}/api/bookForRent?id=${bookId}`, {
+                    method: 'GET',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': 'Bearer ' + getCookie('accessToken'),
+                    }
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                      return response.json();
+                    }
+                })
+                .catch(error => console(error.message));
+            }
+        })
+        .then(res => {
+            setBookInfo(res);
+        })    
+        .catch(error => console(error.message));
     }, [bookId]);
 
     if (!bookInfo) {
-        return <div>책 정보가 없습니다.</div>;
+        return <div className='no-book-info'>책 정보가 없습니다.</div>;
     }else {
         return (
             <div className="detail-book-container">
                 <div className='user-info-container'>
-                    <img src={userInfo.image} alt='' />
+                    <img src={require('../assets/images/profile-image.png')} alt='' />
                     <div className='wrapper'>
-                        <span>{userInfo.name}</span>
+                        <span>한승규</span>
                         <div className='book-status'>판매 중</div>
                     </div>
                 </div>
                 <div className='book-info-container'>
-                    <BookItem book={bookInfo} />
+                    <div className='book-item'>
+                        {bookInfo.bookGetRes.img ? (<img src={bookInfo.bookGetRes.img} alt="" />) : (<div className='no-img'>사진 없음</div>)}
+                        <div className="book-info">
+                            <div className="book-title">{bookInfo.bookGetRes.title}</div>
+                            <div className="book-category">
+                                {categoryList.find(item => item.name === bookInfo.bookGetRes.category)?.label || ''}
+                            </div>
+                            <div><span>ISBN</span>{bookInfo.bookGetRes.isbn}</div>
+                            <div><span>저자</span>{bookInfo.bookGetRes.author.join(' ,')}</div>
+                            <div><span>출판사</span>{bookInfo.bookGetRes.publisher}</div>
+                            <div><span>출판일</span>{formatDate(bookInfo.bookGetRes.publicationDate)}</div>
+                            <div className="book-price-wrapper">
+                            <div className="book-sale-price">{bookInfo.salePrice}원</div>
+                            <div className="book-price">정가: {bookInfo.bookGetRes.price}원</div>
+                            </div>
+                            {bookInfo.isSave ? (
+                                <img className="heart-icon" src={require("../assets/icons/heart-red.png")} alt="" />
+                                ) : (
+                                <img className="heart-icon" src={require("../assets/icons/heart-white.png")} alt="" />
+                                )}
+                            <button className="go-to-chat-btn">채팅하기</button>
+                        </div>
+                    </div>
                     <div className='condition-image'>
                         <h3>실제 사진</h3>
                         <div className='image-wrapper'>
@@ -39,16 +98,16 @@ function DetailBook() {
                     <div className='condition-container'>
                         <div className='condition-content'>
                             <h3>책 상태</h3>
-                            <ConditionRadioList radioEditable={false} handleSelectedConditions={()=>{}}/>
+                            <ConditionRadioList radioEditable={false} handleSelectedConditions={()=>{}} initialConditions={bookInfo.conditions}/>
                         </div>
-                        <div className='description-container'>책이 깨끗합니다. 페이지에는 몇 군데 필기가 있지만 크게 방해되지 않는 수준입니다. 책 표지와 페이지 모서리에는 약간의 자연스러운 착용 흔적이 있지만 큰 훼손은 없습니다.</div>
+                        <div className='description-container'>{bookInfo.detail}</div>
                     </div>
                     <div className='address-container'>
                         <h3>거래 장소</h3>
                         <div className='address-container-inner'>
                             <div className='address-wrapper'>
                                 <img src={require('../assets/icons/location.png')} alt='' />
-                                <span className='address'>대구 북구 대학로 3길13</span>
+                                <span className='address'>{bookInfo.address}</span>
                             </div>
                             <div className='go-to-map-btn'>지도보기
                                 <img src={require('../assets/icons/arrow.png')} alt='' />

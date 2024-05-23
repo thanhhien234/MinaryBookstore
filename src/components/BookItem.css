@@ -82,29 +82,5 @@
     color: #9FA1A8;
     margin-left: 8px;
 }
-.book-info img{
-    width: 25px;
-    height: 25px;
-    border: none;
-    background-color: transparent;
-    position: absolute;
-    top: 20px;
-    right: 1%;
-    transform: translateY(-50%);
-    cursor: pointer;
-}
 
-.book-info .go-to-chat-btn{
-    background-color: #0D9276;
-    border: none;
-    border-radius: 20px;
-    padding: 5px 20px;
-    color: #fff;
-    font-size: 14px;
-    position: absolute;
-    top: 30px;
-    right: 1%;
-    transform: translateY(50%);
-    cursor: pointer;
-}
 

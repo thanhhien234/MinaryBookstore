@@ -22,12 +22,6 @@ const BookItem = ({ book }) => {
           <div className="book-sale-price">{book.salePrice}원</div>
           <div className="book-price">정가: {book.price}원</div>
         </div>
-        {book.isSave ? (
-          <img className="heart-icon" src={require("../assets/icons/heart-red.png")} alt="" />
-        ) : (
-          <img className="heart-icon" src={require("../assets/icons/heart-white.png")} alt="" />
-        )}
-        <button className="go-to-chat-btn">채팅하기</button>
       </div>
     </Link>
   );
