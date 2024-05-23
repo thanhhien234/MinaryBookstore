@@ -53,3 +53,8 @@
     font-size: 12px;
     font-weight: 800;
 }
+.interest-book-item > .no-img{
+    width: 70%;
+    height: 150px;
+    margin: 0;
+}
