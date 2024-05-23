@@ -204,7 +204,7 @@ function CreateBook() {
     else if (data.category === '') {
       alert('카테고리를 선택하세요.');
     }
-    else if (data.salePrice === null) {
+    else if (isNaN(data.salePrice) || data.salePrice === '') {
       alert('판매가를 입력하세요.');
     }
     else if (images.length === 0) {

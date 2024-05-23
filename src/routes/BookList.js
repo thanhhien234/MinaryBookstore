@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { getCookie } from '../utils/cookieManage';
 import { useEffect, useState } from 'react';
 import BookItem from '../components/BookItem';
-import { statusList } from './Home';
 
 function BookList() {
     let { status, category } = useParams();
@@ -43,7 +42,6 @@ function BookList() {
     return (
         bookList.length > 0 ? (
             <div className="book-list-container">
-                <div className='book-status'>{statusList.find(item => item.name === status)?.label || ''}</div>
                 <ul className="book-list-wrapper">
                     {bookList.map((book, index) => (
                         <BookItem key={index} book={book} />

@@ -6,9 +6,9 @@
     border-bottom: 1px solid #B6BBC0;
     text-decoration: none;
     color: #000;
+    position: relative;
 }
 .book-info {
-    position: relative;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -82,5 +82,17 @@
     color: #9FA1A8;
     margin-left: 8px;
 }
+.book-item .book-status{
+    position: absolute;
+    right:20px;
+    top:50px;
+    background-color: #FC7C12;
+    color: #fff;
+    padding: 3px;
+    border-radius: 20px;
+    width: 70px;
+    font-size: 14px;
+}
+
 
 

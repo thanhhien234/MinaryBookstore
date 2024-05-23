@@ -53,7 +53,7 @@ function HistoryBookItem({book,status,renderData}){
             <img className="history-book-img" src={book.bookGetRes.img} alt=''/>
             <div className="history-book-info">
                 <div className="history-book-title">{book.bookGetRes.title}</div>
-                <div className="history-book-price">{book.bookGetRes.price}원</div>
+                <div className="history-book-price">{book.salePrice}원</div>
                 <div className='history-book-status'>{status==="sale-tab" ? '판매 중' : '대여 중'}</div>
             </div>
             <img className="option" src={require('../assets/icons/option.png')} alt='' onClick={()=>setOptionOpen(!optionOpen)}/>

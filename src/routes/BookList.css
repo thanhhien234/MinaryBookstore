@@ -15,15 +15,6 @@
     grid-column-gap: 80px;
     padding: 0;
 }
-.book-list-container > .book-status{
-    background-color: #FC7C12;
-    border-radius: 20px;
-    padding: 6px;
-    display: block;
-    width: 100px;
-    color: #fff;
-    font-size: 16px;
-}
 .no-book-data{
     margin: 40px auto;
     font-size: 16px;

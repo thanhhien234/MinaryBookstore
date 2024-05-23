@@ -16,7 +16,7 @@ function DetailBook() {
     const formatDate = (dateString) => {
         const [year, month, day] = dateString.split('T')[0].split('-');
         return `${year}년 ${month}월 ${day}일`;
-      };
+    };
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale?id=${bookId}`, {
@@ -52,6 +52,12 @@ function DetailBook() {
         .catch(error => console(error.message));
     }, [bookId]);
 
+    const getDirection = () => {
+        const mapUrl = `https://map.kakao.com/link/map/${bookInfo.address},${bookInfo.latitude},${bookInfo.longitude}`;
+        window.open(mapUrl);
+    };
+
+
     if (!bookInfo) {
         return <div className='no-book-info'>책 정보가 없습니다.</div>;
     }else {
@@ -69,8 +75,8 @@ function DetailBook() {
                         {bookInfo.bookGetRes.img ? (<img src={bookInfo.bookGetRes.img} alt="" />) : (<div className='no-img'>사진 없음</div>)}
                         <div className="book-info">
                             <div className="book-title">{bookInfo.bookGetRes.title}</div>
-                            <div className="book-category">
-                                {categoryList.find(item => item.name === bookInfo.bookGetRes.category)?.label || ''}
+                            <div><span>카테고리</span>
+                                {categoryList.find(item => item.name === bookInfo.category)?.label || ''}
                             </div>
                             <div><span>ISBN</span>{bookInfo.bookGetRes.isbn}</div>
                             <div><span>저자</span>{bookInfo.bookGetRes.author.join(' ,')}</div>
@@ -109,7 +115,7 @@ function DetailBook() {
                                 <img src={require('../assets/icons/location.png')} alt='' />
                                 <span className='address'>{bookInfo.address}</span>
                             </div>
-                            <div className='go-to-map-btn'>지도보기
+                            <div className='go-to-map-btn' onClick={getDirection}>지도보기
                                 <img src={require('../assets/icons/arrow.png')} alt='' />
                             </div>
                         </div>

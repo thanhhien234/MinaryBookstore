@@ -9,10 +9,10 @@ import BestSellersList from "../components/BestSellersList";
 import { getCookie } from "../utils/cookieManage";
 
 export const statusList = [
-    { label: '판매 중', name: 'bookForSale' },
-    { label: '대여 가능', name: 'bookForRent' },
-    { label: '대여 중', name: 'bookRenting' },
-    { label: '대여 요청', name: 'bookRentRequest' },
+    { label: '판매', name: 'bookForSale' },
+    { label: '대여', name: 'bookForRent' },
+    // { label: '대여 중', name: 'bookRenting' },
+    // { label: '대여 요청', name: 'bookRentRequest' },
     { label: '나눔', name: 'bookForShare' }
 ];
 
@@ -43,7 +43,7 @@ const bestSellersCategories = [
 function Home() {
     const [categoryShow,setCategoryShow] = useState(false);
     const [bestSellersCategory, setBestSellersCategory] = useState('NOVEL');
-    const [activeStatus, setActiveStatus] = useState('bookForSale');
+    const [activeStatus, setActiveStatus] = useState('');
     const [homeBookList, setHomeBookList] = useState([]);
     const [bestSellersList, setBestSellersList] = useState([]);
 
@@ -100,7 +100,11 @@ function Home() {
                         <button key={index} 
                             className={`all-btn ${activeStatus === status.name ? 'activeStatus' : ''}`} 
                             onClick={() => {
-                                setActiveStatus(status.name); 
+                                if (activeStatus === status.name) {
+                                    setActiveStatus('');
+                                } else {
+                                    setActiveStatus(status.name);
+                                }
                                 setCategoryShow(!categoryShow);
                             }}
                         >
