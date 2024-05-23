@@ -26,17 +26,18 @@ function BookList() {
             }
         })
         .then(response => {
+            console.log(response);
             if (response.status === 200) {
               return response.json();
             }
-            else{
-              throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
+            else if (response.status === 404) {
+                return [];
             }
         })
         .then(res => {
             setBookList(res);
         })    
-        .catch(error => alert(error.message));
+        .catch(error => console.log(error));
     }, [url]);
 
     return (

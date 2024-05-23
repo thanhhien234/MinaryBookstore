@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './ConditionRadioList.css';
 
-function ConditionRadioList({ radioEditable,handleSelectedConditions }) {
-    const initialConditions = ['1-1', '2-1', '3-1', '4-1', '5-1', '6-1'];
-    const [selectedConditions, setSelectedConditions] = useState(initialConditions);
+function ConditionRadioList({ radioEditable, handleSelectedConditions, initialConditions}) {
+    const defaultConditions = initialConditions.map((condition, index) => `${index + 1}-${condition}`);
+    const [selectedConditions, setSelectedConditions] = useState(defaultConditions);
 
     const handleConditionChange = (index) => (event) => {
         const newConditions = [...selectedConditions];

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PickItem from "../components/PickItem";
-import { bookList } from "../routes/data";
 import './BestSellersList.css';
 
 function BestSellersList({ bestSellersList}) {

@@ -19,18 +19,19 @@ function CreateBook() {
     detail: '',
     salePrice: null,
     category: '',
-    longtitute: null,
-    latitute: null,
-    address: ''
+    longitude: null,
+    latitude: null,
+    address: '',
+    startDate: '',
+    endDate: ''
   });
-
 
   const isbnSearch = async (isbnValue) => {
     await fetch(`${process.env.REACT_APP_API_URL}/api/book/isbn?isbn=${isbnValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        // 'Authorization': 'Bearer ' + getCookie('accessToken'),
+        'Authorization': 'Bearer ' + getCookie('accessToken'),
       }
     })
     .then(response => {
@@ -56,7 +57,7 @@ function CreateBook() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        // 'Authorization': 'Bearer ' + getCookie('accessToken'),
+        'Authorization': 'Bearer ' + getCookie('accessToken'),
       }
     })
     .then(response => {
@@ -129,8 +130,8 @@ function CreateBook() {
         category: '',
         salePrice: null,
         detail: '',
-        longtitute: null,
-        latitute: null
+        longitude: null,
+        latitude: null
       });
   };
 
@@ -196,7 +197,7 @@ function CreateBook() {
     .catch(error => alert(error.message));
   };
 
-  const saveBookForSale = () => {
+  const saveBook = () => {
     if(!data.bookId){
       directInput();
     }
@@ -209,14 +210,23 @@ function CreateBook() {
     else if (images.length === 0) {
       alert('실제 사진을 업로드해주세요.');
     }
+    else if (option === 'rent' && (!data.startDate || !data.endDate)) {
+      alert('대여 가능 기간을 입력하세요.');
+    }
     else{
       uploadImgs()
       .then(async () => {
-        if(!data.longtitute || !data.latitute){
+        if(!data.longitude || !data.latitude){
           alert('거래 장소를 입력해주세요.');
         }
         else {
-          await fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale`, {
+          let url;
+          if (option === 'sale') {
+            url = `${process.env.REACT_APP_API_URL}/api/bookForSale`;
+          }else if(option === 'rent'){
+            url = `${process.env.REACT_APP_API_URL}/api/bookForRent`;
+          }
+          await fetch(url, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -265,13 +275,14 @@ function CreateBook() {
     .catch(error => alert(error.message));
   };
 
+
   useEffect(() => {
     console.log('MyData', data);
   },[data]);
 
   return (
     <div className="book-sale-main-container">
-      <div className="book-sale-header-container"> 책 정보 등록하기</div>
+      <div className="book-sale-header-container"> 책 {option === 'sale' ? '판매' : '대여' } 정보 등록하기</div>
       <div className="book-sale-content">
         <div className="book-search-wrapper">
           <input type="text" className="book-search-input" placeholder="ISBN 13자리 숫자나 제목을 입력하세요."/>
@@ -356,7 +367,7 @@ function CreateBook() {
       </div>
         <div className="book-condition-wrapper">
           <h3>책 상태가 어떤가요?</h3>
-          <ConditionRadioList radioEditable={true} 
+          <ConditionRadioList radioEditable={true} initialConditions={data.conditions}
             handleSelectedConditions={(conditions)=>{
                 setData({ ...data, conditions: conditions });
             }}/>
@@ -367,11 +378,11 @@ function CreateBook() {
             <div className="rent-period-input">
               <div>
                 <label htmlFor="fromTime">시작일: </label>
-                <input type="date" id="fromTime" />
+                <input type="date" id="fromTime" onChange={(event)=>setData({ ...data, startDate: event.target.value})}/>
               </div>
               <div>
                 <label htmlFor="toTime">종료일:</label>
-                <input type="date" id="toTime" />
+                <input type="date" id="toTime" onChange={(event)=>setData({ ...data, endDate: event.target.value})}/>
               </div>
             </div>
           </div>
@@ -405,7 +416,7 @@ function CreateBook() {
                   <div key={index} className="address-item"
                     onClick={() => {
                       setSelectedAddress(address);
-                      setData({ ...data, longtitute: parseFloat(address.x), latitute: parseFloat(address.y), address: address.address_name});
+                      setData({ ...data, longitude: parseFloat(address.x), latitude: parseFloat(address.y), address: address.address_name});
                       document.getElementById('addressInput').value = address.address_name;
                     }}
                   >
@@ -419,7 +430,7 @@ function CreateBook() {
             </div>
           )}
         </div>
-        <button className="sale-save-btn" onClick={saveBookForSale}>저장</button>
+        <button className="sale-save-btn" onClick={saveBook}>저장</button>
       </div>
     </div>
   );

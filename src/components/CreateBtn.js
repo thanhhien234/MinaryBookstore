@@ -19,9 +19,9 @@ function CreateBtn() {
             </div>
             <ul className={`create-option-wrapper ${createBtnOpen ? 'show' : ''}`}>
                 <li>
-                    <Link to="/create-post">
-                        <img src={require("../assets/icons/post-create.png")} alt=""/>
-                        <span>게시글 작성</span>
+                    <Link to="/create-book/sale">
+                        <img src={require("../assets/icons/sell-create.png")} alt=""/>
+                        <span>책 판매하기</span>
                     </Link>
                 </li>
                 <li>
@@ -30,12 +30,12 @@ function CreateBtn() {
                         <span>책 대여 등록하기</span>
                     </Link>
                 </li>
-                <li>
-                    <Link to="/create-book/sale">
-                        <img src={require("../assets/icons/sell-create.png")} alt=""/>
-                        <span>책 판매하기</span>
+                {/* <li>
+                    <Link to="/create-book/request">
+                        <img src={require("../assets/icons/post-create.png")} alt=""/>
+                        <span>책 대여 요청하기</span>
                     </Link>
-                </li>
+                </li> */}
             </ul>
         </div>
     );

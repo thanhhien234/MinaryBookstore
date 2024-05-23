@@ -47,6 +47,28 @@ function Header() {
     );
   }, []);
 
+  const getIsbnSearch = (isbnInput) => {
+    fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale/search-isbn?isbn=${isbnInput}`)
+    .then(response => {
+      if (response.status === 200) {
+        return response.json();
+      }
+    })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(error => console.error(error.message));
+  }
+  
+  const getTitleSearch = (titleInput) => {
+    fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale/search-title?title=${titleInput}`)
+    .then(response => {
+      if (response.status === 200) return response.json();
+    })
+    .then(res => console.log(res))
+    .catch(error => console.error(error.message));
+  }
+  
   return (
     <div className="header-container">
       <div className="search-container">
@@ -58,8 +80,10 @@ function Header() {
             <option value="isbn">ISBN 검색</option>
             <option value="title">제목 검색</option>
           </select>
-                <input type="text" className="search-input" placeholder={searchType === 'isbn' ? 'ISBN 13자리 숫자를 입력하세요.' : '책 제목을 입력하세요.'} />
-          <button className="search-btn">검색</button>
+          <input type="text" className="search-input" placeholder={searchType === 'isbn' ? 'ISBN 13자리 숫자를 입력하세요.' : '책 제목을 입력하세요.'} />
+          <button className="search-btn" onClick={()=>
+            searchType==='isbn' ? getIsbnSearch(document.querySelector('.search-input').value) : getTitleSearch(document.querySelector('.search-input').value)
+          }>검색</button>
         </div>
             
       </div>
@@ -75,7 +99,9 @@ function Header() {
                     <img src={require("../assets/icons/chat-menu.png")} alt=""/>
             </li>
             <li id="profile-menu">
+                <Link to="/my-page">
                     <img src={require("../assets/images/profile-image.png")} alt=""/>
+                </Link>
             </li>
           </ul>
           {activeItem && (
