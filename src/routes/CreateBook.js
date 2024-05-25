@@ -4,7 +4,7 @@ import './CreateBook.css';
 import ConditionRadioList from '../components/ConditionRadioList';
 import {UploadBtn,UploadedImage} from "../components/UploadImage";
 import { getCookie } from "../utils/cookieManage";
-import { categoryList } from "./Home";
+import { categoryList } from '../utils/sharedData';
 
 function CreateBook() {
   const { option } = useParams();
@@ -171,32 +171,6 @@ function CreateBook() {
   }, [bookInfo]);
 
 
-  const uploadImgs = async () => {
-    const formData = new FormData();
-    images.forEach((image,index) => {
-      formData.append('multipartFileList', image.fileObject);
-    });
-    await fetch(`${process.env.REACT_APP_API_URL}/api/image`, {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + getCookie('accessToken')
-      },
-      body: formData
-    })
-    .then(response => {
-      if (response.status === 200) {
-        return response.json();
-      }
-      else {
-        throw new Error('이미지 업로드에 실패했습니다.');
-      }
-    })
-    .then(res => {
-      setData({ ...data, imageIdList: res.imageIdList });
-    })
-    .catch(error => alert(error.message));
-  };
-
   const saveBook = () => {
     if(!data.bookId){
       directInput();
@@ -207,46 +181,40 @@ function CreateBook() {
     else if (isNaN(data.salePrice) || data.salePrice === '') {
       alert('판매가를 입력하세요.');
     }
-    else if (images.length === 0) {
+    else if (data.imageIdList.length === 0) {
       alert('실제 사진을 업로드해주세요.');
     }
     else if (option === 'rent' && (!data.startDate || !data.endDate)) {
       alert('대여 가능 기간을 입력하세요.');
     }
-    else{
-      uploadImgs()
-      .then(async () => {
-        if(!data.longitude || !data.latitude){
-          alert('거래 장소를 입력해주세요.');
-        }
-        else {
-          let url;
-          if (option === 'sale') {
-            url = `${process.env.REACT_APP_API_URL}/api/bookForSale`;
-          }else if(option === 'rent'){
-            url = `${process.env.REACT_APP_API_URL}/api/bookForRent`;
-          }
-          await fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: 'Bearer ' + getCookie('accessToken'),
-            },
-            body: JSON.stringify(data)
-          })
-          .then(response => {
-            if (response.status === 200) {
-              alert('책 정보가 등록되었습니다.');
-              resetForm();
-            } else {
-              throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
-            }
-          })
-          .catch(error => alert(error.message));
-        }
-      });
+    else if(!data.longitude || !data.latitude){
+      alert('거래 장소를 입력해주세요.');
     }
-  
+    else {
+      let url;
+      if (option === 'sale') {
+        url = `${process.env.REACT_APP_API_URL}/api/bookForSale`;
+      }else if(option === 'rent'){
+        url = `${process.env.REACT_APP_API_URL}/api/bookForRent`;
+      }
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + getCookie('accessToken'),
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (response.status === 200) {
+          alert('책 정보가 등록되었습니다.');
+          resetForm();
+        } else {
+          throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
+        }
+      })
+      .catch(error => alert(error.message));
+    }
   };
   const handleAddressSearch = async () => {
     setSelectedAddress(null);
@@ -274,6 +242,15 @@ function CreateBook() {
     })
     .catch(error => alert(error.message));
   };
+
+  useEffect(() => {
+    if (images.length > 0) {
+      setData(prevData => ({
+        ...prevData,
+        imageIdList: [...prevData.imageIdList, images[images.length - 1].id]
+      }));
+    }
+  }, [images]);
 
 
   useEffect(() => {

@@ -1,6 +1,5 @@
 import './BookList.css';
 import { useParams } from 'react-router-dom';
-import { getCookie } from '../utils/cookieManage';
 import { useEffect, useState } from 'react';
 import BookItem from '../components/BookItem';
 
@@ -17,15 +16,8 @@ function BookList() {
     }
 
     useEffect(() => {
-        fetch(url, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + getCookie('accessToken'),
-            }
-        })
+        fetch(url)
         .then(response => {
-            console.log(response);
             if (response.status === 200) {
               return response.json();
             }

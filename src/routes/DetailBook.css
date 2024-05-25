@@ -47,6 +47,19 @@
     padding: 3px 20px;
     margin-top: 5px;
 }
+.user-info-container .wrapper .book-status.SALE{
+    background-color: #FC7C12;
+}
+.user-info-container .wrapper .book-status.SOLD{
+    background-color: #83817f;
+}
+.user-info-container .wrapper .book-status.RENT{
+    background-color: #11d34b;
+}
+
+.user-info-container .wrapper .book-status.AVAILABLE{
+    background-color: #9827e4;
+}
 
 /*book-info-container*/
 .book-info-container {
@@ -135,6 +148,7 @@
     margin-top: 10px; 
     flex: 2;
     margin-left: 30px;
+    word-break: break-all;
 }
 .address-container-inner{
     display: flex;

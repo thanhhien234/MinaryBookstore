@@ -16,7 +16,7 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<Home/>} />
-        <Route path='/detail-book/:bookId' element={<DetailBook />} />
+        <Route path='/detail-book/:bookState/:bookId' element={<DetailBook />} />
         <Route path='/create-book/:option' element={<CreateBook/>} />
         <Route path='/book-list/:status/:category' element={<BookList/>} />
         <Route path='/search-book-list/:option/:input' element={<SearchBookList/>} />

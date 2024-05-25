@@ -7,6 +7,8 @@
     padding: 10px;
     border-bottom: 1px solid #C8CED0;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
 }
 .interest-item img{
     width: 45px;
@@ -19,6 +21,7 @@
     align-items: flex-start;
     align-self: center;
     gap:5px;
+    flex: 1;
 }
 .interest-item-title{
     font-size: 12px;
@@ -29,6 +32,25 @@
     color: #0F5493;
     margin-left: 5px;
     font-weight: 600;
+}
+.interest-item-status{
+    font-size: 12px;
+    color:#fff;
+    margin-left: auto;
+    padding: 3px 5px;
+}
+.interest-item-status.SALE{
+    background-color: #FC7C12;
+}
+.interest-item-status.SOLD{
+    background-color: #83817f;
+}
+.interest-item-status.RENT{
+    background-color: #11d34b;
+}
+
+.interest-item-status.AVAILABLE{
+    background-color: #9827e4;
 }
 
 /*chat item*/

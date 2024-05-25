@@ -4,12 +4,13 @@ import './DetailBook.css'
 import CreateBtn from '../components/CreateBtn';
 import ConditionRadioList from '../components/ConditionRadioList';
 import { getCookie } from '../utils/cookieManage';
-import { categoryList } from './Home';
+import { categoryList, bookStateList } from '../utils/sharedData';
 
 function DetailBook() {
-    const { bookId } = useParams();
+    const { bookState, bookId } = useParams();
     const [bookInfo, setBookInfo] = useState(null);
-
+    const [isSave, setIsSave] = useState(false);
+ 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -19,7 +20,12 @@ function DetailBook() {
     };
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale?id=${bookId}`, {
+        let searchBookUrl;
+        if(bookState === 'SALE' || bookState === 'SOLD') 
+            searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale?id=${bookId}`;
+        else
+            searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent?id=${bookId}`;
+        fetch(searchBookUrl, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -30,31 +36,60 @@ function DetailBook() {
             if (response.status === 200) {
               return response.json();
             }
-            else{
-                fetch(`${process.env.REACT_APP_API_URL}/api/bookForRent?id=${bookId}`, {
-                    method: 'GET',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': 'Bearer ' + getCookie('accessToken'),
-                    }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                      return response.json();
-                    }
-                })
-                .catch(error => console(error.message));
-            }
         })
         .then(res => {
             setBookInfo(res);
+            setIsSave(res.isSave);
         })    
         .catch(error => console(error.message));
-    }, [bookId]);
+    }, [bookId, isSave]);
 
     const getDirection = () => {
         const mapUrl = `https://map.kakao.com/link/map/${bookInfo.address},${bookInfo.latitude},${bookInfo.longitude}`;
         window.open(mapUrl);
+    };
+
+    const postSave = () => {
+        setIsSave(true);
+        let saveUrl;
+        if(bookInfo.state === 'SALE' || bookInfo.state === 'SOLD') 
+            saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
+        else 
+            saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForRentId=${bookId}`;
+        fetch(saveUrl, {
+            method: 'POST',
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getCookie('accessToken'),
+            }
+        })
+        .then(response => {
+            if (!response.status === 200) {
+                alert('서버 오류입니다');
+            }
+        })
+        .catch(error => console(error.message));
+    };
+    const deleteSave = () => {
+        setIsSave(false);
+        let saveUrl;
+        if(bookInfo.state === 'SALE' || bookInfo.state === 'SOLD') 
+            saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
+        else 
+            saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForRentId=${bookId}`;
+        fetch(saveUrl, {
+            method: 'DELETE',
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getCookie('accessToken'),
+            }
+        })
+        .then(response => {
+            if (!response.status === 200) {
+                alert('서버 오류입니다');
+            }
+        })
+        .catch(error => console(error.message));
     };
 
 
@@ -67,7 +102,9 @@ function DetailBook() {
                     <img src={require('../assets/images/profile-image.png')} alt='' />
                     <div className='wrapper'>
                         <span>한승규</span>
-                        <div className='book-status'>판매 중</div>
+                        <div className={`book-status ${bookInfo.state}`}>
+                            {bookInfo.salePrice === 0 ? '나눔' : (bookStateList.find(item => item.name === bookInfo.state)?.label || '')}
+                        </div>
                     </div>
                 </div>
                 <div className='book-info-container'>
@@ -86,10 +123,10 @@ function DetailBook() {
                             <div className="book-sale-price">{bookInfo.salePrice}원</div>
                             <div className="book-price">정가: {bookInfo.bookGetRes.price}원</div>
                             </div>
-                            {bookInfo.isSave ? (
-                                <img className="heart-icon" src={require("../assets/icons/heart-red.png")} alt="" />
+                            {isSave ? (
+                                <img className="heart-icon" src={require("../assets/icons/heart-red.png")} alt="" onClick={deleteSave}/>
                                 ) : (
-                                <img className="heart-icon" src={require("../assets/icons/heart-white.png")} alt="" />
+                                <img className="heart-icon" src={require("../assets/icons/heart-white.png")} alt="" onClick={postSave}/>
                                 )}
                             <button className="go-to-chat-btn">채팅하기</button>
                         </div>
@@ -97,8 +134,9 @@ function DetailBook() {
                     <div className='condition-image'>
                         <h3>실제 사진</h3>
                         <div className='image-wrapper'>
-                            <img src={bookInfo.image} alt='' />
-                            <img src={bookInfo.image} alt='' />
+                            {bookInfo.imageList.map((image, index) => (
+                                <img key={index} src={image.url} alt='' />
+                            ))}
                         </div>
                     </div>
                     <div className='condition-container'>

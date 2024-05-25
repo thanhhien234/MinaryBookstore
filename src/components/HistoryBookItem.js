@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import './HistoryBookItem.css';
 import { getCookie } from '../utils/cookieManage';
+import { bookStateList } from '../utils/sharedData';
 
 
 function HistoryBookItem({book,status,renderData}){
@@ -54,7 +55,7 @@ function HistoryBookItem({book,status,renderData}){
             <div className="history-book-info">
                 <div className="history-book-title">{book.bookGetRes.title}</div>
                 <div className="history-book-price">{book.salePrice}원</div>
-                <div className='history-book-status'>{status==="sale-tab" ? '판매 중' : '대여 중'}</div>
+                <div className={`history-book-status ${book.state}`}>{bookStateList.find(item => item.name === book.state)?.label || ''}</div>
             </div>
             <img className="option" src={require('../assets/icons/option.png')} alt='' onClick={()=>setOptionOpen(!optionOpen)}/>
             {optionOpen && 

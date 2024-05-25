@@ -34,11 +34,23 @@
     font-size: 16px;
     color: #fff;
     font-weight: 600;
-    background-color: #FC7C12;
     padding: 5px;
     border-radius: 20px;
     width: 90px;
     font-weight: 400;
+}
+.history-book-status.SALE{
+    background-color: #FC7C12;
+}
+.history-book-status.SOLD{
+    background-color: #83817f;
+}
+.history-book-status.RENT{
+    background-color: #11d34b;
+}
+
+.history-book-status.AVAILABLE{
+    background-color: #9827e4;
 }
 
 .option {

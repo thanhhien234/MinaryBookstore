@@ -93,6 +93,19 @@
     width: 70px;
     font-size: 14px;
 }
+.book-status.SALE{
+    background-color: #FC7C12;
+}
+.book-status.SOLD{
+    background-color: #83817f;
+}
+.book-status.RENT{
+    background-color: #11d34b;
+}
+
+.book-status.AVAILABLE{
+    background-color: #9827e4;
+}
 
 
 

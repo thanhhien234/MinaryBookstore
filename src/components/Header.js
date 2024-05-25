@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { InterestItem, ChatItem } from './HeaderItem';
 import { chatList } from '../routes/data';
 import Chatting from '../components/Chatting';
-import useAuth from '../utils/useAuth';
+import useAuth from '../hooks/useAuth';
+import { getCookie } from '../utils/cookieManage';
 
 function ChatGroup({ chatItems, closeChatItem }) {
   return (
@@ -25,7 +26,8 @@ function Header() {
   const [searchType, setSearchType] = useState('isbn');
   const [activeItem, setActiveItem] = useState(null);
   const [chatItems,setChatItems] = useState([]);
-  const [searchInput,setSearchInput] = useState(null);
+  const [interestList, setInterestList] = useState([]);
+  const [myProfile, setMyProfile] = useState({});
   const navigate = useNavigate();
 
   const handleMenuClick = useCallback((itemId) => {
@@ -47,6 +49,63 @@ function Header() {
     setChatItems((prevChatItems) =>
       prevChatItems.filter((item) => item.userId !== chatItemId)
     );
+  }, []);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale/list`, {
+      method: 'GET',
+      headers: {'Authorization': 'Bearer ' + getCookie('accessToken'),}
+    })
+    .then(response => {
+        if (response.status === 200) {
+          return response.json();
+        }
+    })
+    .then(res => {
+      res.forEach(item => {
+        if (item.isSave) {
+            setInterestList(prev => [...prev, item]);
+        }
+      });
+    })    
+    .catch(error => console.log(error));
+
+    fetch(`${process.env.REACT_APP_API_URL}/api/bookForRent/list`, {
+      method: 'GET',
+      headers: {'Authorization': 'Bearer ' + getCookie('accessToken'),}
+    })
+    .then(response => {
+        if (response.status === 200) {
+          return response.json();
+        }
+    })
+    .then(res => {
+      res.forEach(item => {
+        if (item.isSave === true) {
+            setInterestList(prev => [...prev, item]);
+        }
+      });
+    })    
+    .catch(error => console.log(error));
+    
+  }, []);
+
+  useEffect(() => {
+    console.log('interestList', interestList);
+  }, [interestList]);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/api/auth`,{
+      headers: {
+        'Authorization': 'Bearer ' + getCookie('accessToken'),
+      }
+    })
+    .then(response => {
+      console.log('response', response);
+      if (response.status === 200) return response.json();
+    })
+    .then(res => setMyProfile(res))
+    .catch(error => console.log(error));
   }, []);
 
   return (
@@ -86,7 +145,7 @@ function Header() {
             </li>
             <li id="profile-menu">
                 <Link to="/my-page">
-                    <img src={require("../assets/images/profile-image.png")} alt=""/>
+                    <img src={myProfile.img} alt=""/>
                 </Link>
             </li>
           </ul>
@@ -95,8 +154,9 @@ function Header() {
                 <h3>{(activeItem === 'interest-menu') ? '관심 목록' : '채팅 목록'}</h3>
                 {(activeItem === 'interest-menu') ? (
                   <ul className='open-list-wrapper'>
-                  <InterestItem />
-                  <InterestItem />
+                    {interestList.map(interestItem => (
+                      <InterestItem key={interestItem.id} interestItem={interestItem} />
+                    ))}
                 </ul>
               ) : (
                   <ul className='open-list-wrapper'>

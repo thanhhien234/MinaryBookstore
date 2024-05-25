@@ -49,16 +49,16 @@ function MyPage() {
     .then((res) => {
         if (res && res.length > 0) { 
             for (let i = 0; i < res.length; i++) {
-              getMyBookList(res[i].id);
+                    getMyBookList(res[i].id);
             }
         }
     })    
     .catch(error => console.log(error));
  }
 
-    useEffect(() => {
-        console.log('mylist', myList);
-    },[myList]);
+    // useEffect(() => {
+    //     console.log('mylist', myList);
+    // },[myList]);
 
     useEffect(() => {
         renderData();
@@ -72,10 +72,8 @@ function MyPage() {
         </div>
         <div className='history-container'>
             <ul className='history-header'>
-                <li className={`tab ${activeTab === 'sale-tab' ? 'active' : ''}`} onClick={()=>setActiveTab('sale-tab')}>판매 중</li>
-                <li className={`tab ${activeTab === 'rent-tab' ? 'active' : ''}`} onClick={()=>setActiveTab('rent-tab')}>대여 중</li>
-                <li className={`tab ${activeTab === 'available-tab' ? 'active' : ''}`}  onClick={()=>setActiveTab('available-tab')}>대여 가능</li>
-                <li className={`tab ${activeTab === 'sold-tab' ? 'active' : ''}`}  onClick={()=>setActiveTab('sold-tab')}>거래완료</li>
+                <li className={`tab ${activeTab === 'sale-tab' ? 'active' : ''}`} onClick={()=>setActiveTab('sale-tab')}>판매</li>
+                <li className={`tab ${activeTab === 'rent-tab' ? 'active' : ''}`} onClick={()=>setActiveTab('rent-tab')}>대여</li>
             </ul>
             <ul className='history-list'>
                 {myList.length > 0 ? (
