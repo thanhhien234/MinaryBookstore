@@ -4,65 +4,34 @@ import HistoryBookItem from '../components/HistoryBookItem';
 import { getCookie } from '../utils/cookieManage';
 
 function MyPage() {
-  const [activeTab, setActiveTab] = useState('sale-tab');
-  const [myList, setMyList] = useState([]);
-
-  const getMyBookList = async (myBookId) => {
-    let getMyBookListUrl;
-    if(activeTab === 'rent-tab') getMyBookListUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent?id=${myBookId}`;
-    else if(activeTab === 'sale-tab') getMyBookListUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale?id=${myBookId}`;
-    await fetch(getMyBookListUrl,{
-        method: 'GET',
-        headers:{
-            Authorization: 'Bearer ' + getCookie('accessToken')
-        }
-    })
-    .then(response => {
-        if (response.status === 200) {
-        return response.json();
-        }
-    })
-    .then(res => {
-        if(res.editable){
-            setMyList((prev) => [...prev, res]);
-        }
-    })
-    .catch(error => console.log(error));
-  }
-
-  const renderData = async() => {
-    setMyList([]);
-    let urlSearch;
-    if(activeTab === 'sale-tab') urlSearch = `${process.env.REACT_APP_API_URL}/api/bookForSale/list`;
-    else if(activeTab === 'rent-tab') urlSearch = `${process.env.REACT_APP_API_URL}/api/bookForRent/list`;
-    await fetch(urlSearch,{
-        method: 'GET',
-        headers:{
-            Authorization: 'Bearer ' + getCookie('accessToken')
-        }
-    })
-    .then(response => {
-        if (response.status === 200) {
-            return response.json();
-        }
-    })
-    .then((res) => {
-        if (res && res.length > 0) { 
-            for (let i = 0; i < res.length; i++) {
-                    getMyBookList(res[i].id);
-            }
-        }
-    })    
-    .catch(error => console.log(error));
- }
-
-    // useEffect(() => {
-    //     console.log('mylist', myList);
-    // },[myList]);
+    const [activeTab, setActiveTab] = useState('sale-tab');
+    const [myList, setMyList] = useState([]);
+    const [activeList, setActiveList] = useState([]);
 
     useEffect(() => {
-        renderData();
-    },[activeTab]);
+        fetch(`${process.env.REACT_APP_API_URL}/api/book/upload`,{
+            method: 'GET',
+            headers:{'Authorization': 'Bearer ' + getCookie('accessToken')}
+        })
+        .then(response => {
+            if (response.status === 200) {
+                return response.json();
+            }
+        })
+        .then(res => {
+            setMyList([...res.bookForSaleGetResList, ...res.bookForRentGetResList]);
+        })
+        .catch(error => console.log(error));
+    },[]);
+
+    useEffect(() => {
+        if(activeTab === 'sale-tab'){
+            setActiveList(myList.filter(item => item.state === 'SALE' || item.state === 'SOLD'));
+        } else if(activeTab === 'rent-tab'){
+            setActiveList(myList.filter(item => item.state === 'RENT' || item.state === 'AVAILABLE'));
+        }
+        console.log('activeList', activeList);
+    },[activeTab,myList]);
 
   return(
     <div className='my-page-container'>
@@ -76,9 +45,9 @@ function MyPage() {
                 <li className={`tab ${activeTab === 'rent-tab' ? 'active' : ''}`} onClick={()=>setActiveTab('rent-tab')}>대여</li>
             </ul>
             <ul className='history-list'>
-                {myList.length > 0 ? (
-                    myList.map((item, index) => (
-                        <HistoryBookItem key={index} book={item} status={activeTab} renderData={renderData}/>
+                {activeList.length > 0 ? (
+                    activeList.map((item, index) => (
+                        <HistoryBookItem key={index} book={item} status={activeTab}/>
                 ))) : (
                     <div>기록이 없습니다.</div>
                 )}

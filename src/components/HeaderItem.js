@@ -6,9 +6,9 @@ export function InterestItem({ interestItem}) {
   return (
     <li className="interest-item">
       <Link to={`/detail-book/${interestItem.state}/${interestItem.id}`} className="interest-item">
-        <img src={interestItem.img} alt=""/>
+        <img src={interestItem.bookGetRes.img} alt=""/>
         <div className="interest-item-info">
-            <span className="interest-item-title">{interestItem.title}</span>
+            <span className="interest-item-title">{interestItem.bookGetRes.title}</span>
             <span className="interest-item-price">{interestItem.salePrice}원</span>
             <div className={`interest-item-status ${interestItem.state}`}>
                 {interestItem.salePrice === 0 ? '나눔' : (bookStateList.find(item => item.name === interestItem.state)?.label || '')}

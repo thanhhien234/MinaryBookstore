@@ -52,7 +52,7 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale/list`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/book/save`, {
       method: 'GET',
       headers: {'Authorization': 'Bearer ' + getCookie('accessToken'),}
     })
@@ -62,37 +62,11 @@ function Header() {
         }
     })
     .then(res => {
-      res.forEach(item => {
-        if (item.isSave) {
-            setInterestList(prev => [...prev, item]);
-        }
-      });
+      setInterestList([...res.bookForRentGetResList,...res.bookForSaleGetResList])
     })    
     .catch(error => console.log(error));
+  }, [activeItem]);
 
-    fetch(`${process.env.REACT_APP_API_URL}/api/bookForRent/list`, {
-      method: 'GET',
-      headers: {'Authorization': 'Bearer ' + getCookie('accessToken'),}
-    })
-    .then(response => {
-        if (response.status === 200) {
-          return response.json();
-        }
-    })
-    .then(res => {
-      res.forEach(item => {
-        if (item.isSave === true) {
-            setInterestList(prev => [...prev, item]);
-        }
-      });
-    })    
-    .catch(error => console.log(error));
-    
-  }, []);
-
-  useEffect(() => {
-    console.log('interestList', interestList);
-  }, [interestList]);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/api/auth`,{

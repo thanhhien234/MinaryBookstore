@@ -6,7 +6,7 @@ import { getCookie } from '../utils/cookieManage';
 import { bookStateList } from '../utils/sharedData';
 
 
-function HistoryBookItem({book,status,renderData}){
+function HistoryBookItem({book,status}){
     const [optionOpen, setOptionOpen] = useState(false);
     const navigate = useNavigate();
     const deleteBook = (id) => {
@@ -22,7 +22,6 @@ function HistoryBookItem({book,status,renderData}){
         .then(response => {
             if (response.status === 200) {
                 alert('책 삭제되었습니다.');
-                renderData();
             } else {
                 throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
             }
@@ -42,7 +41,6 @@ function HistoryBookItem({book,status,renderData}){
         .then(response => {
             if (response.status === 200) {
                 alert('책 상태가 변경되었습니다.');
-                renderData();
             } else {
                 throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
             }
@@ -55,7 +53,9 @@ function HistoryBookItem({book,status,renderData}){
             <div className="history-book-info">
                 <div className="history-book-title">{book.bookGetRes.title}</div>
                 <div className="history-book-price">{book.salePrice}원</div>
-                <div className={`history-book-status ${book.state}`}>{bookStateList.find(item => item.name === book.state)?.label || ''}</div>
+                <div className={`history-book-status ${book.state}`}>
+                    {book.salePrice === 0 ? '나눔' : (bookStateList.find(item => item.name === book.state)?.label || '')}
+                </div>
             </div>
             <img className="option" src={require('../assets/icons/option.png')} alt='' onClick={()=>setOptionOpen(!optionOpen)}/>
             {optionOpen && 

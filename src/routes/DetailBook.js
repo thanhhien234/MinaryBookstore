@@ -98,14 +98,8 @@ function DetailBook() {
     }else {
         return (
             <div className="detail-book-container">
-                <div className='user-info-container'>
-                    <img src={require('../assets/images/profile-image.png')} alt='' />
-                    <div className='wrapper'>
-                        <span>한승규</span>
-                        <div className={`book-status ${bookInfo.state}`}>
-                            {bookInfo.salePrice === 0 ? '나눔' : (bookStateList.find(item => item.name === bookInfo.state)?.label || '')}
-                        </div>
-                    </div>
+                <div className={`book-status ${bookInfo.state}`}>
+                    {bookInfo.salePrice === 0 ? '나눔' : (bookStateList.find(item => item.name === bookInfo.state)?.label || '')}
                 </div>
                 <div className='book-info-container'>
                     <div className='book-item'>
