@@ -132,32 +132,68 @@ export const chatList = [
         chatContent: [
             {
                 comment: '안녕하세요',
-                isQuestion: 'true',
+                isQuestion: true,
                 time: '',
             },
             {
                 comment: '하이',
-                isQuestion: 'false',
+                isQuestion: false,
                 time: '',
             },
             {
                 comment: '안녕하세요',
-                isQuestion: 'true',
+                isQuestion: true,
                 time: '',
             },
             {
                 comment: '하이',
-                isQuestion: 'false',
+                isQuestion: false,
                 time: '',
             },
             {
                 comment: '안녕하세요',
-                isQuestion: 'true',
+                isQuestion: true,
                 time: '',
             },
             {
                 comment: '하이',
-                isQuestion: 'false',
+                isQuestion: false,
+                time: '',
+            },{
+                comment: '안녕하세요',
+                isQuestion: true,
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: false,
+                time: '',
+            },{
+                comment: '안녕하세요',
+                isQuestion: true,
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: false,
+                time: '',
+            },{
+                comment: '안녕하세요',
+                isQuestion: true,
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: false,
+                time: '',
+            },{
+                comment: '안녕하세요',
+                isQuestion: true,
+                time: '',
+            },
+            {
+                comment: '하이',
+                isQuestion: false,
                 time: '',
             },
         ],
