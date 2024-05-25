@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import './ConditionRadioList.css';
 
-function ConditionRadioList({ radioEditable, handleSelectedConditions, initialConditions}) {
-    const defaultConditions = initialConditions.map((condition, index) => `${index + 1}-${condition}`);
+function ConditionRadioList(props) {
+    const defaultConditions = props.initialConditions.map((condition, index) => `${index + 1}-${condition}`);
     const [selectedConditions, setSelectedConditions] = useState(defaultConditions);
 
     const handleConditionChange = (index) => (event) => {
         const newConditions = [...selectedConditions];
         newConditions[index] = event.target.id;
         setSelectedConditions(newConditions);
-        
+
     };
-    
+
     useEffect(() => {
         const radioValues = selectedConditions.map(item => parseInt(item.split('-')[1]));
-        handleSelectedConditions(radioValues);
+        props.handleSelectedConditions(radioValues);
     }, [selectedConditions]);
 
 
@@ -28,7 +28,7 @@ function ConditionRadioList({ radioEditable, handleSelectedConditions, initialCo
     ];
 
     return (
-        <ul className={`condition-list ${radioEditable ? '' : 'disabled-list'}`}>
+        <ul className={`condition-list ${props.radioEditable ? '' : 'disabled-list'}`}>
             {conditionsData.map((condition, index) => (
                 <li key={index}>
                     <span>{condition.label}</span>
@@ -41,7 +41,7 @@ function ConditionRadioList({ radioEditable, handleSelectedConditions, initialCo
                                 key={`${id}-input`}
                                 checked={selectedConditions[index] === id}
                                 onChange={handleConditionChange(index)}
-                                disabled={!radioEditable}
+                                disabled={!props.radioEditable}
                             />,
                             <label
                                 htmlFor={id}

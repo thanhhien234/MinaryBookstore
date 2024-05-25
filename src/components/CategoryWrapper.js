@@ -4,7 +4,6 @@ import './CategoryWrapper.css';
 import { categoryList } from '../utils/sharedData';
 
 function CategoryWrapper({ activeStatus }) {
-
     return (
         <div className="category-wrapper">
             {categoryList.map((category, index) => (

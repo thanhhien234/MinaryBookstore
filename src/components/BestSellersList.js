@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react";
-import PickItem from "../components/PickItem";
+import { Link } from 'react-router-dom';
 import './BestSellersList.css';
 
-function BestSellersList({ bestSellersList}) {
+function BestSellerItem({ book }) {
+    return (
+        book && (
+            <Link to={`/detail-book/${book.state}/${book.id}`} className="bestSeller-book-item">
+                {book.img ? (<img src={book.img} alt="" />) : (<div className='no-img'>사진 없음</div>)}
+                <div className="title">{book.title}</div>
+            </Link>
+        )
+    );
+}
+
+function BestSellersList({ bestSellersList }) {
     const [showAnimation, setShowAnimation] = useState(true);
 
     useEffect(() => {
@@ -15,7 +26,7 @@ function BestSellersList({ bestSellersList}) {
     return (
         <ul className={`best-sellers-list-wrapper ${showAnimation ? 'slide-in' : ''}`}>
             {bestSellersList.map((book, index) => (
-                <PickItem key={index} book={book} />
+                <BestSellerItem key={index} book={book} />
             ))}
         </ul>
     );

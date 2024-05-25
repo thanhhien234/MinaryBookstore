@@ -42,34 +42,31 @@ function UploadBtn({ position, setImages, images }) {
     );
 }
 
-function UploadedImage({ position, uploadedImage, setImages ,images }) {
+function UploadedImage({ position, uploadedImage, setImages, images }) {
     const deleteImgs = async (imageId) => {
-        await fetch(`${process.env.REACT_APP_API_URL}/api/image?imageIdList=${imageId}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': 'Bearer ' + getCookie('accessToken')
-          },
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/image?imageIdList=${imageId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + getCookie('accessToken')
+            },
         })
-        .then(response => {
-          if (!response.ok) {
+        if (!response.ok) {
             throw new Error('삭제에 실패했습니다.');
-          }
-        })
-        .catch(error => console.log(error.message));
-      };
+        }
+    };
     return (
         <div className="book-img" style={{ backgroundImage: `url(${uploadedImage})` }}
-                onClick={() => {
-                    if (!uploadedImage) {
-                        document.getElementById(`uploadImg-${position}`).click();
-                    }
-                }} >
-                {uploadedImage &&
-                    <img className="delete-icon" src={require('../assets/icons/delete.png')} alt="" onClick={()=>{
-                        setImages(prevImages => prevImages.filter(image => image.position !== position));
-                        if (images[position].id) deleteImgs(images[position].id);
-                    }}/>
+            onClick={() => {
+                if (!uploadedImage) {
+                    document.getElementById(`uploadImg-${position}`).click();
                 }
+            }} >
+            {uploadedImage &&
+                <img className="delete-icon" src={require('../assets/icons/delete.png')} alt="" onClick={() => {
+                    setImages(prevImages => prevImages.filter(image => image.position !== position));
+                    if (images[position].id) deleteImgs(images[position].id);
+                }} />
+            }
 
         </div>
     );

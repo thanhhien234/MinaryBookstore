@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './DetailBook.css'
 import CreateBtn from '../components/CreateBtn';
@@ -10,7 +10,7 @@ function DetailBook() {
     const { bookState, bookId } = useParams();
     const [bookInfo, setBookInfo] = useState(null);
     const [isSave, setIsSave] = useState(false);
- 
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -21,27 +21,27 @@ function DetailBook() {
 
     useEffect(() => {
         let searchBookUrl;
-        if(bookState === 'SALE' || bookState === 'SOLD') 
+        if (bookState === 'SALE' || bookState === 'SOLD')
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale?id=${bookId}`;
         else
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent?id=${bookId}`;
         fetch(searchBookUrl, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + getCookie('accessToken'),
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getCookie('accessToken'),
             }
         })
-        .then(response => {
-            if (response.status === 200) {
-              return response.json();
-            }
-        })
-        .then(res => {
-            setBookInfo(res);
-            setIsSave(res.isSave);
-        })    
-        .catch(error => console(error.message));
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+            })
+            .then(res => {
+                setBookInfo(res);
+                setIsSave(res.isSave);
+            })
+            .catch(error => console.log(error.message));
     }, [bookId, isSave]);
 
     const getDirection = () => {
@@ -52,50 +52,50 @@ function DetailBook() {
     const postSave = () => {
         setIsSave(true);
         let saveUrl;
-        if(bookInfo.state === 'SALE' || bookInfo.state === 'SOLD') 
+        if (bookInfo.state === 'SALE' || bookInfo.state === 'SOLD')
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
-        else 
-            saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForRentId=${bookId}`;
+        else
+            saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForSaleId=${bookId}`;
         fetch(saveUrl, {
             method: 'POST',
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + getCookie('accessToken'),
             }
         })
-        .then(response => {
-            if (!response.status === 200) {
-                alert('서버 오류입니다');
-            }
-        })
-        .catch(error => console(error.message));
+            .then(response => {
+                if (!response.status === 200) {
+                    alert('서버 오류입니다');
+                }
+            })
+            .catch(error => console(error.message));
     };
     const deleteSave = () => {
         setIsSave(false);
         let saveUrl;
-        if(bookInfo.state === 'SALE' || bookInfo.state === 'SOLD') 
+        if (bookInfo.state === 'SALE' || bookInfo.state === 'SOLD')
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
-        else 
+        else
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForRentId=${bookId}`;
         fetch(saveUrl, {
             method: 'DELETE',
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + getCookie('accessToken'),
             }
         })
-        .then(response => {
-            if (!response.status === 200) {
-                alert('서버 오류입니다');
-            }
-        })
-        .catch(error => console(error.message));
+            .then(response => {
+                if (!response.status === 200) {
+                    alert('서버 오류입니다');
+                }
+            })
+            .catch(error => console(error.message));
     };
 
 
     if (!bookInfo) {
         return <div className='no-book-info'>책 정보가 없습니다.</div>;
-    }else {
+    } else {
         return (
             <div className="detail-book-container">
                 <div className={`book-status ${bookInfo.state}`}>
@@ -114,14 +114,14 @@ function DetailBook() {
                             <div><span>출판사</span>{bookInfo.bookGetRes.publisher}</div>
                             <div><span>출판일</span>{formatDate(bookInfo.bookGetRes.publicationDate)}</div>
                             <div className="book-price-wrapper">
-                            <div className="book-sale-price">{bookInfo.salePrice}원</div>
-                            <div className="book-price">정가: {bookInfo.bookGetRes.price}원</div>
+                                <div className="book-sale-price">{bookInfo.salePrice}원</div>
+                                <div className="book-price">정가: {bookInfo.bookGetRes.price}원</div>
                             </div>
                             {isSave ? (
-                                <img className="heart-icon" src={require("../assets/icons/heart-red.png")} alt="" onClick={deleteSave}/>
-                                ) : (
-                                <img className="heart-icon" src={require("../assets/icons/heart-white.png")} alt="" onClick={postSave}/>
-                                )}
+                                <img className="heart-icon" src={require("../assets/icons/heart-red.png")} alt="" onClick={deleteSave} />
+                            ) : (
+                                <img className="heart-icon" src={require("../assets/icons/heart-white.png")} alt="" onClick={postSave} />
+                            )}
                             <button className="go-to-chat-btn">채팅하기</button>
                         </div>
                     </div>
@@ -136,7 +136,7 @@ function DetailBook() {
                     <div className='condition-container'>
                         <div className='condition-content'>
                             <h3>책 상태</h3>
-                            <ConditionRadioList radioEditable={false} handleSelectedConditions={()=>{}} initialConditions={bookInfo.conditions}/>
+                            <ConditionRadioList radioEditable={false} handleSelectedConditions={() => { }} initialConditions={bookInfo.conditions} />
                         </div>
                         <div className='description-container'>{bookInfo.detail}</div>
                     </div>
