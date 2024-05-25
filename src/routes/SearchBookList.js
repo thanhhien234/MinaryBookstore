@@ -60,7 +60,7 @@ function SearchBookList() {
                 </ul>
             </div>
         ) : (
-            <div className='no-book-data'>해당 카테고리는 책이 없습니다</div>
+            <div className='no-book-data'>책 정보가 없습니다</div>
         )
 
     );
