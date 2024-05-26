@@ -5,6 +5,7 @@ import ConditionRadioList from '../components/ConditionRadioList';
 import { UploadBtn, UploadedImage } from "../components/UploadImage";
 import { getCookie } from "../utils/cookieManage";
 import { categoryList } from '../utils/sharedData';
+import { uploadImageApi } from '../api/uploadImageApi';
 
 function CreateBook() {
   const { option } = useParams();
@@ -170,24 +171,6 @@ function CreateBook() {
     }
   }, [bookInfo]);
 
-  const uploadImgs = async () => {
-    const formData = new FormData();
-    images.forEach((image, index) => {
-      formData.append('multipartFileList', image.fileObject);
-    });
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/image`, {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + getCookie('accessToken')
-      },
-      body: formData
-    })
-    if (response.status !== 200) {
-      throw new Error('이미지 업로드에 실패했습니다.');
-    }
-    return response.json();
-  };
-
 
   const postBook = (updatedData) => {
     let url;
@@ -235,7 +218,7 @@ function CreateBook() {
       alert('거래 장소를 입력해주세요.');
     }
     else {
-      uploadImgs()
+      uploadImageApi(images)
         .then(uploaded => {
           const updatedData = { ...data, imageIdList: uploaded.imageIdList };
           setData(updatedData);
