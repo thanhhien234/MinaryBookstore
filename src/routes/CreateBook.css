@@ -40,7 +40,7 @@
     border-radius: 20px;
     padding: 5px 15px;
 }
-.book-search-wrapper .book-search-input {
+.book-search-wrapper #book-search-input {
     border: none;
     background-color: transparent;
     font-size: 14px;
@@ -48,7 +48,7 @@
     margin-right: 3px;
     flex:1;
 }
-.book-search-wrapper .book-search-input:focus {
+.book-search-wrapper #book-search-input:focus {
     outline: none;
 }
 .book-search-wrapper img {

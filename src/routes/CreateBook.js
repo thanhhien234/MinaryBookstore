@@ -1,31 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import './CreateBook.css';
 import ConditionRadioList from '../components/ConditionRadioList';
 import { UploadBtn, UploadedImage } from "../components/UploadImage";
 import { getCookie } from "../utils/cookieManage";
 import { categoryList } from '../utils/sharedData';
 import { uploadImageApi } from '../api/uploadImageApi';
+import { setBookInfo, setAddressList, setSelectedAddress, updateData } from '../store/slices/createBookSlice';
 
 function CreateBook() {
   const { option } = useParams();
-  const [bookInfo, setBookInfo] = useState(null);
+  const dispatch = useDispatch();
   const [images, setImages] = useState([]);
-  const [addressList, setAddressList] = useState([0]);
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [data, setData] = useState({
-    bookId: null,
-    imageIdList: [],
-    conditions: [1, 1, 1, 1, 1, 1],
-    detail: '',
-    salePrice: null,
-    category: '',
-    longitude: null,
-    latitude: null,
-    address: '',
-    startDate: '',
-    endDate: ''
-  });
+  const { bookInfo, addressList, selectedAddress, data } = useSelector(state => state.createBook);
+
 
   const isbnSearch = async (isbnValue) => {
     await fetch(`${process.env.REACT_APP_API_URL}/api/book/isbn?isbn=${isbnValue}`, {
@@ -47,8 +36,7 @@ function CreateBook() {
         }
       })
       .then(res => {
-        setBookInfo(res);
-        setData(prevData => ({ ...prevData, bookId: res.id }));
+        dispatch(setBookInfo(res));
       })
       .catch(error => alert(error.message));
   };
@@ -73,8 +61,7 @@ function CreateBook() {
         }
       })
       .then(res => {
-        setBookInfo(res);
-        setData(prevData => ({ ...prevData, bookId: res.id }));
+        dispatch(setBookInfo(res));
       })
       .catch(error => alert(error.message));
   };
@@ -103,38 +90,24 @@ function CreateBook() {
         }
       })
       .then(res => {
-        setData(prevData => ({ ...prevData, bookId: res.id }));
+        dispatch(updateData({ bookId: res.id }));
       })
       .catch(error => alert(error.message));
   };
 
   const resetForm = () => {
-    document.getElementById('title').value = '';
-    document.getElementById('isbn').value = '';
-    document.getElementById('author').value = '';
-    document.getElementById('publisher').value = '';
-    document.getElementById('publicationDate').value = '';
-    document.getElementById('price').value = '';
-    document.getElementById('category').value = '';
-    document.getElementById('salePrice').value = '';
-    document.getElementById('descriptionInput').value = '';
-    document.getElementById('addressInput').value = '';
-    setSelectedAddress(null);
-    setAddressList([0]);
-    setImages([]);
-    setBookInfo(null);
-    setData({
-      ...data,
-      bookId: null,
-      imageIdList: [],
-      conditions: [1, 1, 1, 1, 1, 1],
-      category: '',
-      salePrice: null,
-      detail: '',
-      longitude: null,
-      latitude: null
+    const inputIds = ['book-search-input', 'title', 'isbn', 'author', 'publisher', 'publicationDate', 'price', 'category', 'salePrice', 'descriptionInput', 'addressInput'];
+    inputIds.forEach(id => {
+      const input = document.getElementById(id);
+      if (input) {
+        input.value = '';
+      }
     });
+    dispatch(setBookInfo(null));
+    dispatch(updateData({ conditions: [1, 1, 1, 1, 1, 1] }));
+    setImages([]);
   };
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -221,7 +194,6 @@ function CreateBook() {
       uploadImageApi(images)
         .then(uploaded => {
           const updatedData = { ...data, imageIdList: uploaded.imageIdList };
-          setData(updatedData);
           postBook(updatedData);
         })
         .catch(error => alert(error.message));
@@ -249,7 +221,7 @@ function CreateBook() {
         return response.json();
       })
       .then(data => {
-        setAddressList(data.documents);
+        dispatch(setAddressList(data.documents));
       })
       .catch(error => alert(error.message));
   };
@@ -258,16 +230,16 @@ function CreateBook() {
     console.log('MyData', data);
   }, [data]);
 
+
   return (
     <div className="book-sale-main-container">
       <div className="book-sale-header-container"> 책 {option === 'sale' ? '판매' : '대여'} 정보 등록하기</div>
       <div className="book-sale-content">
         <div className="book-search-wrapper">
-          <input type="text" className="book-search-input" placeholder="ISBN 13자리 숫자나 제목을 입력하세요." />
+          <input type="text" id="book-search-input" placeholder="ISBN 13자리 숫자나 제목을 입력하세요." />
           <img src={require('../assets/icons/search.png')} alt=""
             onClick={() => {
-              resetForm();
-              const inputValue = document.querySelector('.book-search-input').value.trim();
+              const inputValue = document.getElementById('book-search-input').value.trim();
               if (inputValue === '') {
                 alert('ISBN 13자리 숫자나 제목을 입력하세요.');
                 return;
@@ -284,11 +256,11 @@ function CreateBook() {
           <div className="book-info-inner">
             <div className="form-group">
               <label htmlFor="title">제목</label>
-              <input type="text" id="title" placeholder="예: 명품 웹 프로그래밍" onBlur={(e) => setData({ ...data, title: e.target.value })} />
+              <input type="text" id="title" placeholder="예: 명품 웹 프로그래밍" onBlur={(e) => dispatch(updateData({ title: e.target.value }))} />
             </div>
             <div className="form-group">
               <label htmlFor="category">카테고리</label>
-              <select className="category-input-select" id="category" onChange={(e) => { setData({ ...data, category: e.target.value }) }} style={{ color: data.category === '' ? '#c3c5c5' : 'black' }} >
+              <select className="category-input-select" id="category" onChange={(e) => dispatch(updateData({ category: e.target.value }))} style={{ color: data.category === '' ? '#c3c5c5' : 'black' }} >
                 <option key='none' value='' >카테고리 선택하세요</option>
                 {categoryList.map((category, index) => (
                   <option key={index} value={category.name}>{category.label}</option>
@@ -308,11 +280,11 @@ function CreateBook() {
             </div>
             <div className="form-group">
               <label htmlFor="author">저자</label>
-              <input type="text" id="author" placeholder="예: 황기태, 민지숙" onBlur={(e) => setData({ ...data, author: e.target.value })} />
+              <input type="text" id="author" placeholder="예: 황기태, 민지숙" onBlur={(e) => dispatch(updateData({ author: e.target.value }))} />
             </div>
             <div className="form-group">
               <label htmlFor="publisher">출판사</label>
-              <input type="text" id="publisher" placeholder="예: 생능출판" onBlur={(e) => setData({ ...data, publisher: e.target.value })} />
+              <input type="text" id="publisher" placeholder="예: 생능출판" onBlur={(e) => dispatch(updateData({ publisher: e.target.value }))} />
             </div>
             <div className="form-group">
               <label htmlFor="publicationDate">출판일</label>
@@ -321,24 +293,22 @@ function CreateBook() {
                   const enteredDate = event.target.value;
                   const date = new Date(enteredDate);
                   if (!isNaN(date.getTime())) {
-                    setData({ ...data, publicationDate: event.target.value });
+                    dispatch(updateData({ publicationDate: event.target.value }));
                   } else {
                     alert('올바른 날짜를 입력하세요. 예: 2022-02-10');
-                    setData({ ...data, publicationDate: '' });
+                    dispatch(updateData({ publicationDate: '' }));
                     event.target.value = '';
                   }
                 }}
-
               />
-
             </div>
             <div className="form-group">
               <label htmlFor="price">정가</label>
-              <input type="number" id="price" placeholder="예: 30000" onBlur={(e) => setData({ ...data, price: parseInt(e.target.value) })} />원
+              <input type="number" id="price" placeholder="예: 30000" onBlur={(e) => dispatch(updateData({ price: e.target.value }))} />원
             </div>
             <div className="form-group">
               <label htmlFor="salePrice">{option === 'sale' ? '판매가' : '대여가'}</label>
-              <input type="number" id="salePrice" placeholder="예: 10000" onBlur={(e) => setData({ ...data, salePrice: parseInt(e.target.value) })} />원
+              <input type="number" id="salePrice" placeholder="예: 10000" onBlur={(e) => dispatch(updateData({ salePrice: e.target.value }))} />원
             </div>
           </div>
           {bookInfo && (<img id="image" alt="" />)}
@@ -347,7 +317,7 @@ function CreateBook() {
           <h3>책 상태가 어떤가요?</h3>
           <ConditionRadioList radioEditable={true} initialConditions={data.conditions}
             handleSelectedConditions={(conditions) => {
-              setData({ ...data, conditions: conditions });
+              dispatch(updateData({ conditions: conditions }));
             }} />
         </div>
         {option === 'rent' && (
@@ -356,11 +326,11 @@ function CreateBook() {
             <div className="rent-period-input">
               <div>
                 <label htmlFor="fromTime">시작일: </label>
-                <input type="date" id="fromTime" onChange={(event) => setData({ ...data, startDate: event.target.value })} />
+                <input type="date" id="fromTime" onChange={(event) => dispatch(updateData({ startDate: event.target.value }))} />
               </div>
               <div>
                 <label htmlFor="toTime">종료일:</label>
-                <input type="date" id="toTime" onChange={(event) => setData({ ...data, endDate: event.target.value })} />
+                <input type="date" id="toTime" onChange={(event) => dispatch(updateData({ endDate: event.target.value }))} />
               </div>
             </div>
           </div>
@@ -369,16 +339,25 @@ function CreateBook() {
           <h3>실제 사진을 업로드하세요</h3>
           <div className="book-real-image-inner">
             {images.map((image, index) => (
-              <UploadedImage key={index} position={index} uploadedImage={image.fileUrl} setImages={setImages} />
+              <UploadedImage
+                key={index}
+                position={index}
+                uploadedImage={image.fileUrl}
+                setImages={(newImages) => setImages(newImages)}
+              />
             ))}
             {images.length < 5 && (
-              <UploadBtn position={images.length} images={images} setImages={setImages} />
+              <UploadBtn
+                position={images.length}
+                images={images}
+                setImages={(newImages) => setImages(newImages)}
+              />
             )}
           </div>
         </div>
         <div className="book-description-wrapper">
           <h3>추가 설명을 입력하세요</h3>
-          <textarea id="descriptionInput" rows="6" cols="60" placeholder="내용을 입력하세요 (200자 이내)" onBlur={(e) => setData({ ...data, detail: e.target.value })} />
+          <textarea id="descriptionInput" rows="6" cols="60" placeholder="내용을 입력하세요 (200자 이내)" onBlur={(e) => dispatch(updateData({ detail: e.target.value }))} />
         </div>
         <div className="book-sale-address-wrapper">
           <h3>거래 장소를 입력하세요</h3>
@@ -393,8 +372,12 @@ function CreateBook() {
                 addressList.map((address, index) => (
                   <div key={index} className="address-item"
                     onClick={() => {
-                      setSelectedAddress(address);
-                      setData({ ...data, longitude: parseFloat(address.x), latitude: parseFloat(address.y), address: address.address_name });
+                      dispatch(setSelectedAddress(address));
+                      dispatch(updateData({
+                        longitude: parseFloat(address.x),
+                        latitude: parseFloat(address.y),
+                        address: address.address_name
+                      }));
                       document.getElementById('addressInput').value = address.address_name;
                     }}
                   >
