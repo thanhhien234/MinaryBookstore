@@ -1,23 +1,20 @@
 import { useState } from 'react';
 import { getCookie, setCookie } from '../utils/cookieManage';
 
-function useAuth() {
-  const [loggedIn, setLoggedIn] = useState(() => {
-    const accessToken = getCookie("accessToken");
-    const refreshToken = getCookie("refreshToken");
+const useAuth = () => {
+  const accessToken = getCookie("accessToken");
+  const refreshToken = getCookie("refreshToken");
 
-    if (!accessToken && !refreshToken) {
-      return false;
-    }
+  const [loggedIn, setLoggedIn] = useState(!accessToken && !refreshToken ? false : true);
 
-    if (!accessToken && refreshToken) {
-      fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${refreshToken}`
-        }
-      })
+  if (!accessToken && refreshToken) {
+    fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${refreshToken}`
+      }
+    })
       .then(response => response.json())
       .then(res => {
         setCookie("accessToken", res.accessToken, 2 * 60);
@@ -25,12 +22,7 @@ function useAuth() {
         setLoggedIn(true);
       })
       .catch(() => setLoggedIn(false));
-
-      return false;
-    }
-
-    return true;
-  });
+  }
 
   return loggedIn;
 };

@@ -5,83 +5,66 @@ import PickItem from "../components/PickItem";
 import CreateBtn from "../components/CreateBtn";
 import CategoryWrapper from "../components/CategoryWrapper";
 import BestSellersList from "../components/BestSellersList";
-import { getCookie } from "../utils/cookieManage";
+import useAuth from "../hooks/useAuth";
 import { statusList, bestSellersCategories } from '../utils/sharedData';
-import useInterestBookList from "../hooks/useInterestBookList";
+import { getInterestBookApi } from '../api/getInterestBookApi';
 
 function Home() {
+    const loggedIn = useAuth();
     const [categoryShow, setCategoryShow] = useState(false);
     const [bestSellersCategory, setBestSellersCategory] = useState('NOVEL');
     const [activeStatus, setActiveStatus] = useState('');
     const [homeBookList, setHomeBookList] = useState([]);
     const [bestSellersList, setBestSellersList] = useState([]);
-    const interestList = useInterestBookList();
+    const [interestList, setInterestList] = useState([]);
+    const [allBook, setAllBook] = useState([]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale/list`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getCookie('accessToken'),
-            }
-        })
+        fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale/list`)
             .then(response => {
                 if (response.status === 200) {
                     return response.json();
                 }
             })
             .then(res => {
-                setHomeBookList(prevHomeBookList => [...prevHomeBookList, ...res]);
+                setAllBook(prevAllBook => [...prevAllBook, ...res]);
             })
             .catch(error => console.log(error));
 
-        fetch(`${process.env.REACT_APP_API_URL}/api/bookForRent/list`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getCookie('accessToken'),
-            }
-        })
+        fetch(`${process.env.REACT_APP_API_URL}/api/bookForRent/list`)
             .then(response => {
                 if (response.status === 200) {
                     return response.json();
                 }
             })
             .then(res => {
-                setHomeBookList(prevHomeBookList => [...prevHomeBookList, ...res]);
-                const shuffledList = res.sort(() => Math.random() - 0.5);
-                setHomeBookList(shuffledList.slice(0, 6));
+                setAllBook(prevAllBook => [...prevAllBook, ...res]);
             })
             .catch(error => console.log(error))
     }, []);
 
+    useEffect(() => {
+        const shuffledList = allBook.sort(() => Math.random() - 0.5);
+        setHomeBookList(shuffledList.slice(0, 6));
+    }, [allBook]);
 
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale/list?category=${bestSellersCategory}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getCookie('accessToken'),
-            }
-        })
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json();
-                } else {
-                    throw new Error('서버 오류');
-                }
-            })
+        const bestList = allBook.filter(book => book.category === bestSellersCategory);
+        setBestSellersList(bestList.slice(0, 5));
+    }, [bestSellersCategory, allBook]);
+
+    useEffect(() => {
+        getInterestBookApi()
             .then(res => {
-                setBestSellersList(res.slice(0, 5));
+                setInterestList([...res.bookForRentGetResList, ...res.bookForSaleGetResList])
             })
             .catch(error => console.log(error));
-    }, [bestSellersCategory]);
-
+    }, []);
 
     return (
         <div className="main-container">
@@ -130,20 +113,21 @@ function Home() {
                 {bestSellersCategory && <BestSellersList bestSellersList={bestSellersList} />}
             </div>
 
-            <div className="interest-container">
-                <div className="intro-wrapper">
-                    <h3 className="intro-title">P<span>i</span>ck<span>s</span></h3>
-                    <div className="intro-content">요즘 어떤 책에 관심을 가지고 계신가요?</div>
-                    {/* <button className="show-more-btn">더보기</button> */}
+            {loggedIn && (
+                <div className="interest-container">
+                    <div className="intro-wrapper">
+                        <h3 className="intro-title">P<span>i</span>ck<span>s</span></h3>
+                        <div className="intro-content">요즘 어떤 책에 관심을 가지고 계신가요?</div>
+                    </div>
+                    <div className="interest-wrapper">
+                        <ul className="interest-book-wrapper">
+                            {interestList.slice(0, 5).map((book, index) => (
+                                <PickItem key={index} book={book} />
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-                <div className="interest-wrapper">
-                    <ul className="interest-book-wrapper">
-                        {interestList.slice(0, 5).map((book, index) => (
-                            <PickItem key={index} book={book} />
-                        ))}
-                    </ul>
-                </div>
-            </div>
+            )}
             <CreateBtn />
         </div>
     );

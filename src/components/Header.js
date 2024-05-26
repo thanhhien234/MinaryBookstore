@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { InterestItem, ChatItem } from './HeaderItem';
@@ -7,7 +7,7 @@ import Chatting from '../components/Chatting';
 import useAuth from '../hooks/useAuth';
 import { useSelector } from 'react-redux';
 import useUser from '../hooks/useUser';
-import useBookList from '../hooks/useInterestBookList';
+import { getInterestBookApi } from '../api/getInterestBookApi';
 
 function ChatGroup({ chatItems, closeChatItem }) {
   return (
@@ -28,15 +28,11 @@ function Header() {
   const [searchType, setSearchType] = useState('isbn');
   const [activeItem, setActiveItem] = useState(null);
   const [chatItems, setChatItems] = useState([]);
-  useUser(); // Call useUser hook
+  useUser();
   const user = useSelector(state => state.user);
-  const interestList = useBookList();
+  const [interestList, setInterestList] = useState([]);
 
   const navigate = useNavigate();
-
-  const handleMenuClick = useCallback((itemId) => {
-    setActiveItem(itemId === activeItem ? null : itemId);
-  }, [activeItem]);
 
   const openChatItem = useCallback((chatItemId) => {
     if (chatItems.some((item) => item.userId === chatItemId)) {
@@ -55,7 +51,13 @@ function Header() {
     );
   }, []);
 
-
+  useEffect(() => {
+    getInterestBookApi()
+      .then(res => {
+        setInterestList([...res.bookForRentGetResList, ...res.bookForSaleGetResList])
+      })
+      .catch(error => console.log(error));
+  }, []);
 
   return (
     <div className="header-container">
@@ -85,11 +87,11 @@ function Header() {
         <div className="menu-container">
           <ul className="menu-wrapper">
             <li id="interest-menu" className={`chat-menu ${activeItem === 'interest-menu' ? 'active' : ''}`}
-              onClick={() => { handleMenuClick('interest-menu') }}>
+              onClick={() => { setActiveItem(activeItem === 'interest-menu' ? null : 'interest-menu') }}>
               <img src={require("../assets/icons/interest-menu.png")} alt="" />
             </li>
             <li id="chat-menu" className={`chat-menu ${activeItem === 'chat-menu' ? 'active' : ''}`}
-              onClick={() => { handleMenuClick('chat-menu') }}>
+              onClick={() => { setActiveItem(activeItem === 'chat-menu' ? null : 'chat-menu') }}>
               <img src={require("../assets/icons/chat-menu.png")} alt="" />
             </li>
             <li id="profile-menu">
