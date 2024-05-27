@@ -22,7 +22,7 @@ const BookItem = ({ book }) => {
           <div className="book-price">정가: {book.price}원</div>
         </div>
         <div className={`book-status ${book.state}`}>
-          {book.salePrice === 0 ? '나눔' : (bookStateList.find(item => item.name === book.state)?.label || '')}
+          {bookStateList.find(item => item.name === book.state)?.label || ''}
         </div>
       </div>
     </Link>

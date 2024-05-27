@@ -46,11 +46,14 @@
     background-color: #83817f;
 }
 .history-book-status.RENT{
-    background-color: #11d34b;
+    background-color: #83817f;
+}
+.history-book-status.SHARED{
+    background-color: #9827e4;
 }
 
 .history-book-status.AVAILABLE{
-    background-color: #9827e4;
+    background-color: #11d34b;
 }
 
 .option {

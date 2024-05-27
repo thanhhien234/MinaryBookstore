@@ -21,18 +21,19 @@ export const categoryList = [
     { label: '기타', name: 'OTHERS', icon: require('../assets/icons/star.png') }
 ];
 export const bestSellersCategories = [
-    { label: '소설', name: 'NOVEL'},
-    { label: '인문', name: 'HUMANITIES'},
-    { label: '컴퓨터/IT', name: 'IT'},
-    { label: '외국어', name: 'LANGUAGE'},
-    { label: '역사/문화', name: 'CULTURE'},
-    { label: '과학', name: 'SCIENCE'},
-    { label: '기타', name: 'OTHERS'}
+    { label: '소설', name: 'NOVEL' },
+    { label: '인문', name: 'HUMANITIES' },
+    { label: '컴퓨터/IT', name: 'IT' },
+    { label: '외국어', name: 'LANGUAGE' },
+    { label: '역사/문화', name: 'CULTURE' },
+    { label: '과학', name: 'SCIENCE' },
+    { label: '기타', name: 'OTHERS' }
 ];
 
 export const bookStateList = [
     { label: '판매 중', name: 'SALE' },
     { label: '거래 완료', name: 'SOLD' },
-    { label: '대여 중', name: 'RENT' },
-    { label: '대여 가능', name: 'AVAILABLE' }
+    { label: '대여 완료', name: 'RENT' },
+    { label: '대여 가능', name: 'AVAILABLE' },
+    { label: '나눔', name: 'SHARED' }
 ];

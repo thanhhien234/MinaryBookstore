@@ -50,7 +50,7 @@ function HistoryBookItem({ book, status }) {
                 <div className="history-book-title">{book.bookGetRes.title}</div>
                 <div className="history-book-price">{book.salePrice}원</div>
                 <div className={`history-book-status ${book.state}`}>
-                    {book.salePrice === 0 ? '나눔' : (bookStateList.find(item => item.name === book.state)?.label || '')}
+                    {bookStateList.find(item => item.name === book.state)?.label || ''}
                 </div>
             </div>
             <img className="option" src={require('../assets/icons/option.png')} alt='' onClick={() => setOptionOpen(!optionOpen)} />

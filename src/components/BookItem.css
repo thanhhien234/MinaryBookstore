@@ -100,11 +100,13 @@
     background-color: #83817f;
 }
 .book-status.RENT{
-    background-color: #11d34b;
+    background-color: #83817f;
 }
-
-.book-status.AVAILABLE{
+.book-status.SHARED{
     background-color: #9827e4;
+}
+.book-status.AVAILABLE{
+    background-color: #11d34b;
 }
 
 
