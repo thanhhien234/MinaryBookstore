@@ -1,16 +1,14 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import './DetailBook.css';
-import CreateBtn from '../components/CreateBtn';
 import ConditionRadioList from '../components/ConditionRadioList';
 import { getCookie } from '../utils/cookieManage';
 import { categoryList, bookStateList } from '../utils/sharedData';
 import { setBook, updateBook } from '../store/slices/bookSlice';
-import AuthContext from "../contexts/AuthContext";
 
 function DetailBook() {
-    const { loggedIn } = useContext(AuthContext);
+    const [loggedIn, setLoggedIn] = useState(null);
     const { bookState, bookId } = useParams();
     const dispatch = useDispatch();
     const bookInfo = useSelector(state => state.book);
@@ -18,11 +16,12 @@ function DetailBook() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log("info", bookInfo);
+    }, [bookInfo]);
+
+    useEffect(() => {
         window.scrollTo(0, 0);
-        if (!loggedIn) {
-            alert('로그인이 필요합니다.');
-            navigate('/');
-        }
+        if (getCookie("accessToken")) setLoggedIn(true);
     }, []);
 
     const formatDate = (dateString) => {
@@ -37,13 +36,7 @@ function DetailBook() {
         else
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent?id=${bookId}`;
 
-        fetch(searchBookUrl, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getCookie('accessToken'),
-            }
-        })
+        fetch(searchBookUrl)
             .then(response => {
                 if (response.status === 200) {
                     return response.json();
@@ -61,6 +54,10 @@ function DetailBook() {
     };
 
     const postSave = () => {
+        if (!loggedIn) {
+            alert('로그인이 필요합니다.');
+            navigate('/');
+        }
         let saveUrl;
         if (bookInfo.state === 'SALE' || bookInfo.state === 'SOLD')
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
@@ -77,14 +74,16 @@ function DetailBook() {
             .then(response => {
                 if (response.status === 200) {
                     dispatch(updateBook({ isSaved: true }));
-                } else {
-                    alert('서버 오류입니다');
                 }
             })
             .catch(error => console.log(error.message));
     };
 
     const deleteSave = () => {
+        if (!loggedIn) {
+            alert('로그인이 필요합니다.');
+            navigate('/');
+        }
         let saveUrl;
         if (bookInfo.state === 'SALE' || bookInfo.state === 'SOLD')
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
@@ -101,8 +100,6 @@ function DetailBook() {
             .then(response => {
                 if (response.status === 200) {
                     dispatch(updateBook({ isSaved: false }));
-                } else {
-                    alert('서버 오류입니다');
                 }
             })
             .catch(error => console.log(error.message));
@@ -113,10 +110,16 @@ function DetailBook() {
     } else {
         return (
             <div className="detail-book-container">
-                <div className={`book-status ${bookInfo.state}`}>
-                    {bookInfo.salePrice === 0 ? '나눔' : (bookStateList.find(item => item.name === bookInfo.state)?.label || '')}
+                <div className='book-owner-container'>
+                    <img src={require("../assets/images/profile-image.png")} alt='' />
+                    <div className='wrapper'>
+                        <span>한승규</span>
+                        <div className={`book-status ${bookInfo.state}`}>
+                            {bookStateList.find(item => item.name === bookInfo.state)?.label || ''}
+                        </div>
+                    </div>
+                    <p className='create-at'>작성일: {formatDate(bookInfo.createdAt)}</p>
                 </div>
-                <p className='create-at'>작성일: {formatDate(bookInfo.createdAt)}</p>
                 <div className='book-info-container'>
                     <div className='book-item'>
                         {bookInfo.bookGetRes.img ? (<img src={bookInfo.bookGetRes.img} alt="" />) : (<div className='no-img'>사진 없음</div>)}
@@ -138,7 +141,12 @@ function DetailBook() {
                             ) : (
                                 <img className="heart-icon" src={require("../assets/icons/heart-white.png")} alt="" onClick={postSave} />
                             )}
-                            <button className="go-to-chat-btn">채팅하기</button>
+                            <button className="go-to-chat-btn" onClick={() => {
+                                if (!loggedIn) {
+                                    alert('로그인이 필요합니다.');
+                                    navigate('/');
+                                }
+                            }}>채팅하기</button>
                         </div>
                     </div>
                     <div className='condition-image'>
@@ -170,7 +178,6 @@ function DetailBook() {
                         </div>
                     </div>
                 </div>
-                <CreateBtn />
             </div>
         );
     }

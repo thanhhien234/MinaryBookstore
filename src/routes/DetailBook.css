@@ -17,14 +17,37 @@
     text-align: left;
     margin: 0;
 }
+/*user-info-container*/
+.book-owner-container {
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.book-owner-container img {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+}
+.book-owner-container .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+    text-align: left;
+}
+.book-owner-container .wrapper > span {
+    font-size: 18px;
+    font-weight: 700;
+}
 /*book-status*/
 .book-status{
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #fff;
     background-color: #FC7C12;
     border-radius: 20px;
-    padding: 5px 20px;
+    padding: 3px 15px;
     margin-top: 5px;
     margin-right: auto;
 }
@@ -35,19 +58,23 @@
     background-color: #83817f;
 }
 .book-status.RENT{
-    background-color: #11d34b;
+    background-color: #83817f;
+}
+.book-status.SHARED{
+    background-color: #9827e4;
 }
 
 .book-status.AVAILABLE{
-    background-color: #9827e4;
+    background-color: #11d34b;
 }
 .create-at{
     font-size: 14px;
     color: #000;
     margin-top: 5px;
-    text-align: left;
-    margin-left: 30px;
+    text-align: right;
     font-weight: 600;
+    flex:1;
+    margin-right: 20px;
 }
 
 /*book-info-container*/
