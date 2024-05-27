@@ -21,16 +21,16 @@ function MyPage() {
                 }
             })
             .then(res => {
-                setMyList([...res.bookForSaleGetResList, ...res.bookForRentGetResList]);
+                setMyList(res);
             })
             .catch(error => console.log(error));
     }, [myList]);
 
     useEffect(() => {
-        if (activeTab === 'sale-tab') {
-            setActiveList(myList.filter(item => item.state === 'SALE' || item.state === 'SOLD'));
-        } else if (activeTab === 'rent-tab') {
-            setActiveList(myList.filter(item => item.state === 'RENT' || item.state === 'AVAILABLE'));
+        if (activeTab === 'sale-tab' && myList.bookForSaleGetResList) {
+            setActiveList(myList.bookForSaleGetResList);
+        } else if (activeTab === 'rent-tab' && myList.bookForRentGetResList) {
+            setActiveList(myList.bookForRentGetResList);
         }
     }, [activeTab, myList]);
 
@@ -48,7 +48,7 @@ function MyPage() {
                 <ul className='history-list'>
                     {activeList.length > 0 ? (
                         activeList.map((item, index) => (
-                            <HistoryBookItem key={index} book={item} status={activeTab} />
+                            <HistoryBookItem key={index} book={item} option={activeTab} />
                         ))) : (
                         <div>기록이 없습니다.</div>
                     )}

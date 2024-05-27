@@ -8,7 +8,7 @@ import { getCookie } from "../utils/cookieManage";
 import { categoryList } from '../utils/sharedData';
 import { uploadImageApi } from '../api/uploadImageApi';
 import { setBookInfo, setAddressList, setSelectedAddress, updateData } from '../store/slices/createBookSlice';
-import { isbnSearch, titleSearch } from '../api/getBookInfoApi';
+import { isbnSearch, titleSearch, directInput } from '../api/getBookInfoApi';
 
 function CreateBook() {
   const { option } = useParams();
@@ -17,29 +17,8 @@ function CreateBook() {
   const { bookInfo, addressList, selectedAddress, data } = useSelector(state => state.createBook);
 
 
-  const directInput = async () => {
-    await fetch(`${process.env.REACT_APP_API_URL}/api/book`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + getCookie('accessToken'),
-      },
-      body: JSON.stringify({
-        title: data.title,
-        price: data.price,
-        author: data.author,
-        publisher: data.publisher,
-        publicationDate: data.publicationDate,
-        isbn: document.getElementById('isbn').value,
-      })
-    })
-      .then(response => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          throw new Error('책 정보를 입력하세요');
-        }
-      })
+  const directInputSearch = async () => {
+    directInput(data)
       .then(res => {
         dispatch(updateData({ bookId: res.id }));
       })
@@ -124,7 +103,7 @@ function CreateBook() {
 
   const saveBook = async () => {
     if (!data.bookId) {
-      directInput();
+      directInputSearch();
     }
     else if (data.category === '') {
       alert('카테고리를 선택하세요.');

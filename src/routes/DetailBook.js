@@ -31,7 +31,7 @@ function DetailBook() {
 
     useEffect(() => {
         let searchBookUrl;
-        if (bookState === 'SALE' || bookState === 'SOLD')
+        if (!bookInfo.startDate)
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale?id=${bookId}`;
         else
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent?id=${bookId}`;
@@ -46,7 +46,7 @@ function DetailBook() {
                 dispatch(setBook(res));
             })
             .catch(error => console.log(error.message));
-    }, [bookId, bookState, dispatch]);
+    }, [bookId, dispatch]);
 
     const getDirection = () => {
         const mapUrl = `https://map.kakao.com/link/map/${bookInfo.address},${bookInfo.latitude},${bookInfo.longitude}`;
@@ -59,7 +59,7 @@ function DetailBook() {
             navigate('/');
         }
         let saveUrl;
-        if (bookInfo.state === 'SALE' || bookInfo.state === 'SOLD')
+        if (!bookInfo.startDate)
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
         else
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForSaleId=${bookId}`;
@@ -85,7 +85,7 @@ function DetailBook() {
             navigate('/');
         }
         let saveUrl;
-        if (bookInfo.state === 'SALE' || bookInfo.state === 'SOLD')
+        if (!bookInfo.startDate)
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
         else
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForRentId=${bookId}`;

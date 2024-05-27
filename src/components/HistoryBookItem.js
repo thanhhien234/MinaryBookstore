@@ -6,13 +6,13 @@ import { getCookie } from '../utils/cookieManage';
 import { bookStateList } from '../utils/sharedData';
 
 
-function HistoryBookItem({ book, status }) {
+function HistoryBookItem({ book, option }) {
     const [optionOpen, setOptionOpen] = useState(false);
     const navigate = useNavigate();
     const deleteBook = (id) => {
         let url;
-        if (status === 'sale-tab') url = `${process.env.REACT_APP_API_URL}/api/bookForSale?id=${id}`;
-        else if (status === 'rent-tab') url = `${process.env.REACT_APP_API_URL}/api/bookForRent?id=${id}`;
+        if (option === 'sale-tab') url = `${process.env.REACT_APP_API_URL}/api/bookForSale?id=${id}`;
+        else url = `${process.env.REACT_APP_API_URL}/api/bookForRent?id=${id}`;
         fetch(url, {
             method: 'DELETE',
             headers: { Authorization: 'Bearer ' + getCookie('accessToken') }
@@ -28,8 +28,8 @@ function HistoryBookItem({ book, status }) {
     }
     const soldBook = (id) => {
         let url;
-        if (status === 'sale-tab') url = `${process.env.REACT_APP_API_URL}/api/bookForSale/sold?bookForSaleId=${id}`;
-        else if (status === 'rent-tab') url = `${process.env.REACT_APP_API_URL}/api/bookForRent/sold?bookForRentId=${id}`;
+        if (option === 'sale-tab') url = `${process.env.REACT_APP_API_URL}/api/bookForSale/sold?bookForSaleId=${id}`;
+        else url = `${process.env.REACT_APP_API_URL}/api/bookForRent/sold?bookForRentId=${id}`;
         fetch(url, {
             method: 'PATCH',
             headers: { Authorization: 'Bearer ' + getCookie('accessToken') }
@@ -58,7 +58,7 @@ function HistoryBookItem({ book, status }) {
                 <ul className="option-box">
                     {book.state !== 'RENT' && book.state !== 'SOLD' && (
                         <li className="option-item" onClick={() => {
-                            navigate(`/edit-book/${status.slice(0, 4)}/${book.id}`);
+                            navigate(`/edit-book/${option.slice(0, 4)}/${book.id}`);
                             setOptionOpen(false);
                         }}>수정</li>
                     )}
@@ -72,7 +72,7 @@ function HistoryBookItem({ book, status }) {
                             soldBook(book.id);
                             setOptionOpen(false);
 
-                        }}>{status === "sale-tab" ? '거래완료' : '대여와료'}</li>
+                        }}>{option === "sale-tab" ? '거래완료' : '대여와료'}</li>
                     )}
                 </ul>
             }

@@ -37,3 +37,25 @@ export const titleSearch = async (titleValue) => {
         return response.json();
     }
 };
+
+export const directInput = async (data) => {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/book`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getCookie('accessToken'),
+        },
+        body: JSON.stringify({
+            title: data.title,
+            price: data.price,
+            author: data.author,
+            publisher: data.publisher,
+            publicationDate: data.publicationDate,
+            isbn: document.getElementById('isbn').value,
+        })
+    })
+    if (response.status !== 200) {
+        throw new Error('책 정보를 입력하세요');
+    }
+    return response.json();
+};

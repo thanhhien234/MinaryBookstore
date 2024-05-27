@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import './Home.css'
 import BookItem from "../components/BookItem";
 import PickItem from "../components/PickItem";
