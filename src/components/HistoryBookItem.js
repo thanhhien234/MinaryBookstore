@@ -56,19 +56,24 @@ function HistoryBookItem({ book, status }) {
             <img className="option" src={require('../assets/icons/option.png')} alt='' onClick={() => setOptionOpen(!optionOpen)} />
             {optionOpen &&
                 <ul className="option-box">
-                    <li className="option-item" onClick={() => {
-                        navigate(`/edit-book/${status.slice(0, 4)}/${book.id}`);
-                        setOptionOpen(false);
-                    }}>수정</li>
+                    {book.state !== 'RENT' && book.state !== 'SOLD' && (
+                        <li className="option-item" onClick={() => {
+                            navigate(`/edit-book/${status.slice(0, 4)}/${book.id}`);
+                            setOptionOpen(false);
+                        }}>수정</li>
+                    )}
+
                     <li className="option-item" onClick={() => {
                         deleteBook(book.id);
                         setOptionOpen(false);
                     }}>삭제</li>
-                    <li className="option-item" onClick={() => {
-                        soldBook(book.id);
-                        setOptionOpen(false);
+                    {book.state !== 'RENT' && book.state !== 'SOLD' && (
+                        <li className="option-item" onClick={() => {
+                            soldBook(book.id);
+                            setOptionOpen(false);
 
-                    }}>{status === "sale-tab" ? '거래완료' : '대여 가능'}</li>
+                        }}>{status === "sale-tab" ? '거래완료' : '대여와료'}</li>
+                    )}
                 </ul>
             }
         </li>

@@ -57,7 +57,9 @@ function Header() {
         setInterestList([...res.bookForRentGetResList, ...res.bookForSaleGetResList])
       })
       .catch(error => console.log(error));
-  }, [loggedIn]);
+  }, [activeItem]);
+
+  
 
   return (
     <div className="header-container">

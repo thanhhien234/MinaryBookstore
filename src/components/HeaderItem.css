@@ -45,11 +45,13 @@
     background-color: #83817f;
 }
 .interest-item-status.RENT{
-    background-color: #11d34b;
+    background-color: #83817f;
 }
-
-.interest-item-status.AVAILABLE{
+.interest-item-status.SHARED {
     background-color: #9827e4;
+}
+.interest-item-status.AVAILABLE{
+    background-color: #11d34b;
 }
 
 /*chat item*/

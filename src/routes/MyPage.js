@@ -24,7 +24,7 @@ function MyPage() {
                 setMyList([...res.bookForSaleGetResList, ...res.bookForRentGetResList]);
             })
             .catch(error => console.log(error));
-    }, []);
+    }, [myList]);
 
     useEffect(() => {
         if (activeTab === 'sale-tab') {
