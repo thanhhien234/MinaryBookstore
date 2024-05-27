@@ -2,41 +2,30 @@ import './BookList.css';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import BookItem from '../components/BookItem';
+import { getIsbnSearch, getTitleSearch } from '../api/searchBookApi';
 
 function SearchBookList() {
     let { option, input } = useParams();
     const [searchBookList, setSearchBookList] = useState([]);
 
-    const getIsbnSearch = (isbnInput) => {
+    const searchIsbn = (isbnInput) => {
         setSearchBookList([]);
-        fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale/search-isbn?isbn=${isbnInput}`)
-            .then(response => {
-                if (response.status === 200) return response.json();
-            })
+        getIsbnSearch(isbnInput, 'bookForSale')
             .then(res => { setSearchBookList(prevSearchBookList => [...prevSearchBookList, ...res]) })
             .catch(error => console.error(error.message));
 
-        fetch(`${process.env.REACT_APP_API_URL}/api/bookForRent/search-isbn?isbn=${isbnInput}`)
-            .then(response => {
-                if (response.status === 200) return response.json();
-            })
+        getIsbnSearch(isbnInput, 'bookForRent')
             .then(res => { setSearchBookList(prevSearchBookList => [...prevSearchBookList, ...res]) })
             .catch(error => console.error(error.message));
     }
 
-    const getTitleSearch = (titleInput) => {
+    const searchTitle = (titleInput) => {
         setSearchBookList([]);
-        fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale/search-title?title=${titleInput}`)
-            .then(response => {
-                if (response.status === 200) return response.json();
-            })
+        getTitleSearch(titleInput, 'bookForSale')
             .then(res => { setSearchBookList(prevSearchBookList => [...prevSearchBookList, ...res]) })
             .catch(error => console.error(error.message));
 
-        fetch(`${process.env.REACT_APP_API_URL}/api/bookForRent/search-title?title=${titleInput}`)
-            .then(response => {
-                if (response.status === 200) return response.json();
-            })
+        getTitleSearch(titleInput, 'bookForRent')
             .then(res => { setSearchBookList(prevSearchBookList => [...prevSearchBookList, ...res]) })
             .catch(error => console.error(error.message));
     }
@@ -46,8 +35,8 @@ function SearchBookList() {
     }, [searchBookList])
 
     useEffect(() => {
-        if (option === 'isbn') getIsbnSearch(input);
-        else if (option === 'title') getTitleSearch(input);
+        if (option === 'isbn') searchIsbn(input);
+        else if (option === 'title') searchTitle(input);
     }, [option, input])
 
     return (

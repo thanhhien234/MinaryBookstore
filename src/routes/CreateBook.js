@@ -8,6 +8,7 @@ import { getCookie } from "../utils/cookieManage";
 import { categoryList } from '../utils/sharedData';
 import { uploadImageApi } from '../api/uploadImageApi';
 import { setBookInfo, setAddressList, setSelectedAddress, updateData } from '../store/slices/createBookSlice';
+import { isbnSearch, titleSearch } from '../api/getBookInfoApi';
 
 function CreateBook() {
   const { option } = useParams();
@@ -15,56 +16,6 @@ function CreateBook() {
   const [images, setImages] = useState([]);
   const { bookInfo, addressList, selectedAddress, data } = useSelector(state => state.createBook);
 
-
-  const isbnSearch = async (isbnValue) => {
-    await fetch(`${process.env.REACT_APP_API_URL}/api/book/isbn?isbn=${isbnValue}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + getCookie('accessToken'),
-      }
-    })
-      .then(response => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        else if (response.status === 404) {
-          throw new Error('해당 도서가 없습니다. 다시 입력하세요.');
-        }
-        else {
-          throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
-        }
-      })
-      .then(res => {
-        dispatch(setBookInfo(res));
-      })
-      .catch(error => alert(error.message));
-  };
-
-  const titleSearch = async (titleValue) => {
-    await fetch(`${process.env.REACT_APP_API_URL}/api/book/title?title=${titleValue}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + getCookie('accessToken'),
-      }
-    })
-      .then(response => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        else if (response.status === 404) {
-          throw new Error('해당 도서가 없습니다. 다시 입력하세요.');
-        }
-        else {
-          throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
-        }
-      })
-      .then(res => {
-        dispatch(setBookInfo(res));
-      })
-      .catch(error => alert(error.message));
-  };
 
   const directInput = async () => {
     await fetch(`${process.env.REACT_APP_API_URL}/api/book`, {
@@ -246,9 +197,13 @@ function CreateBook() {
               }
               const isbnRegex = /^\d{13}$/;
               if (isbnRegex.test(inputValue)) {
-                isbnSearch(inputValue);
+                isbnSearch(inputValue)
+                  .then(res => { dispatch(setBookInfo(res)); })
+                  .catch(error => alert(error.message));
               } else {
-                titleSearch(inputValue);
+                titleSearch(inputValue)
+                  .then(res => { dispatch(setBookInfo(res)); })
+                  .catch(error => alert(error.message));
               }
             }} />
         </div>
@@ -315,7 +270,7 @@ function CreateBook() {
         </div>
         <div className="book-condition-wrapper">
           <h3>책 상태가 어떤가요?</h3>
-          <ConditionRadioList radioEditable={true} initialConditions={data.conditions}
+          <ConditionRadioList radioEditable={true} initialConditions={[1, 1, 1, 1, 1, 1]}
             handleSelectedConditions={(conditions) => {
               dispatch(updateData({ conditions: conditions }));
             }} />

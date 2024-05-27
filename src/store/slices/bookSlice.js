@@ -12,7 +12,7 @@ const initialState = {
         isbn: '',
         img: ''
     },
-    conditions: [1, 1, 1, 1, 1, 1],
+    conditions: [],
     imageList: [],
     detail: '',
     salePrice: null,

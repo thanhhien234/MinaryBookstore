@@ -1,19 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import './DetailBook.css'
+import { useSelector, useDispatch } from 'react-redux';
+import './DetailBook.css';
 import CreateBtn from '../components/CreateBtn';
 import ConditionRadioList from '../components/ConditionRadioList';
 import { getCookie } from '../utils/cookieManage';
 import { categoryList, bookStateList } from '../utils/sharedData';
+import { setBook, updateBook } from '../store/slices/bookSlice';
 
 function DetailBook() {
     const { bookState, bookId } = useParams();
-    const [bookInfo, setBookInfo] = useState(null);
-    const [isSave, setIsSave] = useState(false);
+    const dispatch = useDispatch();
+    const bookInfo = useSelector(state => state.book);
+    const isSave = useSelector(state => state.book.isSaved);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
     const formatDate = (dateString) => {
         const [year, month, day] = dateString.split('T')[0].split('-');
         return `${year}년 ${month}월 ${day}일`;
@@ -25,6 +29,7 @@ function DetailBook() {
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale?id=${bookId}`;
         else
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent?id=${bookId}`;
+
         fetch(searchBookUrl, {
             method: 'GET',
             headers: {
@@ -38,11 +43,11 @@ function DetailBook() {
                 }
             })
             .then(res => {
-                setBookInfo(res);
-                setIsSave(res.isSave);
+                dispatch(setBook(res));
+                console.log(res)
             })
             .catch(error => console.log(error.message));
-    }, [bookId, isSave]);
+    }, [bookId, bookState, dispatch]);
 
     const getDirection = () => {
         const mapUrl = `https://map.kakao.com/link/map/${bookInfo.address},${bookInfo.latitude},${bookInfo.longitude}`;
@@ -50,12 +55,12 @@ function DetailBook() {
     };
 
     const postSave = () => {
-        setIsSave(true);
         let saveUrl;
         if (bookInfo.state === 'SALE' || bookInfo.state === 'SOLD')
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
         else
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForSaleId=${bookId}`;
+
         fetch(saveUrl, {
             method: 'POST',
             headers: {
@@ -64,19 +69,22 @@ function DetailBook() {
             }
         })
             .then(response => {
-                if (!response.status === 200) {
+                if (response.status === 200) {
+                    dispatch(updateBook({ isSaved: true }));
+                } else {
                     alert('서버 오류입니다');
                 }
             })
-            .catch(error => console(error.message));
+            .catch(error => console.log(error.message));
     };
+
     const deleteSave = () => {
-        setIsSave(false);
         let saveUrl;
         if (bookInfo.state === 'SALE' || bookInfo.state === 'SOLD')
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
         else
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForRentId=${bookId}`;
+
         fetch(saveUrl, {
             method: 'DELETE',
             headers: {
@@ -85,15 +93,16 @@ function DetailBook() {
             }
         })
             .then(response => {
-                if (!response.status === 200) {
+                if (response.status === 200) {
+                    dispatch(updateBook({ isSaved: false }));
+                } else {
                     alert('서버 오류입니다');
                 }
             })
-            .catch(error => console(error.message));
+            .catch(error => console.log(error.message));
     };
 
-
-    if (!bookInfo) {
+    if (!bookInfo || !bookInfo.bookGetRes) {
         return <div className='no-book-info'>책 정보가 없습니다.</div>;
     } else {
         return (
@@ -136,7 +145,9 @@ function DetailBook() {
                     <div className='condition-container'>
                         <div className='condition-content'>
                             <h3>책 상태</h3>
-                            <ConditionRadioList radioEditable={false} handleSelectedConditions={() => { }} initialConditions={bookInfo.conditions} />
+                            {bookInfo.conditions.length > 0 && (
+                                <ConditionRadioList radioEditable={false} handleSelectedConditions={() => { }} initialConditions={bookInfo.conditions} />
+                            )}
                         </div>
                         <div className='description-container'>{bookInfo.detail}</div>
                     </div>

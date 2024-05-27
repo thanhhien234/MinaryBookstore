@@ -1,13 +1,12 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import './Header.css';
 import { InterestItem, ChatItem } from './HeaderItem';
 import { chatList } from '../routes/data';
 import Chatting from '../components/Chatting';
-import useAuth from '../hooks/useAuth';
-import { useSelector } from 'react-redux';
-import useUser from '../hooks/useUser';
 import { getInterestBookApi } from '../api/getInterestBookApi';
+import AuthContext from "../contexts/AuthContext";
 
 function ChatGroup({ chatItems, closeChatItem }) {
   return (
@@ -24,15 +23,14 @@ function ChatGroup({ chatItems, closeChatItem }) {
 }
 
 function Header() {
-  const loggedIn = useAuth();
+  const { loggedIn } = useContext(AuthContext);
   const [searchType, setSearchType] = useState('isbn');
   const [activeItem, setActiveItem] = useState(null);
   const [chatItems, setChatItems] = useState([]);
-  useUser();
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
   const [interestList, setInterestList] = useState([]);
-
   const navigate = useNavigate();
+
 
   const openChatItem = useCallback((chatItemId) => {
     if (chatItems.some((item) => item.userId === chatItemId)) {

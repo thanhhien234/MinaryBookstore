@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ConditionRadioList.css';
 
-function ConditionRadioList(props) {
+const ConditionRadioList = React.memo((props) => {
     const defaultConditions = props.initialConditions.map((condition, index) => `${index + 1}-${condition}`);
     const [selectedConditions, setSelectedConditions] = useState(defaultConditions);
 
@@ -56,6 +56,6 @@ function ConditionRadioList(props) {
             ))}
         </ul>
     );
-}
+});
 
 export default ConditionRadioList;

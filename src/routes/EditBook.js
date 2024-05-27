@@ -154,11 +154,13 @@ function EditBook() {
       </div>
       <div className="book-condition-wrapper">
         <h3>책 상태가 어떤가요?</h3>
-        <ConditionRadioList
-          radioEditable={true}
-          initialConditions={bookInfo.conditions}
-          handleSelectedConditions={(conditions) => handleInputChange('conditions', conditions)}
-        />
+        {bookInfo.conditions.length > 0 && (
+          <ConditionRadioList
+            radioEditable={true}
+            initialConditions={bookInfo.conditions}
+            handleSelectedConditions={(conditions) => handleInputChange('conditions', conditions)}
+          />
+        )}
       </div>
       {option === 'rent' && (
         <div className="book-rent-period-wrapper">

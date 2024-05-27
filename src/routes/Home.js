@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import './Home.css'
 import BookItem from "../components/BookItem";
 import PickItem from "../components/PickItem";
 import CreateBtn from "../components/CreateBtn";
 import CategoryWrapper from "../components/CategoryWrapper";
 import BestSellersList from "../components/BestSellersList";
-import useAuth from "../hooks/useAuth";
 import { statusList, bestSellersCategories } from '../utils/sharedData';
 import { getInterestBookApi } from '../api/getInterestBookApi';
+import AuthContext from "../contexts/AuthContext";
 
 function Home() {
-    const loggedIn = useAuth();
+    const { loggedIn } = useContext(AuthContext);
     const [categoryShow, setCategoryShow] = useState(false);
     const [bestSellersCategory, setBestSellersCategory] = useState('NOVEL');
     const [activeStatus, setActiveStatus] = useState('');
@@ -21,9 +21,6 @@ function Home() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []);
-
-    useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale/list`)
             .then(response => {
                 if (response.status === 200) {
@@ -128,7 +125,8 @@ function Home() {
                     </div>
                 </div>
             )}
-            <CreateBtn />
+            {loggedIn && <CreateBtn />}
+
         </div>
     );
 }
