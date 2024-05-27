@@ -7,10 +7,10 @@ import CategoryWrapper from "../components/CategoryWrapper";
 import BestSellersList from "../components/BestSellersList";
 import { statusList, bestSellersCategories } from '../utils/sharedData';
 import { getInterestBookApi } from '../api/getInterestBookApi';
-import AuthContext from "../contexts/AuthContext";
+import { getCookie } from '../utils/cookieManage';
 
 function Home() {
-    const { loggedIn } = useContext(AuthContext);
+    const [loggedIn, setLoggedIn] = useState(null);
     const [categoryShow, setCategoryShow] = useState(false);
     const [bestSellersCategory, setBestSellersCategory] = useState('NOVEL');
     const [activeStatus, setActiveStatus] = useState('');
@@ -21,6 +21,7 @@ function Home() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        if (getCookie("accessToken")) setLoggedIn(true);
         fetch(`${process.env.REACT_APP_API_URL}/api/bookForSale/list`)
             .then(response => {
                 if (response.status === 200) {

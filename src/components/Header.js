@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useContext } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './Header.css';
@@ -6,7 +6,7 @@ import { InterestItem, ChatItem } from './HeaderItem';
 import { chatList } from '../routes/data';
 import Chatting from '../components/Chatting';
 import { getInterestBookApi } from '../api/getInterestBookApi';
-import AuthContext from "../contexts/AuthContext";
+import { getCookie } from '../utils/cookieManage';
 
 function ChatGroup({ chatItems, closeChatItem }) {
   return (
@@ -23,14 +23,14 @@ function ChatGroup({ chatItems, closeChatItem }) {
 }
 
 function Header() {
-  const { loggedIn } = useContext(AuthContext);
+  const [loggedIn, setLoggedIn] = useState(null);
   const [searchType, setSearchType] = useState('isbn');
   const [activeItem, setActiveItem] = useState(null);
   const [chatItems, setChatItems] = useState([]);
   const user = useSelector((state) => state.user);
   const [interestList, setInterestList] = useState([]);
   const navigate = useNavigate();
-  const redirectUrl = `https://kauth.kakao.com/oauth/authorize?&response_type=code&client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}/redirect`;
+  const redirectUrl = `https://kauth.kakao.com/oauth/authorize?&response_type=code&client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
 
 
   const openChatItem = useCallback((chatItemId) => {
@@ -51,12 +51,13 @@ function Header() {
   }, []);
 
   useEffect(() => {
+    if (getCookie("accessToken")) setLoggedIn(true);
     getInterestBookApi()
       .then(res => {
         setInterestList([...res.bookForRentGetResList, ...res.bookForSaleGetResList])
       })
       .catch(error => console.log(error));
-  }, []);
+  }, [loggedIn]);
 
   return (
     <div className="header-container">
