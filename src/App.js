@@ -10,6 +10,7 @@ import BookList from './routes/BookList';
 import MyPage from './routes/MyPage';
 import EditBook from './routes/EditBook';
 import SearchBookList from './routes/SearchBookList';
+import Redirect from './routes/Redirect';
 
 function App() {
   useUser();
@@ -25,6 +26,7 @@ function App() {
           <Route path='/search-book-list/:option/:input' element={<SearchBookList />} />
           <Route path='/my-page' element={<MyPage />} />
           <Route path='/edit-book/:option/:bookId' element={<EditBook />} />
+          <Route path='/redirect' element={<Redirect />} />
         </Routes>
       </div>
     </AuthProvider>

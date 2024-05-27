@@ -30,6 +30,7 @@ function Header() {
   const user = useSelector((state) => state.user);
   const [interestList, setInterestList] = useState([]);
   const navigate = useNavigate();
+  const redirectUrl = `https://kauth.kakao.com/oauth/authorize?&response_type=code&client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}/redirect`;
 
 
   const openChatItem = useCallback((chatItemId) => {
@@ -124,7 +125,7 @@ function Header() {
         </div>
       ) : (
         <div className="login-container">
-          <button className="login-btn" onClick={() => window.location.reload()}>로그인</button>
+          <a href={redirectUrl} className='login-btn'>로그인</a>
         </div>
       )}
     </div>
