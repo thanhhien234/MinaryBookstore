@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import './DetailBook.css';
 import CreateBtn from '../components/CreateBtn';
@@ -7,15 +7,22 @@ import ConditionRadioList from '../components/ConditionRadioList';
 import { getCookie } from '../utils/cookieManage';
 import { categoryList, bookStateList } from '../utils/sharedData';
 import { setBook, updateBook } from '../store/slices/bookSlice';
+import AuthContext from "../contexts/AuthContext";
 
 function DetailBook() {
+    const { loggedIn } = useContext(AuthContext);
     const { bookState, bookId } = useParams();
     const dispatch = useDispatch();
     const bookInfo = useSelector(state => state.book);
     const isSave = useSelector(state => state.book.isSaved);
+    const navigate = useNavigate();
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        if (!loggedIn) {
+            alert('로그인이 필요합니다.');
+            navigate('/');
+        }
     }, []);
 
     const formatDate = (dateString) => {
