@@ -1,6 +1,5 @@
 import './App.css';
 import { Routes, Route } from "react-router-dom";
-import useUser from './hooks/useUser';
 import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
 import Home from './routes/Home';
@@ -13,7 +12,6 @@ import SearchBookList from './routes/SearchBookList';
 import Redirect from './routes/Redirect';
 
 function App() {
-  useUser();
   return (
     <AuthProvider>
       <div className="App">

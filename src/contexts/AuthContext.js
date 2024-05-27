@@ -1,10 +1,14 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { getCookie, setCookie } from '../utils/cookieManage';
+import { getUserInfoApi } from '../api/getUserInfoApi';
+import { setUser } from '../store/slices/userSlice';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!getCookie("accessToken") && !getCookie("refreshToken")) {
@@ -23,6 +27,9 @@ export const AuthProvider = ({ children }) => {
                     setCookie("accessToken", res.accessToken, 2 * 60);
                     setCookie("refreshToken", res.refreshToken, 24 * 14 * 60);
                     setLoggedIn(true);
+                    getUserInfoApi()
+                        .then(res => dispatch(setUser({ name: res.name, img: res.img })))
+                        .catch(error => console.log(error));
                 })
                 .catch(error => {
                     alert("관리자에게 문의해주세요.");
@@ -31,6 +38,9 @@ export const AuthProvider = ({ children }) => {
         }
         else {
             setLoggedIn(true);
+            getUserInfoApi()
+                .then(res => dispatch(setUser({ name: res.name, img: res.img })))
+                .catch(error => console.log(error));
         }
     }, [loggedIn]);
 
