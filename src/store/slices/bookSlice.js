@@ -25,6 +25,7 @@ const initialState = {
     editable: false,
     state: '',
     isSaved: false,
+    createdAt: ''
 };
 
 const bookSlice = createSlice({

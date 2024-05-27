@@ -41,6 +41,14 @@
 .book-status.AVAILABLE{
     background-color: #9827e4;
 }
+.create-at{
+    font-size: 14px;
+    color: #000;
+    margin-top: 5px;
+    text-align: left;
+    margin-left: 30px;
+    font-weight: 600;
+}
 
 /*book-info-container*/
 .book-info {
@@ -89,8 +97,10 @@
     margin-bottom: 10px;
 }
 .condition-image {
-    text-align: left;
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .image-wrapper {
     display: flex;

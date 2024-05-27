@@ -51,7 +51,6 @@ function DetailBook() {
             })
             .then(res => {
                 dispatch(setBook(res));
-                console.log(res)
             })
             .catch(error => console.log(error.message));
     }, [bookId, bookState, dispatch]);
@@ -117,6 +116,7 @@ function DetailBook() {
                 <div className={`book-status ${bookInfo.state}`}>
                     {bookInfo.salePrice === 0 ? '나눔' : (bookStateList.find(item => item.name === bookInfo.state)?.label || '')}
                 </div>
+                <p className='create-at'>작성일: {formatDate(bookInfo.createdAt)}</p>
                 <div className='book-info-container'>
                     <div className='book-item'>
                         {bookInfo.bookGetRes.img ? (<img src={bookInfo.bookGetRes.img} alt="" />) : (<div className='no-img'>사진 없음</div>)}
@@ -142,7 +142,6 @@ function DetailBook() {
                         </div>
                     </div>
                     <div className='condition-image'>
-                        <h3>실제 사진</h3>
                         <div className='image-wrapper'>
                             {bookInfo.imageList.map((image, index) => (
                                 <img key={index} src={image.url} alt='' />
