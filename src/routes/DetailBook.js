@@ -111,9 +111,9 @@ function DetailBook() {
         return (
             <div className="detail-book-container">
                 <div className='book-owner-container'>
-                    <img src={require("../assets/images/profile-image.png")} alt='' />
+                    <img src={bookInfo.writerImg} alt='' />
                     <div className='wrapper'>
-                        <span>한승규</span>
+                        <span>{bookInfo.writerName}</span>
                         <div className={`book-status ${bookInfo.state}`}>
                             {bookStateList.find(item => item.name === bookInfo.state)?.label || ''}
                         </div>

@@ -25,7 +25,9 @@ const initialState = {
     editable: false,
     state: '',
     isSaved: false,
-    createdAt: ''
+    createdAt: '',
+    writerImg: '',
+    writerName: '',
 };
 
 const bookSlice = createSlice({
