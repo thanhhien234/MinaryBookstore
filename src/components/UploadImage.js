@@ -10,7 +10,7 @@ function UploadBtn({ position, setImages, images }) {
                     if (file) {
                         const reader = new FileReader();
                         reader.onload = () => {
-                            setImages(prevImages => [...prevImages, { position: images.length, fileUrl: reader.result, fileObject: file }]);
+                            setImages(prevImages => [...prevImages, { id: null, position: images.length, fileUrl: reader.result, fileObject: file }]);
                         };
                         reader.readAsDataURL(file);
                     }
@@ -21,20 +21,22 @@ function UploadBtn({ position, setImages, images }) {
     );
 }
 
-function UploadedImage({ position, uploadedImage, setImages }) {
+function UploadedImage({ position, uploadedImage, setImages, setDeletedImages }) {
     return (
-        <div className="book-img" style={{ backgroundImage: `url(${uploadedImage})` }}
+        <div className="book-img" style={{ backgroundImage: `url(${uploadedImage.fileUrl})` }}
             onClick={() => {
-                if (!uploadedImage) {
+                if (!uploadedImage.fileUrl) {
                     document.getElementById(`uploadImg-${position}`).click();
                 }
             }} >
-            {uploadedImage &&
+            {uploadedImage.fileUrl &&
                 <img className="delete-icon" src={require('../assets/icons/delete.png')} alt="" onClick={() => {
                     setImages(prevImages => prevImages.filter(image => image.position !== position));
+                    if (uploadedImage.id !== null) {
+                        setDeletedImages(prevIds => [...prevIds, uploadedImage.id]);
+                    }
                 }} />
             }
-
         </div>
     );
 }
