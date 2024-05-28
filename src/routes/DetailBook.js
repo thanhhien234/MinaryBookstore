@@ -15,9 +15,9 @@ function DetailBook() {
     const isSave = useSelector(state => state.book.isSaved);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        console.log("info", bookInfo);
-    }, [bookInfo]);
+    // useEffect(() => {
+    //     console.log("info", bookInfo);
+    // }, [bookInfo]);
 
     useEffect(() => {
         window.scrollTo(0, 0);

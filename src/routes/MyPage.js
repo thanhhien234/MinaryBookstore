@@ -31,8 +31,14 @@ function MyPage() {
             setActiveList(myList.bookForSaleGetResList);
         } else if (activeTab === 'rent-tab' && myList.bookForRentGetResList) {
             setActiveList(myList.bookForRentGetResList);
+        } else if (activeTab === 'request-tab' && myList.bookForRequestGetResList) {
+            setActiveList(myList.bookForRequestGetResList);
         }
     }, [activeTab, myList]);
+
+    useEffect(() => {
+        console.log(activeList);
+    }, [activeTab]);
 
     return (
         <div className='my-page-container'>
@@ -44,6 +50,7 @@ function MyPage() {
                 <ul className='history-header'>
                     <li className={`tab ${activeTab === 'sale-tab' ? 'active' : ''}`} onClick={() => setActiveTab('sale-tab')}>판매</li>
                     <li className={`tab ${activeTab === 'rent-tab' ? 'active' : ''}`} onClick={() => setActiveTab('rent-tab')}>대여</li>
+                    <li className={`tab ${activeTab === 'request-tab' ? 'active' : ''}`} onClick={() => setActiveTab('request-tab')}>요청</li>
                 </ul>
                 <ul className='history-list'>
                     {activeList.length > 0 ? (
