@@ -76,7 +76,6 @@ function EditBook() {
     let url;
     if (option === 'sale') url = `${process.env.REACT_APP_API_URL}/api/bookForSale`;
     else if (option === 'rent') url = `${process.env.REACT_APP_API_URL}/api/bookForRent`;
-    console.log('final', data);
     fetch(url, {
       method: 'PUT',
       headers: {

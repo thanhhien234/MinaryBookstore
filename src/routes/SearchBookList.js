@@ -30,9 +30,9 @@ function SearchBookList() {
             .catch(error => console.error(error.message));
     }
 
-    useEffect(() => {
-        console.log('search res', searchBookList)
-    }, [searchBookList])
+    // useEffect(() => {
+    //     console.log('search res', searchBookList)
+    // }, [searchBookList])
 
     useEffect(() => {
         if (option === 'isbn') searchIsbn(input);

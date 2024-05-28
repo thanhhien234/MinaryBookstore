@@ -136,9 +136,9 @@ function CreateBook() {
       .catch(error => alert(error.message));
   };
 
-  useEffect(() => {
-    console.log('MyData', data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log('MyData', data);
+  // }, [data]);
 
 
   return (
