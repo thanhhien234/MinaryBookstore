@@ -4,12 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import './CreateBook.css';
 import ConditionRadioList from '../components/ConditionRadioList';
 import { UploadBtn, UploadedImage } from "../components/UploadImage";
-import { getCookie } from "../utils/cookieManage";
 import { categoryList } from '../utils/sharedData';
 import { uploadImageApi } from '../api/imageApi';
 import { setBookInfo, setAddressList, setSelectedAddress, updateData } from '../store/slices/createBookSlice';
 import { isbnSearch, titleSearch, directInput } from '../api/getBookInfoApi';
 import { searchAddressApi } from "../api/searchAddressApi";
+import { postBookApi } from '../api/postBookApi';
 
 function CreateBook() {
   const { option } = useParams();
@@ -75,23 +75,7 @@ function CreateBook() {
     } else if (option === 'rent') {
       url = `${process.env.REACT_APP_API_URL}/api/bookForRent`;
     }
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + getCookie('accessToken'),
-      },
-      body: JSON.stringify(updatedData)
-    })
-      .then(response => {
-        if (response.status === 200) {
-          alert('책 정보가 등록되었습니다.');
-          resetForm();
-        } else {
-          throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
-        }
-      })
-      .catch(error => alert(error.message));
+    postBookApi(url, updatedData)
   };
 
   const saveBook = async () => {
@@ -122,6 +106,7 @@ function CreateBook() {
         .then(uploaded => {
           const updatedData = { ...data, imageIdList: uploaded.imageIdList };
           postBook(updatedData);
+          resetForm();
         })
         .catch(error => alert(error.message));
     };
@@ -143,7 +128,7 @@ function CreateBook() {
 
   return (
     <div className="book-sale-main-container">
-      <div className="book-sale-header-container"> 책 {option === 'sale' ? '판매' : '대여'} 정보 등록하기</div>
+      <div className="book-sale-header-container"> 책 {option === 'sale' ? '판매' : (option === 'rent' ? '대여' : '요청')} 정보 등록하기</div>
       <div className="book-sale-content">
         <div className="book-search-wrapper">
           <input type="text" id="book-search-input" placeholder="ISBN 13자리 숫자나 제목을 입력하세요." />
@@ -220,20 +205,24 @@ function CreateBook() {
               <label htmlFor="price">정가</label>
               <input type="number" id="price" placeholder="예: 30000" onBlur={(e) => dispatch(updateData({ price: e.target.value }))} />원
             </div>
-            <div className="form-group">
-              <label htmlFor="salePrice">{option === 'sale' ? '판매가' : '대여가'}</label>
-              <input type="number" id="salePrice" placeholder="예: 10000" onBlur={(e) => dispatch(updateData({ salePrice: e.target.value }))} />원
-            </div>
+            {option !== 'request' && (
+              <div className="form-group">
+                <label htmlFor="salePrice">{option === 'sale' ? '판매가' : '대여가'}</label>
+                <input type="number" id="salePrice" placeholder="예: 10000" onBlur={(e) => dispatch(updateData({ salePrice: e.target.value }))} />원
+              </div>
+            )}
           </div>
           {bookInfo && (<img id="image" alt="" />)}
         </div>
-        <div className="book-condition-wrapper">
-          <h3>책 상태가 어떤가요?</h3>
-          <ConditionRadioList radioEditable={true} initialConditions={[1, 1, 1, 1, 1, 1]}
-            handleSelectedConditions={(conditions) => {
-              dispatch(updateData({ conditions: conditions }));
-            }} />
-        </div>
+        {option !== 'request' && (
+          <div className="book-condition-wrapper">
+            <h3>책 상태가 어떤가요?</h3>
+            <ConditionRadioList radioEditable={true} initialConditions={[1, 1, 1, 1, 1, 1]}
+              handleSelectedConditions={(conditions) => {
+                dispatch(updateData({ conditions: conditions }));
+              }} />
+          </div>
+        )}
         {option === 'rent' && (
           <div className="book-rent-period-wrapper">
             <h3>대여 가능 기간을 입력하세요</h3>
@@ -249,63 +238,69 @@ function CreateBook() {
             </div>
           </div>
         )}
-        <div className="book-real-image-wrapper">
-          <h3>실제 사진을 업로드하세요</h3>
-          <div className="book-real-image-inner">
-            {images.map((image, index) => (
-              <UploadedImage
-                key={index}
-                position={index}
-                uploadedImage={image}
-                setImages={setImages}
-                setDeletedIds={() => { }}
-              />
-            ))}
-            {images.length < 5 && (
-              <UploadBtn
-                position={images.length}
-                images={images}
-                setImages={(newImages) => setImages(newImages)}
-              />
-            )}
-          </div>
-        </div>
-        <div className="book-description-wrapper">
-          <h3>추가 설명을 입력하세요</h3>
-          <textarea id="descriptionInput" rows="6" cols="60" placeholder="내용을 입력하세요 (200자 이내)" onBlur={(e) => dispatch(updateData({ detail: e.target.value }))} />
-        </div>
-        <div className="book-sale-address-wrapper">
-          <h3>거래 장소를 입력하세요</h3>
-          <div className="book-address-input-wrapper">
-            <input type="text" id="addressInput" placeholder="거래 장소를 입력하세요" />
-            <img src={require('../assets/icons/search.png')} alt=""
-              onClick={handleAddressSearch} />
-          </div>
-          {!selectedAddress && (
-            <div className="book-address-list">
-              {addressList.length > 0 ? (
-                addressList.map((address, index) => (
-                  <div key={index} className="address-item"
-                    onClick={() => {
-                      dispatch(setSelectedAddress(address));
-                      dispatch(updateData({
-                        longitude: parseFloat(address.x),
-                        latitude: parseFloat(address.y),
-                        address: address.address_name
-                      }));
-                      document.getElementById('addressInput').value = address.address_name;
-                    }}
-                  >
-                    <input type="radio" value={address.address_name} />
-                    <span>{address.address_name}</span>
-                  </div>
-                ))
-              ) : (
-                <div className="address-item">검색 결과가 없습니다.</div>
+        {option !== 'request' && (
+          <div className="book-real-image-wrapper">
+            <h3>실제 사진을 업로드하세요</h3>
+            <div className="book-real-image-inner">
+              {images.map((image, index) => (
+                <UploadedImage
+                  key={index}
+                  position={index}
+                  uploadedImage={image}
+                  setImages={setImages}
+                  setDeletedIds={() => { }}
+                />
+              ))}
+              {images.length < 5 && (
+                <UploadBtn
+                  position={images.length}
+                  images={images}
+                  setImages={(newImages) => setImages(newImages)}
+                />
               )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
+        {option !== 'request' && (
+          <div className="book-description-wrapper">
+            <h3>추가 설명을 입력하세요</h3>
+            <textarea id="descriptionInput" rows="6" cols="60" placeholder="내용을 입력하세요 (200자 이내)" onBlur={(e) => dispatch(updateData({ detail: e.target.value }))} />
+          </div>
+        )}
+        {option !== 'request' && (
+          <div className="book-sale-address-wrapper">
+            <h3>거래 장소를 입력하세요</h3>
+            <div className="book-address-input-wrapper">
+              <input type="text" id="addressInput" placeholder="거래 장소를 입력하세요" />
+              <img src={require('../assets/icons/search.png')} alt=""
+                onClick={handleAddressSearch} />
+            </div>
+            {!selectedAddress && (
+              <div className="book-address-list">
+                {addressList.length > 0 ? (
+                  addressList.map((address, index) => (
+                    <div key={index} className="address-item"
+                      onClick={() => {
+                        dispatch(setSelectedAddress(address));
+                        dispatch(updateData({
+                          longitude: parseFloat(address.x),
+                          latitude: parseFloat(address.y),
+                          address: address.address_name
+                        }));
+                        document.getElementById('addressInput').value = address.address_name;
+                      }}
+                    >
+                      <input type="radio" value={address.address_name} />
+                      <span>{address.address_name}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="address-item">검색 결과가 없습니다.</div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
         <button className="sale-save-btn" onClick={saveBook}>저장</button>
       </div>
     </div>

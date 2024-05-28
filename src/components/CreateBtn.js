@@ -30,12 +30,12 @@ function CreateBtn() {
                         <span>책 대여 등록하기</span>
                     </Link>
                 </li>
-                {/* <li>
+                <li>
                     <Link to="/create-book/request">
-                        <img src={require("../assets/icons/post-create.png")} alt=""/>
-                        <span>책 대여 요청하기</span>
+                        <img src={require("../assets/icons/post-create.png")} alt="" />
+                        <span>책 요청하기</span>
                     </Link>
-                </li> */}
+                </li>
             </ul>
         </div>
     );
