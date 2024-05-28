@@ -6,9 +6,10 @@ import ConditionRadioList from '../components/ConditionRadioList';
 import { UploadBtn, UploadedImage } from "../components/UploadImage";
 import { getCookie } from "../utils/cookieManage";
 import { categoryList } from '../utils/sharedData';
-import { uploadImageApi } from '../api/uploadImageApi';
+import { uploadImageApi } from '../api/imageApi';
 import { setBookInfo, setAddressList, setSelectedAddress, updateData } from '../store/slices/createBookSlice';
 import { isbnSearch, titleSearch, directInput } from '../api/getBookInfoApi';
+import { searchAddressApi } from "../api/searchAddressApi";
 
 function CreateBook() {
   const { option } = useParams();
@@ -16,14 +17,6 @@ function CreateBook() {
   const [images, setImages] = useState([]);
   const { bookInfo, addressList, selectedAddress, data } = useSelector(state => state.createBook);
 
-
-  const directInputSearch = async () => {
-    directInput(data)
-      .then(res => {
-        dispatch(updateData({ bookId: res.id }));
-      })
-      .catch(error => alert(error.message));
-  };
 
   const resetForm = () => {
     const inputIds = ['book-search-input', 'title', 'isbn', 'author', 'publisher', 'publicationDate', 'price', 'category', 'salePrice', 'descriptionInput', 'addressInput'];
@@ -103,7 +96,11 @@ function CreateBook() {
 
   const saveBook = async () => {
     if (!data.bookId) {
-      directInputSearch();
+      directInput(data)
+        .then(res => {
+          dispatch(updateData({ bookId: res.id }));
+        })
+        .catch(error => alert(error.message));
     }
     else if (data.category === '') {
       alert('카테고리를 선택하세요.');
@@ -132,24 +129,7 @@ function CreateBook() {
   const handleAddressSearch = async () => {
     setSelectedAddress(null);
     const addressInput = document.getElementById('addressInput').value.trim();
-    if (addressInput === '') {
-      alert('장소를 입력하세요.');
-      return;
-    }
-    const url = `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(addressInput)}`;
-    await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Authorization': `KakaoAK ${process.env.REACT_APP_KAKAO_API_KEY}`,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
-        }
-        return response.json();
-      })
+    searchAddressApi(addressInput)
       .then(data => {
         dispatch(setAddressList(data.documents));
       })
@@ -276,8 +256,9 @@ function CreateBook() {
               <UploadedImage
                 key={index}
                 position={index}
-                uploadedImage={image.fileUrl}
-                setImages={(newImages) => setImages(newImages)}
+                uploadedImage={image}
+                setImages={setImages}
+                setDeletedIds={() => { }}
               />
             ))}
             {images.length < 5 && (
