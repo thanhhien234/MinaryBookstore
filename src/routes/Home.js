@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import './Home.css'
-import BookItem from "../components/BookItem";
-import PickItem from "../components/PickItem";
-import CreateBtn from "../components/CreateBtn";
-import CategoryWrapper from "../components/CategoryWrapper";
-import BestSellersList from "../components/BestSellersList";
+import BookItem from "../components/Home/BookItem";
+import PickItem from "../components/Home/PickItem";
+import CreateBtn from "../components/Home/CreateBtn";
+import BestSellerItem from "../components/Home/BestSellerItem";
+import CategoryWrapper from "../components/Home/CategoryWrapper";
+import LatestBookList from "../components/Home/LatestBookList";
 import { statusList, bestSellersCategories } from '../utils/sharedData';
 import { getInterestBookApi } from '../api/getInterestBookApi';
 import { getCookie } from '../utils/cookieManage';
@@ -65,6 +66,20 @@ function Home() {
             .catch(error => console.log(error));
     }, []);
 
+    useEffect(() => {
+        fetch(`${process.env.REACT_APP_API_URL}/api/book/best`)
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+            })
+            .then(res => {
+                setBestSellersList(res);
+            })
+            .catch(error => console.log(error));
+    }, []);
+
+
     return (
         <div className="main-container">
             <div className="home-book-list-container">
@@ -109,14 +124,18 @@ function Home() {
                         </button>
                     ))}
                 </div>
-                {latestBooksCategory && <BestSellersList bestSellersList={latestBooksList} />}
+                {latestBooksCategory && <LatestBookList latestBookList={latestBooksList} />}
             </div>
 
             <div className="best-sellers-container">
                 <h3 className="latest-books-title">
                     B<span>e</span>st S<span>e</span>ll<span>e</span>rs
                 </h3>
-                <BestSellersList bestSellersList={latestBooksList} />
+                <ul className="best-seller-wrapper">
+                    {bestSellersList.map((item, index) => (
+                        <BestSellerItem key={index} book={item} index={index} />
+                    ))}
+                </ul>
             </div>
 
             {loggedIn && (

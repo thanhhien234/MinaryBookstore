@@ -1,5 +1,5 @@
 import './HeaderItem.css';
-import { bookStateList } from '../utils/sharedData';
+import { bookStateList } from '../../utils/sharedData';
 import { Link } from 'react-router-dom';
 
 export function InterestItem({ interestItem }) {

@@ -32,7 +32,7 @@
 }
 #search-type {
     padding: 5px 24px 5px 5px;
-    background-image: url('../assets/icons/drop-down.png');
+    background-image: url('../../assets/icons/drop-down.png');
     background-repeat: no-repeat;
     background-position: right center;
     background-size: 20px;

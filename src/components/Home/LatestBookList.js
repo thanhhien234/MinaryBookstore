@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import './BestSellersList.css';
+import './LatestBookList.css';
 
-function BestSellerItem({ book }) {
+function LatestBookItem({ book }) {
     return (
         book && (
-            <Link to={`/detail-book/${book.state}/${book.id}`} className="bestSeller-book-item">
+            <Link to={`/detail-book/${book.state}/${book.id}`} className="latest-book-item">
                 {book.img ? (<img src={book.img} alt="" />) : (<div className='no-img'>사진 없음</div>)}
                 <div className="title">{book.title}</div>
             </Link>
@@ -13,7 +13,7 @@ function BestSellerItem({ book }) {
     );
 }
 
-function BestSellersList({ bestSellersList }) {
+function LatestBookList({ latestBookList }) {
     const [showAnimation, setShowAnimation] = useState(true);
 
     useEffect(() => {
@@ -21,15 +21,15 @@ function BestSellersList({ bestSellersList }) {
         setTimeout(() => {
             setShowAnimation(false);
         }, 300);
-    }, [bestSellersList]);
+    }, [latestBookList]);
 
     return (
-        <ul className={`best-sellers-list-wrapper ${showAnimation ? 'slide-in' : ''}`}>
-            {bestSellersList.map((book, index) => (
-                <BestSellerItem key={index} book={book} />
+        <ul className={`latest-list-wrapper ${showAnimation ? 'slide-in' : ''}`}>
+            {latestBookList.map((book, index) => (
+                <LatestBookItem key={index} book={book} />
             ))}
         </ul>
     );
 }
 
-export default BestSellersList;
+export default LatestBookList;

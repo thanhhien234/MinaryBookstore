@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import './HistoryBookItem.css';
-import { getCookie } from '../utils/cookieManage';
-import { bookStateList } from '../utils/sharedData';
+import { getCookie } from '../../utils/cookieManage';
+import { bookStateList } from '../../utils/sharedData';
 
 
 function HistoryBookItem({ book, option }) {
@@ -53,7 +53,7 @@ function HistoryBookItem({ book, option }) {
                     {bookStateList.find(item => item.name === book.state)?.label || ''}
                 </div>
             </div>
-            <img className="option" src={require('../assets/icons/option.png')} alt='' onClick={() => setOptionOpen(!optionOpen)} />
+            <img className="option" src={require('../../assets/icons/option.png')} alt='' onClick={() => setOptionOpen(!optionOpen)} />
             {optionOpen &&
                 <ul className="option-box">
                     {book.state !== 'RENT' && book.state !== 'SOLD' && (

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './MyPage.css';
-import HistoryBookItem from '../components/HistoryBookItem';
+import HistoryBookItem from '../components/MyPage/HistoryBookItem';
 import { getCookie } from '../utils/cookieManage';
 import { useSelector } from 'react-redux';
 
