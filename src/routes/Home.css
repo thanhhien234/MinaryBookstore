@@ -49,25 +49,25 @@
 }
 
 
-/* best-sellers-container*/
-.best-sellers-container{
+/* latest-books-container*/
+.latest-books-container{
     border-radius: 20px;
     margin-top: 60px;
     background-color: #EAF5E9;
     padding: 20px 60px;
     overflow: hidden;
 }
-.best-sellers-title{
+.latest-books-title{
     font-size: 35px;
     font-weight: 400;
     text-align: left;
     padding: 0;
     margin: 0;
 }
-.best-sellers-title span {
+.latest-books-title span {
     color: #32C82F;
 }
-.best-sellers-category-wrapper {
+.latest-books-category-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -75,7 +75,7 @@
     margin: 0 auto;
     margin-top: 30px;
 }
-.best-sellers-category-wrapper button{
+.latest-books-category-wrapper button{
     background-color: #fff;
     border: none;
     padding: 5px 10px;
@@ -89,11 +89,23 @@
     flex:1;
     border: 1px solid #B6BBC0;
 }
-.best-sellers-btn.active {
+.latest-books-btn.active {
     background-color: #0D9276;
     color: #fff;
 }
 
+/* best-sellers-container*/
+.best-sellers-container{
+    border-radius: 20px;
+    margin-top: 60px;
+    background-color: #fff;
+    padding: 20px 60px;
+    overflow: hidden;
+    border: 1px solid #B6BBC0;
+}
+.best-sellers-container .bestSeller-book-item {
+    border: 1px solid #B6BBC0;
+}
 /*interest-container*/
 .interest-container{
     border-radius: 20px;

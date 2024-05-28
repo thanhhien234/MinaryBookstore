@@ -12,12 +12,13 @@ import { getCookie } from '../utils/cookieManage';
 function Home() {
     const [loggedIn, setLoggedIn] = useState(null);
     const [categoryShow, setCategoryShow] = useState(false);
-    const [bestSellersCategory, setBestSellersCategory] = useState('NOVEL');
+    const [latestBooksCategory, setLatestBooksCategory] = useState('NOVEL');
+    const [latestBooksList, setLatestBooksList] = useState([]);
     const [activeStatus, setActiveStatus] = useState('');
     const [homeBookList, setHomeBookList] = useState([]);
-    const [bestSellersList, setBestSellersList] = useState([]);
     const [interestList, setInterestList] = useState([]);
     const [allBook, setAllBook] = useState([]);
+    const [bestSellersList, setBestSellersList] = useState([]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -52,9 +53,9 @@ function Home() {
 
 
     useEffect(() => {
-        const bestList = allBook.filter(book => book.category === bestSellersCategory);
-        setBestSellersList(bestList.slice(0, 5));
-    }, [bestSellersCategory, allBook]);
+        const bestList = allBook.filter(book => book.category === latestBooksCategory);
+        setLatestBooksList(bestList.slice(0, 5));
+    }, [latestBooksCategory, allBook]);
 
     useEffect(() => {
         getInterestBookApi()
@@ -94,21 +95,28 @@ function Home() {
                 </div>
             </div>
 
-            <div className="best-sellers-container">
-                <h3 className="best-sellers-title">
+            <div className="latest-books-container">
+                <h3 className="latest-books-title">
                     Lat<span>e</span>st B<span>o</span>o<span>k</span>s
                 </h3>
-                <div className="best-sellers-category-wrapper">
+                <div className="latest-books-category-wrapper">
                     {bestSellersCategories.map((item, index) => (
                         <button
                             key={index}
-                            className={`best-sellers-btn ${bestSellersCategory === item.name ? 'active' : ''}`}
-                            onMouseOver={() => setBestSellersCategory(item.name)}>
+                            className={`latest-books-btn ${latestBooksCategory === item.name ? 'active' : ''}`}
+                            onMouseOver={() => setLatestBooksCategory(item.name)}>
                             {item.label}
                         </button>
                     ))}
                 </div>
-                {bestSellersCategory && <BestSellersList bestSellersList={bestSellersList} />}
+                {latestBooksCategory && <BestSellersList bestSellersList={latestBooksList} />}
+            </div>
+
+            <div className="best-sellers-container">
+                <h3 className="latest-books-title">
+                    B<span>e</span>st S<span>e</span>ll<span>e</span>rs
+                </h3>
+                <BestSellersList bestSellersList={latestBooksList} />
             </div>
 
             {loggedIn && (
