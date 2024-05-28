@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setBook, updateBook } from '../store/slices/bookSlice';
+import { updateData, setAddressList, setSelectedAddress } from '../store/slices/createBookSlice';
+import { setBook } from '../store/slices/bookSlice';
 import './EditBook.css';
 import ConditionRadioList from '../components/ConditionRadioList';
 import { UploadBtn, UploadedImage } from '../components/UploadImage';
 import { getCookie } from '../utils/cookieManage';
 import { categoryList } from '../utils/sharedData';
+import { uploadImageApi, deleteImageApi } from '../api/imageApi';
+import { searchAddressApi } from '../api/searchAddressApi';
 
 function EditBook() {
   const { option, bookId } = useParams();
   const dispatch = useDispatch();
+  const { data, addressList, selectedAddress } = useSelector((state) => state.createBook);
+
   const bookInfo = useSelector((state) => state.book);
 
   const [images, setImages] = useState([]);
-  const [addressList, setAddressList] = useState([0]);
-  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [deletedImages, setDeletedImages] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -42,6 +46,19 @@ function EditBook() {
       })
       .then((res) => {
         dispatch(setBook(res));
+        dispatch(updateData({
+          id: res.id,
+          category: res.category,
+          salePrice: res.salePrice,
+          conditions: res.conditions,
+          detail: res.detail,
+          address: res.address,
+          longitude: res.longitude,
+          latitude: res.latitude,
+          startDate: res.startDate,
+          endDate: res.endDate,
+          imageIdList: res.imageList.map((item) => item.id),
+        }));
         setImages(
           res.imageList.map((item, index) => ({
             id: item.id,
@@ -55,17 +72,18 @@ function EditBook() {
   }, [bookId, option, dispatch]);
 
 
-  const saveEditBook = () => {
+  const postEditBook = (updatedData) => {
     let url;
     if (option === 'sale') url = `${process.env.REACT_APP_API_URL}/api/bookForSale`;
     else if (option === 'rent') url = `${process.env.REACT_APP_API_URL}/api/bookForRent`;
+    console.log('final', data);
     fetch(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + getCookie('accessToken'),
       },
-      body: JSON.stringify(bookInfo),
+      body: JSON.stringify(updatedData),
     })
       .then((response) => {
         if (response.status === 200) {
@@ -78,26 +96,9 @@ function EditBook() {
   const handleAddressSearch = async () => {
     setSelectedAddress(null);
     const addressInput = document.getElementById('addressInput').value.trim();
-    if (addressInput === '') {
-      alert('장소를 입력하세요.');
-      return;
-    }
-    const url = `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(addressInput)}`;
-    await fetch(url, {
-      method: 'GET',
-      headers: {
-        Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
-        }
-        return response.json();
-      })
+    searchAddressApi(addressInput)
       .then((data) => {
-        setAddressList(data.documents);
+        dispatch(setAddressList(data.documents));
       })
       .catch((error) => alert(error.message));
   };
@@ -108,12 +109,8 @@ function EditBook() {
   };
 
   const handleInputChange = (field, value) => {
-    dispatch(updateBook({ [field]: value }));
+    dispatch(updateData({ [field]: value }));
   };
-
-  if (!bookInfo) {
-    return <div>Loading...</div>;
-  }
 
 
   return (
@@ -133,7 +130,7 @@ function EditBook() {
               type="number"
               id="salePrice"
               defaultValue={bookInfo.salePrice}
-              onBlur={(e) => handleInputChange('salePrice', parseInt(e.target.value))}
+              onBlur={(e) => handleInputChange('salePrice', e.target.value)}
             />
             원
           </div>
@@ -194,9 +191,10 @@ function EditBook() {
             <UploadedImage
               key={index}
               position={index}
-              uploadedImage={image.fileUrl}
+              uploadedImage={image}
               setImages={setImages}
               images={images}
+              setDeletedImages={setDeletedImages}
             />
           ))}
           {images.length < 5 && (
@@ -228,14 +226,14 @@ function EditBook() {
           <div className="book-address-list">
             {addressList.length > 0 ? (
               addressList.map((address, index) => (
-                <div
-                  key={index}
-                  className="address-item"
+                <div key={index} className="address-item"
                   onClick={() => {
-                    setSelectedAddress(address);
-                    handleInputChange('address', address.address_name);
-                    handleInputChange('longitude', parseFloat(address.x));
-                    handleInputChange('latitude', parseFloat(address.y));
+                    dispatch(setSelectedAddress(address));
+                    dispatch(updateData({
+                      longitude: parseFloat(address.x),
+                      latitude: parseFloat(address.y),
+                      address: address.address_name
+                    }));
                     document.getElementById('addressInput').value = address.address_name;
                   }}
                 >
@@ -249,7 +247,24 @@ function EditBook() {
           </div>
         )}
       </div>
-      <button className="sale-save-btn" onClick={saveEditBook}>저장</button>
+      <button className="sale-save-btn" onClick={async () => {
+        if (deletedImages.length > 0) {
+          await deleteImageApi(deletedImages)
+        }
+        const imagesToUpload = images.filter(img => !img.id);
+        if (imagesToUpload.length > 0) {
+          uploadImageApi(imagesToUpload)
+            .then((uploaded) => {
+              const existingImageIds = images.filter(img => img.id).map(img => img.id);
+              const updatedData = { ...data, imageIdList: [...existingImageIds, ...(uploaded.imageIdList || [])] };
+              postEditBook(updatedData);
+            })
+        } else {
+          const existingImageIds = images.filter(img => img.id).map(img => img.id);
+          const updatedData = { ...data, imageIdList: existingImageIds };
+          postEditBook(updatedData);
+        }
+      }}>저장</button>
     </div>
   );
 }
