@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from './store/slices/userSlice';
 import { getCookie, setCookie } from './utils/cookieManage';
 import { getUserInfoApi } from './api/getUserInfoApi';
-import Header from './components/Header';
+import Header from './components/Header/Header';
 import Home from './routes/Home';
 import DetailBook from './routes/DetailBook';
 import CreateBook from './routes/CreateBook';

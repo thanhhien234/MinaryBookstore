@@ -1,34 +1,34 @@
 import './BookList.css';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import BookItem from '../components/BookItem';
+import BookItem from '../components/Home/BookItem';
 
 function BookList() {
     let { status, category } = useParams();
     const [bookList, setBookList] = useState([]);
-    let url ='';
+    let url = '';
 
     if (status === 'bookForShare') {
         url = `${process.env.REACT_APP_API_URL}/api/bookForSale/share-list?category=${category}`;
     }
-    else{
+    else {
         url = `${process.env.REACT_APP_API_URL}/api/${status}/list?category=${category}`;
     }
 
     useEffect(() => {
         fetch(url)
-        .then(response => {
-            if (response.status === 200) {
-              return response.json();
-            }
-            else if (response.status === 404) {
-                return [];
-            }
-        })
-        .then(res => {
-            setBookList(res);
-        })    
-        .catch(error => console.log(error));
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                else if (response.status === 404) {
+                    return [];
+                }
+            })
+            .then(res => {
+                setBookList(res);
+            })
+            .catch(error => console.log(error));
     }, [url]);
 
     return (
@@ -43,7 +43,7 @@ function BookList() {
         ) : (
             <div className='no-book-data'>해당 카테고리는 책이 없습니다</div>
         )
-        
+
     );
 }
 

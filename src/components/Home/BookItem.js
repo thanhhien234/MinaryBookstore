@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './BookItem.css';
-import { categoryList, bookStateList } from '../utils/sharedData';
+import { categoryList, bookStateList } from '../../utils/sharedData';
 
 const BookItem = ({ book }) => {
   const date = book.publicationDate.split('T')[0].split('-');

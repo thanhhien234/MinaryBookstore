@@ -16,7 +16,7 @@ function UploadBtn({ position, setImages, images }) {
                     }
                     e.target.value = '';
                 }} />
-            <img className="add-icon" src={require('../assets/icons/add.png')} alt="" />
+            <img className="add-icon" src={require('../../assets/icons/add.png')} alt="" />
         </div>
     );
 }
@@ -30,7 +30,7 @@ function UploadedImage({ position, uploadedImage, setImages, setDeletedImages })
                 }
             }} >
             {uploadedImage.fileUrl &&
-                <img className="delete-icon" src={require('../assets/icons/delete.png')} alt="" onClick={() => {
+                <img className="delete-icon" src={require('../../assets/icons/delete.png')} alt="" onClick={() => {
                     setImages(prevImages => prevImages.filter(image => image.position !== position));
                     if (uploadedImage.id !== null) {
                         setDeletedImages(prevIds => [...prevIds, uploadedImage.id]);

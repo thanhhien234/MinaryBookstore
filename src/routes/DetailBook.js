@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import './DetailBook.css';
-import ConditionRadioList from '../components/ConditionRadioList';
+import ConditionRadioList from '../components/CreateBook/ConditionRadioList';
 import { getCookie } from '../utils/cookieManage';
 import { categoryList, bookStateList } from '../utils/sharedData';
 import { setBook, updateBook } from '../store/slices/bookSlice';

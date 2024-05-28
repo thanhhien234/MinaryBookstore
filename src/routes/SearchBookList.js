@@ -1,7 +1,7 @@
 import './BookList.css';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import BookItem from '../components/BookItem';
+import BookItem from '../components/Home/BookItem';
 import { getIsbnSearch, getTitleSearch } from '../api/searchBookApi';
 
 function SearchBookList() {

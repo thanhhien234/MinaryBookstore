@@ -103,8 +103,15 @@
     overflow: hidden;
     border: 1px solid #B6BBC0;
 }
-.best-sellers-container .bestSeller-book-item {
-    border: 1px solid #B6BBC0;
+.best-seller-wrapper {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    height: 330px;
+    margin: 30px auto;
+    padding: 0;
+    gap: 30px;
+    justify-content: center;
 }
 /*interest-container*/
 .interest-container{
