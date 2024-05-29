@@ -1,4 +1,4 @@
-.latest-list-wrapper{
+.latest-list-wrapper {
     display: flex;
     flex-direction: row;
     /* width: 1000px; */
@@ -7,8 +7,10 @@
     padding: 0;
     gap: 30px;
     justify-content: center;
+    list-style: none;
 }
-.latest-book-item{
+
+.latest-book-item {
     background-color: #fff;
     border-radius: 20px;
     display: flex;
@@ -21,13 +23,15 @@
     width: 150px;
     height: 250px;
 }
-.latest-book-itemm > img {
+
+.latest-book-itemm>img {
     width: 70%;
     height: auto;
     border: 1px solid #B6BBC0;
     margin-top: 15px;
 }
-.latest-book-item > .title {
+
+.latest-book-item>.title {
     font-size: 12px;
     font-weight: 600;
     width: 90%;
@@ -36,13 +40,16 @@
     white-space: nowrap;
     margin-top: 12px;
 }
+
 .slide-in {
     animation: slideFromRight 0.2s ease-in-out forwards;
 }
+
 @keyframes slideFromRight {
     from {
         transform: translateX(100%);
     }
+
     to {
         transform: translateX(0%);
     }

@@ -1,21 +1,21 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
-.link{
+
+.link {
     text-decoration: none;
     color: inherit;
-}
-.best-seller-item{
-    border-radius: 20px;
     display: flex;
     flex-direction: column;
     padding: 10px;
     align-items: center;
     justify-content: center;
     width: 180px;
+    margin: 0 auto;
 }
-.best-seller-item h3{
+
+.best-seller-item h3 {
     margin: 5px 0;
 }
+
 .best-seller-item img {
     width: 70%;
     height: auto;
@@ -33,12 +33,14 @@
     margin-top: 12px;
     color: black;
 }
+
 .best-seller-item-count {
     font-size: 18px;
     font-weight: 800;
     color: #1163b4;
     margin-top: 5px;
 }
+
 .best-seller-item-rank {
     font-size: 33px;
     font-weight: 600;

@@ -1,4 +1,4 @@
-.detail-book-container{
+.detail-book-container {
     border: 1px solid #D9D9D9;
     border-radius: 20px;
     width: 60%;
@@ -7,9 +7,11 @@
     padding: 40px 60px;
     margin: 20px auto;
 }
-.no-book-info{
+
+.no-book-info {
     margin: 30px auto;
 }
+
 .detail-book-container h3 {
     font-size: 20px;
     font-weight: 700;
@@ -17,6 +19,7 @@
     text-align: left;
     margin: 0;
 }
+
 /*user-info-container*/
 .book-owner-container {
     display: flex;
@@ -24,11 +27,13 @@
     align-items: center;
     margin-bottom: 20px;
 }
+
 .book-owner-container img {
     width: 65px;
     height: 65px;
     border-radius: 50%;
 }
+
 .book-owner-container .wrapper {
     display: flex;
     flex-direction: column;
@@ -36,12 +41,14 @@
     margin-left: 20px;
     text-align: left;
 }
-.book-owner-container .wrapper > span {
+
+.book-owner-container .wrapper>span {
     font-size: 18px;
     font-weight: 700;
 }
+
 /*book-status*/
-.book-status{
+.book-status {
     font-size: 14px;
     font-weight: 400;
     color: #fff;
@@ -51,29 +58,34 @@
     margin-top: 5px;
     margin-right: auto;
 }
-.book-status.SALE{
+
+.book-status.SALE {
     background-color: #FC7C12;
 }
-.book-status.SOLD{
+
+.book-status.SOLD {
     background-color: #83817f;
 }
-.book-status.RENT{
+
+.book-status.RENT {
     background-color: #83817f;
 }
-.book-status.SHARED{
+
+.book-status.SHARED {
     background-color: #9827e4;
 }
 
-.book-status.AVAILABLE{
+.book-status.AVAILABLE {
     background-color: #11d34b;
 }
-.create-at{
+
+.create-at {
     font-size: 14px;
     color: #000;
     margin-top: 5px;
     text-align: right;
     font-weight: 600;
-    flex:1;
+    flex: 1;
     margin-right: 20px;
 }
 
@@ -82,7 +94,8 @@
     display: flex;
     align-items: flex-start;
 }
-.book-info img{
+
+.book-info img {
     width: 25px;
     height: 25px;
     border: none;
@@ -93,14 +106,16 @@
     transform: translateY(-50%);
     cursor: pointer;
 }
-.book-info > div > span {
-    color : #A4A8AA;
+
+.book-info>div>span {
+    color: #A4A8AA;
     width: 70px;
     display: inline-block;
     text-align: left;
     margin-top: 3px;
 }
-.book-info .go-to-chat-btn{
+
+.book-info .go-to-chat-btn {
     background-color: #0D9276;
     border: none;
     border-radius: 20px;
@@ -123,12 +138,14 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
 .condition-image {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .image-wrapper {
     display: flex;
     flex-direction: row;
@@ -137,6 +154,7 @@
     margin-top: 10px;
     padding: 0 40px;
 }
+
 .image-wrapper img {
     width: 100px;
     height: auto;
@@ -152,36 +170,42 @@
     padding: 10px 40px;
     flex: 3;
 }
+
 .condition-content h3 {
     margin-bottom: 12px;
 }
 
-.description-container{
+.description-container {
     font-size: 16px;
     text-align: left;
-    margin-top: 10px; 
+    margin-top: 10px;
     flex: 2;
     margin-left: 30px;
     word-break: break-all;
 }
-.address-container-inner{
+
+.address-container-inner {
     display: flex;
     justify-content: space-between;
     padding: 0 60px;
 }
-.address-wrapper{
+
+.address-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-.address-wrapper img{
+
+.address-wrapper img {
     width: 22px;
     height: 22px;
 }
-.address{
+
+.address {
     font-size: 16px;
 }
-.go-to-map-btn{
+
+.go-to-map-btn {
     font-size: 14px;
     display: flex;
     flex-direction: row;
@@ -191,8 +215,31 @@
     padding: 5px 20px;
     cursor: pointer;
 }
-.go-to-map-btn img{
+
+.go-to-map-btn img {
     width: 18px;
     height: 18px;
     margin-left: 3px;
+}
+
+@media screen and (max-width: 1200px) {
+    .detail-book-container {
+        width: 70%;
+        padding: 40px;
+    }
+
+    .book-info-container .book-item>img {
+        width: 18%;
+        height: auto;
+        align-self: center;
+        margin-right: 20px;
+        margin-left: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .detail-book-container {
+        width: 80%;
+        padding: 40px;
+    }
 }

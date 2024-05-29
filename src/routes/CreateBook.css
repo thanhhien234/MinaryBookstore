@@ -9,10 +9,12 @@
     margin: 40px 20%;
     overflow: hidden;
 }
+
 .book-sale-main-container h3 {
     font-size: 18px;
     margin: 10px;
 }
+
 .book-sale-header-container {
     display: flex;
     width: 100%;
@@ -30,6 +32,7 @@
     align-items: center;
     padding: 20px;
 }
+
 .book-search-wrapper {
     display: flex;
     flex-direction: row;
@@ -40,24 +43,27 @@
     border-radius: 20px;
     padding: 5px 15px;
 }
+
 .book-search-wrapper #book-search-input {
     border: none;
     background-color: transparent;
     font-size: 14px;
     padding: 5px 5px;
     margin-right: 3px;
-    flex:1;
+    flex: 1;
 }
+
 .book-search-wrapper #book-search-input:focus {
     outline: none;
 }
+
 .book-search-wrapper img {
     width: 25px;
     cursor: pointer;
 }
 
 /*book-info-wrapper*/
-.book-info-wrapper{
+.book-info-wrapper {
     display: flex;
     flex-direction: row;
     background-color: #F5F8FC;
@@ -66,29 +72,34 @@
     margin-top: 30px;
     align-items: center;
 }
-.book-info-inner{
+
+.book-info-inner {
     display: flex;
     flex-direction: column;
 }
-.book-info-wrapper #image{
+
+.book-info-wrapper #image {
     width: 120px;
     height: auto;
     margin-left: 40px;
 }
-.form-group{
+
+.form-group {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin-top: 10px;
 }
-.form-group label{
+
+.form-group label {
     font-size: 14px;
     color: #A4A8AA;
     width: 60px;
     display: inline-block;
     text-align: left;
 }
-.form-group input{
+
+.form-group input {
     border: none;
     background-color: transparent;
     font-size: 14px;
@@ -98,21 +109,26 @@
     margin-right: 3px;
     width: 300px;
 }
+
 .form-group input[type=number] {
     width: 100px;
 }
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
-.form-group input::placeholder{
+
+.form-group input::placeholder {
     color: #c3c5c5;
 }
-.form-group #isbn{
+
+.form-group #isbn {
     width: 300px;
 }
-.category-input-select{
+
+.category-input-select {
     border: 1px solid #000;
     border-radius: 5px;
     padding: 5px 15px;
@@ -121,7 +137,7 @@ input[type=number]::-webkit-outer-spin-button {
     background-position: right 6px center;
     background-size: 25px;
     -webkit-appearance: none;
-    -moz-appearance: none; 
+    -moz-appearance: none;
     appearance: none;
     align-self: right;
     font-size: 14px;
@@ -129,30 +145,34 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: transparent;
     width: 330px;
 }
-.category-input-select option{
+
+.category-input-select option {
     color: #000;
     background-color: #fff;
 }
-.category-input-select:focus, 
+
+.category-input-select:focus,
 .category-input-select:active {
-    outline: none; 
+    outline: none;
 }
 
 /*book-condition-wrapper*/
-.book-condition-wrapper{
+.book-condition-wrapper {
     background-color: #F5F8FC;
     padding: 20px 40px;
     border-radius: 20px;
     margin-top: 30px;
 }
-.book-condition-wrapper h3{
+
+.book-condition-wrapper h3 {
     margin: 15px;
 }
 
-.book-price-wrapper{
+.book-price-wrapper {
     margin-top: 30px;
 }
-.book-price-wrapper .price-input{
+
+.book-price-wrapper .price-input {
     border: none;
     background-color: transparent;
     font-size: 14px;
@@ -160,14 +180,16 @@ input[type=number]::-webkit-outer-spin-button {
     border: 1px solid #000;
     padding: 3px 15px;
 }
+
 input[type=number]::-webkit-inner-spin-button {
     opacity: 0
 }
 
 /*book-real-image-wrapper*/
-.book-real-image-wrapper{
+.book-real-image-wrapper {
     margin-top: 30px;
 }
+
 .book-real-image-inner {
     display: flex;
     flex-direction: row;
@@ -178,10 +200,11 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 /*book-description-wrapper*/
-.book-description-wrapper{
+.book-description-wrapper {
     margin-top: 30px;
 }
-#descriptionInput{
+
+#descriptionInput {
     border: none;
     background-color: transparent;
     font-size: 14px;
@@ -191,12 +214,13 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 /*book-sale-address-wrapper*/
-.book-sale-address-wrapper{
+.book-sale-address-wrapper {
     display: flex;
     flex-direction: column;
     margin-top: 30px;
 }
-.book-address-input-wrapper{
+
+.book-address-input-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -204,19 +228,23 @@ input[type=number]::-webkit-inner-spin-button {
     border-radius: 20px;
     border: 1px solid #000;
 }
-.book-address-input-wrapper img{
+
+.book-address-input-wrapper img {
     width: 22px;
     cursor: pointer;
 }
-#addressInput{
+
+#addressInput {
     border: none;
     background-color: transparent;
     font-size: 14px;
     width: 220px;
 }
-#addressInput:focus{
+
+#addressInput:focus {
     outline: none;
 }
+
 .book-address-list {
     border-top: none;
     display: flex;
@@ -226,22 +254,27 @@ input[type=number]::-webkit-inner-spin-button {
     overflow-y: auto;
     padding: 0 25px;
 }
+
 .book-address-list::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 5px;
 }
+
 .book-address-list::-webkit-scrollbar {
     width: 6px;
 }
+
 .book-address-list::-webkit-scrollbar-thumb {
     background: #c4c1c1;
     border-radius: 5px;
 }
+
 .address-item {
     cursor: pointer;
     padding: 5px 0;
     font-size: 14px;
 }
+
 .address-item:hover {
     background-color: #e0e0e0;
 }
@@ -249,7 +282,8 @@ input[type=number]::-webkit-inner-spin-button {
 input[type=radio] {
     display: none;
 }
-.sale-save-btn{
+
+.sale-save-btn {
     background-color: #0F5493;
     border: none;
     border-radius: 20px;
@@ -262,17 +296,37 @@ input[type=radio] {
 }
 
 /*rent-period-input*/
-.book-rent-period-wrapper{
+.book-rent-period-wrapper {
     margin-top: 30px;
 }
-.rent-period-input{
+
+.rent-period-input {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin-top: 10px;
     gap: 40px;
 }
-.rent-period-input label{
+
+.rent-period-input label {
     margin-right: 5px;
     font-size: 14px;
+}
+
+@media screen and (max-width: 1200px) {
+    .book-sale-main-container {
+        margin: 40px 15%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .book-sale-main-container {
+        margin: 40px 12%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .book-sale-main-container {
+        margin: 40px 10%;
+    }
 }
