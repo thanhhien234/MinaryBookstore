@@ -51,7 +51,7 @@ function Chatting({ chatItem, closeChatItem }) {
         };
 
         webSocket.current.onmessage = function (event) {
-            const receivedMessage = JSON.parse(event);
+            const receivedMessage = event.data.split('"')[1];
             setMessage(prevMessages => [...prevMessages, { content: receivedMessage, isUser: false }]);
         };
 
