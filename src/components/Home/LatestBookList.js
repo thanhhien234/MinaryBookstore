@@ -5,10 +5,14 @@ import './LatestBookList.css';
 function LatestBookItem({ book }) {
     return (
         book && (
-            <Link to={`/detail-book/${book.state}/${book.id}`} className="latest-book-item">
-                {book.img ? (<img src={book.img} alt="" />) : (<div className='no-img'>사진 없음</div>)}
-                <div className="title">{book.title}</div>
-            </Link>
+            <li>
+                <Link to={`/detail-book/${book.state}/${book.id}`} className="latest-book-item">
+
+                    {book.img ? (<img src={book.img} alt="" />) : (<div className='no-img'>사진 없음</div>)}
+                    <div className="title">{book.title}</div>
+
+                </Link>
+            </li>
         )
     );
 }
