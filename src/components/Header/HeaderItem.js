@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export function InterestItem({ interestItem }) {
   return (
     <li className="interest-item">
-      <Link to={`/detail-book/${interestItem.id}`} className="interest-item">
+      <Link to={`/detail-book/${interestItem.state}/${interestItem.id}`} className="interest-item">
         <img src={interestItem.bookGetRes.img} alt="" />
         <div className="interest-item-info">
           <span className="interest-item-title">{interestItem.bookGetRes.title}</span>

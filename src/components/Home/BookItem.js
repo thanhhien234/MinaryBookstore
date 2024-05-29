@@ -6,9 +6,8 @@ const BookItem = ({ book }) => {
   const date = book.publicationDate.split('T')[0].split('-');
   const formattedDate = `${date[0]}년 ${date[1]}월 ${date[2]}일`;
 
-
   return (
-    <Link to={`/detail-book/${book.id}`} className="book-item">
+    <Link to={`/detail-book/${book.state}/${book.id}`} className="book-item">
       {book.img ? (<img src={book.img} alt="" />) : (<div className='no-img'>사진 없음</div>)}
       <div className="book-info">
         <div className="book-title">{book.title}</div>

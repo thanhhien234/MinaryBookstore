@@ -9,7 +9,7 @@ import { setBook, updateBook } from '../store/slices/bookSlice';
 
 function DetailBook() {
     const [loggedIn, setLoggedIn] = useState(null);
-    const { bookId } = useParams();
+    const { state, bookId } = useParams();
     const dispatch = useDispatch();
     const bookInfo = useSelector(state => state.book);
     const isSave = useSelector(state => state.book.isSaved);
@@ -31,7 +31,7 @@ function DetailBook() {
 
     useEffect(() => {
         let searchBookUrl;
-        if (bookInfo.startDate === " ")
+        if (state === 'SHARED' || state === 'SOLD' || state === 'SALE')
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale?id=${bookId}`;
         else
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent?id=${bookId}`;
