@@ -1,6 +1,6 @@
 import './App.css';
 import { useEffect } from 'react';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { setUser } from './store/slices/userSlice';
 import { getCookie, setCookie } from './utils/cookieManage';
@@ -17,6 +17,7 @@ import Redirect from './routes/Redirect';
 
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!getCookie("accessToken") && getCookie("refreshToken")) {
@@ -39,11 +40,12 @@ function App() {
           alert("관리자에게 문의해주세요.");
         });
     }
-    else {
+    else if (getCookie("accessToken")) {
       getUserInfoApi()
         .then(res => dispatch(setUser({ name: res.name, img: res.img })))
         .catch(error => console.log(error));
     }
+    navigate('/');
   }, []);
 
   return (
