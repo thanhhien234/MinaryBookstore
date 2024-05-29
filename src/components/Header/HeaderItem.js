@@ -22,11 +22,11 @@ export function InterestItem({ interestItem }) {
 
 export function ChatItem({ chatItem, openChatItem }) {
   return (
-    <li className="chat-item" onClick={() => { openChatItem(chatItem.userId) }}>
-      <img src={chatItem.userImg} alt="" />
+    <li className="chat-item" onClick={() => { openChatItem(chatItem.id) }}>
+      <img src={chatItem.img} alt="" />
       <div className="chat-item-info">
-        <span className="chat-item-name">{chatItem.userName}</span>
-        <span className="chat-item-message">{chatItem.chatContent[chatItem.chatContent.length - 1].comment}</span>
+        <span className="chat-item-name">{chatItem.name}</span>
+        <span className="chat-item-message">{chatItem.chat}</span>
       </div>
     </li>
   );

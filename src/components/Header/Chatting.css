@@ -1,4 +1,4 @@
-.chatting-container{
+.chatting-container {
     width: 350px;
     height: 500px;
     /* position: fixed;
@@ -10,7 +10,8 @@
     display: flex;
     flex-direction: column;
 }
-.chatting-header{
+
+.chatting-header {
     height: 7%;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
     display: flex;
@@ -19,31 +20,37 @@
     align-items: center;
     padding: 10px;
 }
-.chatting-user-wrapper{
+
+.chatting-user-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
 }
-.chatting-user-wrapper >img{
+
+.chatting-user-wrapper>img {
     width: 35px;
     height: 35px;
     border-radius: 50px;
 }
-.chatting-user-wrapper > h3 {
+
+.chatting-user-wrapper>h3 {
     font-size: 16px;
     font-weight: 600;
     color: #000;
 }
-.chatting-header > img {
+
+.chatting-header>img {
     width: 25px;
     height: 25px;
     cursor: pointer;
 }
-.chatting-content{
-    flex:1;
+
+.chatting-content {
+    flex: 1;
 }
-.chatting-input-container{
+
+.chatting-input-container {
     height: 8%;
     border: 1px solid #28569B;
     border-radius: 15px;
@@ -54,22 +61,25 @@
     margin: 10px 20px;
     gap: 10px;
 }
-.chatting-input-container img{
+
+.chatting-input-container img {
     width: 25px;
     height: 25px;
     margin: 10px;
 }
+
 .chat-input {
     border: none;
     background-color: transparent;
     margin: 10px;
-    flex:1;
-}
-.chat-input:focus{
-    outline:none
+    flex: 1;
 }
 
-.question{
+.chat-input:focus {
+    outline: none
+}
+
+.question {
     background-color: #E24141;
     border-radius: 20px 20px 0 20px;
     width: fit-content;
@@ -82,7 +92,8 @@
     word-wrap: break-word;
     text-align: left;
 }
-.answer{
+
+.answer {
     background-color: #EBEBEB;
     border-radius: 20px 20px 20px 0;
     width: fit-content;
@@ -94,18 +105,47 @@
     word-wrap: break-word;
     text-align: left;
 }
-.chatting-content{
+
+.chatting-content {
     overflow-y: auto;
     padding: 10px;
 }
+
 .chatting-content::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 5px;
 }
+
 .chatting-content::-webkit-scrollbar {
     width: 6px;
 }
+
 .chatting-content::-webkit-scrollbar-thumb {
     background: #c4c1c1;
     border-radius: 5px;
+}
+
+.message-date {
+    font-size: 14px;
+    color: #000;
+    margin: 15px;
+    text-align: center;
+}
+
+.message-time {
+    font-size: 10px;
+    color: #757679;
+    margin: 15px;
+    text-align: center;
+    background-color: transparent;
+    padding: 0;
+    margin: 0 5px;
+}
+
+.message-time.question {
+    margin-left: auto;
+}
+
+.message-time.answer {
+    margin-right: auto;
 }
