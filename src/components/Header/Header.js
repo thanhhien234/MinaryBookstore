@@ -1,16 +1,17 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import './Header.css';
 import { InterestItem, ChatItem } from './HeaderItem';
 import Chatting from './Chatting';
 import { getInterestBookApi } from '../../api/getInterestBookApi';
 import { getCookie } from '../../utils/cookieManage';
+import { clearChat } from '../../store/slices/chatSlice';
 
-function ChatGroup({ chatItems, closeChatItem }) {
+function ChatGroup({ chatShow, closeChatItem }) {
   return (
     <div className="chat-grid-container">
-      {chatItems.map((chatItem, index) => (
+      {chatShow.map((chatItem, index) => (
         <Chatting
           key={chatItem.id}
           chatItem={chatItem}
@@ -24,13 +25,31 @@ function ChatGroup({ chatItems, closeChatItem }) {
 function Header() {
   const [loggedIn, setLoggedIn] = useState(null);
   const [searchType, setSearchType] = useState('isbn');
-  const [activeItem, setActiveItem] = useState(null);
-  const [chatItems, setChatItems] = useState([]);
+  const [activeItem, setActiveItem] = useState(null);  //interest-menu, chat-menu
   const user = useSelector((state) => state.user);
   const [interestList, setInterestList] = useState([]);
-  const [chatList, setChatList] = useState([]);
+
+  const [chatShow, setChatShow] = useState([]);  //visible chat list ( max 3 items)
+  const [chatList, setChatList] = useState([]);  //get chat list from server by api
+  const chat = useSelector((state) => state.chat);   //get new chat slice
+
   const navigate = useNavigate();
-  const redirectUrl = `https://kauth.kakao.com/oauth/authorize?&response_type=code&client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (chat.id) {
+      const newChatItem = {
+        id: chat.id,
+        name: chat.name,
+        img: chat.img,
+        chat : ''
+      };
+      if (chatShow.length >= 3) {
+        setChatShow((prevVisibleChats) => prevVisibleChats.slice(1));
+      }
+      setChatShow((prevVisibleChats) => [...prevVisibleChats, newChatItem]);
+    }
+  }, [chat]);
 
   useEffect(() => {
     if (getCookie("accessToken")) setLoggedIn(true);
@@ -42,39 +61,40 @@ function Header() {
   }, [activeItem]);
 
   useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/api/chat/list`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + getCookie("accessToken")
-            }
-        })
-        .then((response) => {
-            if (response.status !== 200) {
-                throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            setChatList(data);
-        })
-        .catch(error => console.error(error));
-    }, []);
+    fetch(`${process.env.REACT_APP_API_URL}/api/chat/list`, {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + getCookie("accessToken")
+      }
+    })
+    .then((response) => {
+      if (response.status !== 200) {
+          throw new Error('서버 오류입니다. 잠시 후 다시 시도해주세요.');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      setChatList(data);
+    })
+    .catch(error => console.error(error));
+  }, []);
 
   const openChatItem = useCallback((chatItemId) => {
     const clickedChatItem = chatList.find((item) => item.id === chatItemId);
-    if (clickedChatItem && !chatItems.some((item) => item.id === chatItemId)) {
-      if (chatItems.length >= 3) {
-        setChatItems((prevVisibleChats) => prevVisibleChats.slice(1));
+    if (clickedChatItem && !chatShow.some((item) => item.id === chatItemId)) {
+      if (chatShow.length >= 3) {
+        setChatShow((prevVisibleChats) => prevVisibleChats.slice(1));
       }
-      setChatItems((prevVisibleChats) => [...prevVisibleChats, clickedChatItem]);
+      setChatShow((prevVisibleChats) => [...prevVisibleChats, clickedChatItem]);
     }
-  }, [chatItems, chatList]);
+  }, [chatShow, chatList]);
 
   const closeChatItem = useCallback((chatItemId) => {
-    setChatItems((prevChatItems) =>
+    setChatShow((prevChatItems) =>
       prevChatItems.filter((item) => item.id !== chatItemId)
     );
+    dispatch(clearChat());
   }, []);
 
 
@@ -141,11 +161,11 @@ function Header() {
               )}
             </div>
           )}
-          <ChatGroup chatItems={chatItems} closeChatItem={closeChatItem}/>
+          <ChatGroup chatShow={chatShow} closeChatItem={closeChatItem}/>
         </div>
       ) : (
         <div className="login-container">
-          <a href={redirectUrl} className='login-btn'>로그인</a>
+          <a href={`https://kauth.kakao.com/oauth/authorize?&response_type=code&client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`} className='login-btn'>로그인</a>
         </div>
       )}
     </div>

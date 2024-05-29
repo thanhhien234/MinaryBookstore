@@ -26,6 +26,7 @@ const initialState = {
     state: '',
     isSaved: false,
     createdAt: '',
+    writerId : null,
     writerImg: '',
     writerName: '',
 };

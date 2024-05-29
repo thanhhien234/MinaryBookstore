@@ -6,6 +6,7 @@ import ConditionRadioList from '../components/CreateBook/ConditionRadioList';
 import { getCookie } from '../utils/cookieManage';
 import { categoryList, bookStateList } from '../utils/sharedData';
 import { setBook, updateBook } from '../store/slices/bookSlice';
+import { setChat } from '../store/slices/chatSlice';
 
 function DetailBook() {
     const [loggedIn, setLoggedIn] = useState(null);
@@ -145,6 +146,14 @@ function DetailBook() {
                                 if (!loggedIn) {
                                     alert('로그인이 필요합니다.');
                                     navigate('/');
+                                }
+                                else {
+                                    dispatch(setChat({
+                                        id: bookInfo.writerId,
+                                        name: bookInfo.writerName,
+                                        img: bookInfo.writerImg,
+                                        chat: ''
+                                    }));
                                 }
                             }}>채팅하기</button>
                         </div>
