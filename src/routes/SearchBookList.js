@@ -31,10 +31,6 @@ function SearchBookList() {
     }
 
     useEffect(() => {
-        console.log('search res', searchBookList)
-    }, [searchBookList])
-
-    useEffect(() => {
         if (option === 'isbn') searchIsbn(input);
         else if (option === 'title') searchTitle(input);
     }, [option, input])
