@@ -4,7 +4,7 @@ import './PickItem.css';
 function PickItem({ book }) {
   return (
     book.bookGetRes && (
-      <Link to={`/detail-book/${book.state}/${book.id}`} className="interest-book-item">
+      <Link to={`/detail-book/${book.id}`} className="interest-book-item">
         {book.bookGetRes.img ? (<img src={book.bookGetRes.img} alt="" />) : (<div className='no-img'>사진 없음</div>)}
         <div className="title">{book.bookGetRes.title}</div>
         <div className="price-wrapper">

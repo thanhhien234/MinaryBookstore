@@ -95,7 +95,7 @@
     align-items: flex-start;
 }
 
-.book-info img {
+.book-info .heart-icon {
     width: 25px;
     height: 25px;
     border: none;

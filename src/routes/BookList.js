@@ -4,15 +4,15 @@ import { useEffect, useState } from 'react';
 import BookItem from '../components/Home/BookItem';
 
 function BookList() {
-    let { status, category } = useParams();
+    let { option, category } = useParams();
     const [bookList, setBookList] = useState([]);
     let url = '';
 
-    if (status === 'bookForShare') {
+    if (option === 'bookForShare') {
         url = `${process.env.REACT_APP_API_URL}/api/bookForSale/share-list?category=${category}`;
     }
     else {
-        url = `${process.env.REACT_APP_API_URL}/api/${status}/list?category=${category}`;
+        url = `${process.env.REACT_APP_API_URL}/api/${option}/list?category=${category}`;
     }
 
     useEffect(() => {

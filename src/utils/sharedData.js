@@ -32,7 +32,7 @@ export const bestSellersCategories = [
 
 export const bookStateList = [
     { label: '판매 중', name: 'SALE' },
-    { label: '거래 완료', name: 'SOLD' },
+    { label: '판매 완료', name: 'SOLD' },
     { label: '대여 완료', name: 'RENT' },
     { label: '대여 가능', name: 'AVAILABLE' },
     { label: '나눔', name: 'SHARED' }

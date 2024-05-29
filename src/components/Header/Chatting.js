@@ -91,9 +91,7 @@ function Chatting({ chatItem, closeChatItem }) {
 
     const renderMessages = () => {
         let lastDate = null;
-        let lastIsUser = null;
-        let lastTimeString = null;
-
+        
         return message.map((item, i) => {
             const { timeString, dateString } = formatDateTime(item.localDateTime);
             let showDate = false;
@@ -106,9 +104,6 @@ function Chatting({ chatItem, closeChatItem }) {
             if (i < message.length - 1 && item.isUser === message[i + 1].isUser) { // Check if the next message is of the same type
                 showTime = false;
             }
-
-            lastIsUser = item.isUser;
-            lastTimeString = timeString;
 
             return (
                 <div key={i}>

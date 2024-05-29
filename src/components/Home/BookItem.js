@@ -8,7 +8,7 @@ const BookItem = ({ book }) => {
 
 
   return (
-    <Link to={`/detail-book/${book.state}/${book.id}`} className="book-item">
+    <Link to={`/detail-book/${book.id}`} className="book-item">
       {book.img ? (<img src={book.img} alt="" />) : (<div className='no-img'>사진 없음</div>)}
       <div className="book-info">
         <div className="book-title">{book.title}</div>

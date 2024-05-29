@@ -9,7 +9,7 @@ import { setBook, updateBook } from '../store/slices/bookSlice';
 
 function DetailBook() {
     const [loggedIn, setLoggedIn] = useState(null);
-    const { bookState, bookId } = useParams();
+    const { bookId } = useParams();
     const dispatch = useDispatch();
     const bookInfo = useSelector(state => state.book);
     const isSave = useSelector(state => state.book.isSaved);
@@ -31,7 +31,7 @@ function DetailBook() {
 
     useEffect(() => {
         let searchBookUrl;
-        if (!bookInfo.startDate)
+        if (bookInfo.startDate === " ")
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale?id=${bookId}`;
         else
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent?id=${bookId}`;
@@ -59,7 +59,7 @@ function DetailBook() {
             navigate('/');
         }
         let saveUrl;
-        if (!bookInfo.startDate)
+        if (bookInfo.startDate === " ")
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
         else
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForSaleId=${bookId}`;
@@ -85,7 +85,7 @@ function DetailBook() {
             navigate('/');
         }
         let saveUrl;
-        if (!bookInfo.startDate)
+        if (bookInfo.startDate === " ")
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
         else
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForRentId=${bookId}`;
