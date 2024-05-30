@@ -216,4 +216,11 @@
     .search-btn {
         padding: 5px 13px;
     }
+
+    .chat-grid-container {
+        grid-template-columns: 1fr;
+        width: 350px;
+        height: 500px;
+        overflow: hidden;
+    }
 }

@@ -4,7 +4,7 @@ const initialState = {
   id: null,
   name: '',
   img: '',
-  content: ''
+  chat: ''
 };
 
 const chatSlice = createSlice({
@@ -12,11 +12,10 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     setChat: (state, action) => {
-      const { id, name, img, content } = action.payload;
-      state.id = id;
-      state.name = name;
-      state.img = img;
-      state.content = content;
+      state.id = action.payload.id;
+      state.name = action.payload.name;
+      state.img = action.payload.img;
+      state.chat = action.payload.chat;
     },
     clearChat: (state) => {
       return initialState;
