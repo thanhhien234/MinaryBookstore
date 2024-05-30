@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+## 미라리북 - 책 중고 판매 및 대여 플랫폼
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+### 목적:  
+사용자는 해당 플랫폼에 판매하고 싶은 책의 정보를 공유하여 책을 판매 할 수 있고, 일정기간 동안 보지 않는 책을 대여해주고 대여비를 받을 수 있다.
 
-In the project directory, you can run:
 
-### `npm start`
+### 구현 기능:
+- **카카오 로그인** : Kakao Developer의 로그인을 이용해서 프론트에서 loginCode를 파라미터에 넣어서 서버의 API를 호출한다. 사용자의 AccessToken과 RefreshToken을 JWT를 이용하여 생성한 후 발급한다. 
+- **책 판매/대여하기**: 사용자가 원하는 책의 정보, 실제 사진, 흔적 여부, 거래 장소 등 입력한 후 책 업로드한다
+- **책 ISBN/제목 검색하기**: 사용자는 판매하고 싶은 책의 ISBN나 제목을 검색해서 국립중앙도서관 ISBN 서지정보 검색 API를 사용하여 해당 책 정보를 가져온다.
+- **카테고리 검색**: IT/컴퓨터, 소설과 같은 카테고리를 사용 하여 원하는 책을 검색할 수 있다
+- **채팅하기**: 사용자 간의 1:1 채팅이 가능하다. 실시간 채팅을 구현하기 위해 주기적으로 API를 호출하는 방식이 아닌 웹소켓을 연결하여 개발한다
+- **관심목록**: 사용자가 관심하고 있는 책들을 관심목록에 추가하고 관심 목록을 조회할 수 있다
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 구성원 및 업무 분담:
+**한승규:**
+- 데이터베이스 설계
+- 백엔드
+- 클라우드
 
-### `npm test`
+**도안탄히엔:**
+- 디자인 설계
+- 프론트엔드
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 디자인 설계
+[Figma 디자인](https://www.figma.com/design/bES4AOWz3c28M0N5tAh05I/%EB%AF%B8%EB%82%98%EB%A6%AC%EB%B6%81?node-id=0-1&t=Fh7P8n7Hvr41vWvt-0)
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 사용한 기술:
+<table>
+  <tr>
+    <th>분야</th>
+    <th>스택</th>
+  </tr>
+  <tr>
+    <td>프론트엔드</td>
+    <td>
+      <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/03b3d928-bc98-490e-9d50-d1516c58035f" width="80">
+      <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/3921e36e-dca4-4f2a-a567-e04e10c4c502" width="80">
+    </td>
+  </tr>
+  <tr>
+    <td>백엔드</td>
+    <td>
+      <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/8db54969-a689-4364-9f35-7ee16743f9fd" width="80">
+      <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/5995c9e8-b0aa-4d35-b76c-ecb3a220e00e" width="80">
+      <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/2700b032-17d7-44e0-a27b-1376361ea1f1" width="80">
+      <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/eb81968a-118a-4e5f-8a9b-1be574507bf2" width="80">
+    </td>
+  </tr>
+  <tr>
+    <td>DevOps</td>
+    <td>
+      <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/a3f53870-34f7-4b6e-955a-a374e5305269" width="80">
+      <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/d011fb2f-4dc8-40e8-817e-28fa26739df6" width="80">
+    </td>
+  </tr>
+</table>
