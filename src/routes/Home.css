@@ -225,6 +225,7 @@
         display: none;
     }
 
+    .interest-wrapper a:nth-child(5),
     .interest-wrapper a:nth-child(4),
     .interest-wrapper a:nth-child(3) {
         display: none;
@@ -255,5 +256,11 @@
 
     .interest-container {
         padding: 30px;
+    }
+
+    .interest-wrapper a:nth-child(5),
+    .interest-wrapper a:nth-child(4),
+    .interest-wrapper a:nth-child(3) {
+        display: none;
     }
 }

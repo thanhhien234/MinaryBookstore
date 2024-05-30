@@ -72,7 +72,7 @@ function HistoryBookItem({ book, option }) {
                             soldBook(book.id);
                             setOptionOpen(false);
 
-                        }}>{option === "sale-tab" ? '판매완료' : '대여와료'}</li>
+                        }}>{option === "sale-tab" ? '판매 완료' : '대여 완료'}</li>
                     )}
                 </ul>
             }
