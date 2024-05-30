@@ -60,7 +60,7 @@ function DetailBook() {
             navigate('/');
         }
         let saveUrl;
-        if (bookInfo.startDate === " ")
+        if (state === 'SHARED' || state === 'SOLD' || state === 'SALE')
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
         else
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForSaleId=${bookId}`;
@@ -86,7 +86,7 @@ function DetailBook() {
             navigate('/');
         }
         let saveUrl;
-        if (bookInfo.startDate === " ")
+        if (state === 'SHARED' || state === 'SOLD' || state === 'SALE')
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale/save?bookForSaleId=${bookId}`;
         else
             saveUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent/save?bookForRentId=${bookId}`;
