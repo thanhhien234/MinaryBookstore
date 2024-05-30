@@ -13,11 +13,11 @@ function DetailBook() {
     const { state, bookId } = useParams();
     const dispatch = useDispatch();
     const bookInfo = useSelector(state => state.book);
-    const isSave = useSelector(state => state.book.isSaved);
     const navigate = useNavigate();
 
     // useEffect(() => {
     //     console.log("info", bookInfo);
+    //     console.log("state", bookInfo.isSave);
     // }, [bookInfo]);
 
     useEffect(() => {
@@ -36,8 +36,12 @@ function DetailBook() {
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForSale?id=${bookId}`;
         else
             searchBookUrl = `${process.env.REACT_APP_API_URL}/api/bookForRent?id=${bookId}`;
-
-        fetch(searchBookUrl)
+        const header = getCookie("accessToken") ? {
+            headers: {
+                    'Authorization': 'Bearer ' + getCookie("accessToken")
+            }
+        } : {};
+        fetch(searchBookUrl, header)
             .then(response => {
                 if (response.status === 200) {
                     return response.json();
@@ -74,7 +78,7 @@ function DetailBook() {
         })
             .then(response => {
                 if (response.status === 200) {
-                    dispatch(updateBook({ isSaved: true }));
+                    dispatch(updateBook({ isSave: true }));
                 }
             })
             .catch(error => console.log(error.message));
@@ -100,7 +104,7 @@ function DetailBook() {
         })
             .then(response => {
                 if (response.status === 200) {
-                    dispatch(updateBook({ isSaved: false }));
+                    dispatch(updateBook({ isSave: false }));
                 }
             })
             .catch(error => console.log(error.message));
@@ -137,7 +141,7 @@ function DetailBook() {
                                 <div className="book-sale-price">{bookInfo.salePrice}원</div>
                                 <div className="book-price">정가: {bookInfo.bookGetRes.price}원</div>
                             </div>
-                            {isSave ? (
+                            {bookInfo.isSave ? (
                                 <img className="heart-icon" src={require("../assets/icons/heart-red.png")} alt="" onClick={deleteSave} />
                             ) : (
                                 <img className="heart-icon" src={require("../assets/icons/heart-white.png")} alt="" onClick={postSave} />

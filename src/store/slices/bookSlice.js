@@ -24,7 +24,7 @@ const initialState = {
     endDate: '',
     editable: false,
     state: '',
-    isSaved: false,
+    isSave: false,
     createdAt: '',
     writerId : null,
     writerImg: '',
