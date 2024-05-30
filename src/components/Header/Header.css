@@ -177,16 +177,6 @@
     border-radius: 5px;
 }
 
-/*Chat Group*/
-.chat-grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    position: fixed;
-    bottom: 0;
-    left: 30px;
-}
-
 
 
 @media screen and (max-width : 768px) {
@@ -215,12 +205,5 @@
 
     .search-btn {
         padding: 5px 13px;
-    }
-
-    .chat-grid-container {
-        grid-template-columns: 1fr;
-        width: 350px;
-        height: 500px;
-        overflow: hidden;
     }
 }
