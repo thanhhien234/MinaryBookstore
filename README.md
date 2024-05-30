@@ -38,13 +38,13 @@
     <td>
       <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/03b3d928-bc98-490e-9d50-d1516c58035f" width="80">
       <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/3921e36e-dca4-4f2a-a567-e04e10c4c502" width="80">
+      <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/ef4acdf7-0e85-46c6-8ce4-784b2f7f5182" width="80">
     </td>
   </tr>
   <tr>
     <td>백엔드</td>
     <td>
       <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/8db54969-a689-4364-9f35-7ee16743f9fd" width="80">
-      <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/5995c9e8-b0aa-4d35-b76c-ecb3a220e00e" width="80">
       <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/2700b032-17d7-44e0-a27b-1376361ea1f1" width="80">
       <img src="https://github.com/thanhhien234/MinaryBookstore/assets/95044821/eb81968a-118a-4e5f-8a9b-1be574507bf2" width="80">
     </td>
