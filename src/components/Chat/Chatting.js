@@ -23,7 +23,11 @@ function Chatting({ chatItem, closeChatItem }) {
             return response.json();
         })
         .then((data) => {
-            setMessage(data);
+            const realData = data.map(msg => ({
+                ...msg,
+                localDateTime: new Date(new Date(msg.localDateTime).getTime() + 9 * 60 * 60 * 1000).toISOString()
+            }));
+            setMessage(realData);
         })
         .catch(error => console.error(error));
     }, [chatItem.id]);
@@ -52,7 +56,12 @@ function Chatting({ chatItem, closeChatItem }) {
 
         webSocket.current.onmessage = function (event) {
             const receivedMessage = event.data.split('"')[1];
-            setMessage(prevMessages => [...prevMessages, { content: receivedMessage, isUser: false }]);
+            const answer = {
+                content: receivedMessage,
+                isUser: false,
+                localDateTime: new Date().toISOString()
+            };
+            setMessage(prevMessages => [...prevMessages, answer]);
         };
 
         webSocket.current.onerror = function (error) {
