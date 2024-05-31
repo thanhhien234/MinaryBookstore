@@ -78,7 +78,7 @@ function Home() {
             })
             .catch(error => console.log(error));
     }, []);
-
+    console.log(interestList.length);
 
     return (
         <div className="main-container">
@@ -138,7 +138,7 @@ function Home() {
                 </ul>
             </div>
 
-            {loggedIn && (
+            {loggedIn && interestList.length > 0 && (
                 <div className="interest-container">
                     <div className="intro-wrapper">
                         <h3 className="intro-title">P<span>i</span>ck<span>s</span></h3>
