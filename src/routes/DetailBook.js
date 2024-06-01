@@ -137,6 +137,9 @@ function DetailBook() {
                             <div><span>저자</span>{bookInfo.bookGetRes.author.join(' ,')}</div>
                             <div><span>출판사</span>{bookInfo.bookGetRes.publisher}</div>
                             <div><span>출판일</span>{formatDate(bookInfo.bookGetRes.publicationDate)}</div>
+                            {(bookInfo.state === 'RENT' || bookInfo.state === 'AVAILABLE') && (
+                                <div><span>대여기간</span>{`${formatDate(bookInfo.startDate)} ~ ${formatDate(bookInfo.endDate)}`}</div>
+                            )}
                             <div className="book-price-wrapper">
                                 <div className="book-sale-price">{bookInfo.salePrice}원</div>
                                 <div className="book-price">정가: {bookInfo.bookGetRes.price}원</div>

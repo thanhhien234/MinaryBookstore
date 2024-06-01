@@ -78,7 +78,6 @@ function Home() {
             })
             .catch(error => console.log(error));
     }, []);
-    console.log(interestList.length);
 
     return (
         <div className="main-container">
