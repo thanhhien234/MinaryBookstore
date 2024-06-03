@@ -58,3 +58,6 @@
     </td>
   </tr>
 </table>
+
+### 시연 영상:
+[미나리북 시연](https://youtu.be/50CdBtpwKjc)
