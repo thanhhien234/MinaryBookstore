@@ -65,7 +65,7 @@ function Header() {
       setChatList(data);
     })
     .catch(error => console.error(error));
-  });
+  },[]);
 
   const openChatItem = useCallback((chatItemId) => {
     const clickedChatItem = chatList.find((item) => item.id === chatItemId);
